@@ -1,0 +1,303 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+---
+
+<Layout title="Aranceles">
+
+
+<style>
+    .about-content.s-about-content {
+        margin-left: 30px;
+    }
+
+    @media (max-width: 991px) {
+        .about-content.s-about-content {
+            margin-left: 0;
+            margin-top: 30px;
+        }
+    }
+
+    .title-smaller {
+        font-size: 2rem;
+    }
+
+    .treatment-title {
+        font-size: 1.7rem;
+        color: #1b59a0;
+        font-weight: 600;
+        text-transform: uppercase;
+        margin-bottom: 30px;
+    }
+
+    .pricing-table {
+        background: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        margin-bottom: 30px;
+        position: relative;
+    }
+
+    .pricing-number {
+        position: absolute;
+        top: -20px;
+        left: -20px;
+        background: #1b59a0;
+        color: white;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 32px;
+        font-weight: bold;
+        box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+
+    .pricing-title {
+        text-align: center;
+        margin-bottom: 30px;
+        margin-top: 20px;
+    }
+
+    .pricing-title h3 {
+        font-size: 1.7rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .pricing-title h4 {
+        font-size: 1.7rem;
+        font-weight: 600;
+        color: #1b59a0;
+    }
+
+    .pricing-features {
+        list-style: none;
+        padding: 0;
+    }
+
+    .pricing-features li {
+        margin-bottom: 10px;
+        padding-left: 25px;
+        position: relative;
+        font-size: 1.1rem;
+    }
+
+    .pricing-features li:before {
+        content: "✓";
+        color: #4CAF50;
+        position: absolute;
+        left: 0;
+    }
+
+    .pricing-item {
+        margin-bottom: 20px;
+    }
+
+    .pricing-item h4 {
+        font-size: 1.2rem;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    .pricing-item .price {
+        font-size: 1.75rem;
+        color: #1b59a0;
+        font-weight: 700;
+        margin-bottom: 15px;
+    }
+</style>
+
+<main>
+    <Breadcrumb title="Aranceles" currentPage="Aranceles" parentPage="Inicio" parentUrl="/" />
+    
+    <!-- pricing-area -->
+    <section class="about-area about-p pt-120  p-relative fix">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="about-content s-about-content text-center wow fadeInRight animated" data-animation="fadeInRight" data-delay=".4s">
+                        <div class="about-title second-title pb-25">  
+                            <h5>Nuestros Aranceles</h5>
+                            <h2 class="title-smaller">Planes Accesibles</h2>                                   
+                        </div>
+                        <p>En Ortodoncia para Todos creemos que la salud dental debe ser accesible para todos. Por eso, ofrecemos un arancel único y transparente para todos nuestros pacientes, sin importar su previsión de salud.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-50">
+                <div class="col-12">
+                    <div class="section-title text-center mb-50">
+                        <h3 class="treatment-title">BRACKETS METÁLICOS ( ORTODONCIA FIJA CONVENCIONAL )</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-30">
+                <div class="col-lg-6 col-md-6">
+                    <div class="pricing-table">
+                        <div class="pricing-number">1</div>
+                        <div class="pricing-title">
+                            <h3>Diagnóstico y Planificación</h3>
+                            <h4>$70.000</h4>
+                        </div>
+                        <ul class="pricing-features">
+                            <li>Estudio clínico completo</li>
+                            <li>Planificación de tratamiento</li>
+                            <li>Modelos de estudio</li>
+                            <li>Fotos clínicas</li>
+                            <li>Cefalometría</li>
+                            <li>Radiografías no incluidas</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6">
+                    <div class="pricing-table">
+                        <div class="pricing-number">2</div>
+                        <div class="pricing-title">
+                            <h3>Brackets Metálicos</h3>
+                            <h4>$279.900</h4>
+                        </div>
+                        <ul class="pricing-features">
+                            <li>Instalación Ortodoncia Fija</li>
+                            <li>Brackets metálicos de alta calidad</li>
+                            <li>Arcos y ligaduras</li>
+                            <li>Instalación profesional</li>
+                            <li>Materiales incluidos</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6">
+                    <div class="pricing-table">
+                        <div class="pricing-number">3</div>
+                        <div class="pricing-title">
+                            <h3>Mensual durante el tratamiento</h3>
+                            <h4>$35.000</h4>
+                        </div>
+                        <ul class="pricing-features">
+                            <li>Pago mensual fijo</li>
+                            <li>Controles regulares</li>
+                            <li>Ajustes de brackets</li>
+                            <li>Cambio de arcos</li>
+                            <li>Seguimiento continuo</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6">
+                    <div class="pricing-table">
+                        <div class="pricing-number">4</div>
+                        <div class="pricing-title">
+                            <h3>Al término del tratamiento</h3>
+                            <h4>Retiro y Contención: $170.000</h4>
+                        </div>
+                        <ul class="pricing-features">
+                            <li>Retiro de brackets</li>
+                            <li>Higiene profesional</li>
+                            <li>Instalación de contención</li>
+                            <li>Control mensual contención: $20.000</li>
+                            <li>Seguimiento post-tratamiento</li>
+                        </ul>
+                    </div>
+                </div>
+
+               
+            </div>
+        </div>
+    </section>
+    <!-- pricing-area-end -->
+
+    <!-- Brackets Estéticos -->
+    <section class="about-area about-p pt-80 pb-120 p-relative fix">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-title text-center mb-50">
+                        <h3 class="treatment-title">BRACKETS ESTÉTICOS</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-30">
+                <div class="col-lg-6 col-md-6">
+                    <div class="pricing-table">
+                        <div class="pricing-number">1</div>
+                        <div class="pricing-title">
+                            <h3>Diagnóstico y planificación</h3>
+                            <h4>$70.000</h4>
+                        </div>
+                        <ul class="pricing-features">
+                            <li>Estudio clínico completo</li>
+                            <li>Planificación de tratamiento</li>
+                            <li>Modelos de estudio</li>
+                            <li>Fotos clínicas</li>
+                            <li>Exámenes radiográficos y cefalométricos</li>
+                            <li>Exámenes no incluidos</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6">
+                    <div class="pricing-table">
+                        <div class="pricing-number">2</div>
+                        <div class="pricing-title">
+                            <h3>Brackets Estéticos</h3>
+                            <h4>$379.000</h4>
+                        </div>
+                        <ul class="pricing-features">
+                            <li>Instalación Ortodoncia Fija</li>
+                            <li>Brackets estéticos de alta calidad</li>
+                            <li>Arcos y ligaduras</li>
+                            <li>Instalación profesional</li>
+                            <li>Materiales incluidos</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6">
+                    <div class="pricing-table">
+                        <div class="pricing-number">3</div>
+                        <div class="pricing-title">
+                            <h3>Mensual durante el tratamiento</h3>
+                            <h4>$40.000</h4>
+                        </div>
+                        <ul class="pricing-features">
+                            <li>Pago mensual fijo</li>
+                            <li>Controles regulares</li>
+                            <li>Ajustes de brackets</li>
+                            <li>Cambio de arcos</li>
+                            <li>Seguimiento continuo</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6">
+                    <div class="pricing-table">
+                        <div class="pricing-number">4</div>
+                        <div class="pricing-title">
+                            <h3>Al término del tratamiento</h3>
+                            <h4>Retiro y Contención: $190.000</h4>
+                        </div>
+                        <ul class="pricing-features">
+                            <li>Retiro de brackets</li>
+                            <li>Higiene profesional</li>
+                            <li>Instalación de contención</li>
+                            <li>Control mensual contención: $20.000</li>
+                            <li>Seguimiento post-tratamiento</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Brackets Estéticos-end -->
+
+  
+</main>
+</Layout> 

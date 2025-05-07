@@ -1,0 +1,48 @@
+---
+interface Props {
+    facebook?: string;
+    instagram?: string;
+    twitter?: string;
+}
+
+const {
+    facebook = "https://web.facebook.com/profile.php?id=100063637998188",
+    instagram = "https://www.instagram.com/ortodonciaparatodos1/",
+    twitter = "#"
+} = Astro.props;
+---
+
+<div class="footer-social">                                    
+    <a href={facebook} target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+    <a href={instagram} target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+</div>
+
+<style>
+    .footer-social {
+        text-align: right;
+    }
+
+    .footer-social a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+        border-radius: 50%;
+        margin-left: 10px;
+        transition: all 0.3s ease;
+    }
+
+    .footer-social a:hover {
+        background: #3660d9;
+    }
+
+    @media (max-width: 991px) {
+        .footer-social {
+            text-align: center;
+            margin-top: 20px;
+        }
+    }
+</style> 

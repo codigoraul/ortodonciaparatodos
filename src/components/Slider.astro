@@ -1,0 +1,95 @@
+---
+import { Image } from 'astro:assets';
+---
+
+<!-- slider-area -->
+<section id="home" class="slider-area slider-four fix p-relative">
+               
+    <div class="slider-active" style="background: #00173c;">
+        <div class="single-slider slider-bg d-flex align-items-center" style="background-image: url(./assets/img/slider/slider-1.jpg); background-size: cover;">
+            <div class="container">
+                <div class="row justify-content-start align-items-center">
+                     <div class="col-lg-10 col-md-10">
+                         <div class="slider-content s-slider-content slider-text-2 mt-20 text-left" style="max-width: 750px;">
+                              <h2 data-animation="fadeInUp" data-delay=".4s" style="color: #003373;">Intalación de bracket metálicos 
+							</h2>                                
+                            <h3 data-animation="fadeInUp" data-delay=".4s" style="color: #ED6C44;">Clinica dental ubicada en Temuco</h3>                             
+                             <div class="slider-btn mt-20">     
+                                <a href="./aranceles" class="btn ss-btn" data-animation="fadeInLeft" data-delay=".4s">Conoce nuestros planes</a>
+                            </div>        
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+        <div class="single-slider slider-bg d-flex align-items-center" style="background-image: url(./assets/img/slider/slider-2.jpg); background-size: cover;">
+            <div class="container">
+                <div class="row justify-content-start align-items-center">
+                     <div class="col-lg-10 col-md-10">
+                         <div class="slider-content s-slider-content slider-text-2 mt-20 text-left" style="max-width: 750px;">
+                              <h2 data-animation="fadeInUp" data-delay=".4s" style="color: #003373;">Ortodoncia para todos</h2>      
+                              <h3 data-animation="fadeInUp" data-delay=".4s" style="color: #ED6C44;">Mismo arancel para todas las personas</h3>                          
+                                <p class="slider-p" style="max-width: 550px;" data-animation="fadeInUp" data-delay=".4s">No hacemos diferencias según previsión, por lo que existe un arancel único para todos nuestros pacientes. 
+                                </p>     
+                             <div class="slider-btn mt-20">     
+                                <a href="https://6741b06af294b3ee72021da7f5d254f29122a29f.agenda.softwaredentalink.com/agenda" target="_blank" class="btn ss-btn" data-animation="fadeInLeft" data-delay=".4s">Agenda tu cita</a>
+                            </div>        
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+        <div class="single-slider slider-bg d-flex align-items-center" style="background-image: url(./assets/img/slider/slider-3.jpg); background-size: cover;">
+            <div class="container">
+                <div class="row justify-content-end align-items-center">
+                     <div class="col-lg-10 col-md-10">
+                         <div class="slider-content s-slider-content slider-text-2 mt-20 text-right" style="max-width: 790px; margin-left: auto;">
+                              <h2 data-animation="fadeInUp" data-delay=".4s" style="color: #003373;">Clinica dental Temuco</h2>  
+                              <h3 data-animation="fadeInUp" data-delay=".4s" style="color: #ED6C44;">Vanguardia y Calidad </h3>   
+                                <p data-animation="fadeInUp" class="text-right" style="width: 450px" data-delay=".4s">Utilizamos la última tecnología en ortodoncia para ofrecerte tratamientos más eficientes y cómodos.</p>     
+                             <div class="slider-btn mt-20">     
+                                <a href="./nosotros" class="btn ss-btn"  style="max-width: 430px;" data-animation="fadeInLeft" data-delay=".4s">Conoce Más</a>
+                            </div>        
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+    </div>
+</section>
+<!-- slider-area-end -->
+
+<style>
+    .slider-content h2 {
+        font-size: 62px;
+        color: #003373;
+    }
+
+    .slider-bg {
+        position: relative;
+        overflow: hidden;
+        min-height: 648px !important;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .slider-four .s-slider-content p {
+        font-size: 20px;
+        color: #424655;
+        line-height: 26px;
+        padding-bottom: 30px;
+        width: 100%;
+        margin: 0;
+    }
+</style>
+<script>
+    // Asegurarnos de que las rutas de las imágenes sean relativas
+    document.addEventListener('DOMContentLoaded', () => {
+        const images = document.querySelectorAll('.slider-bg-img');
+        images.forEach(img => {
+            if (img.src.startsWith('/')) {
+                img.src = '.' + img.src;
+            }
+        });
+    });
+</script>

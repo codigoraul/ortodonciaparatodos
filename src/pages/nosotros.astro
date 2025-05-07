@@ -1,0 +1,85 @@
+---
+import Header from '../components/Header.astro';
+import Layout from '../layouts/Layout.astro';
+import Slider from '../components/Slider.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import Equipo from '../components/Equipo.astro';
+import { Image } from 'astro:assets';
+import fotoEquipo from '../assets/img/foto-equipo.jpg';
+---
+
+<Layout title="Nosotros">
+
+<style>
+    .s-about-img {
+        position: relative;
+        overflow: hidden;
+        border-radius: 10px;
+    }
+    .s-about-img img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+    @media (max-width: 768px) {
+        .s-about-img {
+            margin-bottom: 30px;
+        }
+        .s-about-img img {
+            max-height: 300px;
+            object-fit: cover;
+        }
+    }
+</style>
+
+<main>
+            
+    <Breadcrumb title="Nosotros" currentPage="Nosotros" parentPage="Inicio" parentUrl="/" />
+     <!-- about-area -->
+    <section class="about-area about-p pt-120 pb-120 p-relative fix">
+        <div class="container">
+            <div class="row justify-content-center align-items-center">
+                 <div class="col-lg-6 col-md-12 col-sm-12">
+                    <div class="s-about-img p-relative wow fadeInLeft animated" data-animation="fadeInLeft" data-delay=".4s">
+                        <Image 
+                            src={fotoEquipo} 
+                            alt="Clínica Ortodoncia para todos"
+                            width={600}
+                            height={400}
+                            class="img-fluid"
+                            style="object-fit: cover; width: 100%; height: auto;"
+                        />   
+                    
+                    </div>
+                  
+                </div>
+                
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                    <div class="about-content s-about-content  wow fadeInRight  animated" data-animation="fadeInRight" data-delay=".4s">
+                        <div class="about-title second-title pb-25">  
+                            <h5>Sobre Nosotros</h5>
+                            <h2>Ortodoncia para Todos</h2>                                   
+                        </div>
+                           <p>Ortodoncia para Todos es una clínica dental ubicada en el corazón de la ciudad, dedicada a proporcionar tratamientos de ortodoncia de alta calidad a precios accesibles. Nuestro equipo de profesionales altamente capacitados está comprometido con la excelencia en el cuidado dental y la satisfacción del paciente.</p>
+                           <p>Nos especializamos en una variedad de tratamientos de ortodoncia, incluyendo brackets metálicos, brackets estéticos, alineadores transparentes y tratamientos para niños y adultos. Nuestra misión es hacer que la ortodoncia sea accesible para todos, sin comprometer la calidad del tratamiento.</p>
+                        
+                    </div>
+                </div>
+             
+            </div>
+        </div>
+    </section>
+    <!-- about-area-end -->
+    <!-- our-team-area -->
+    <Equipo />
+    <!-- our-team-area-end -->
+ 
+   
+</main>
+<!-- main-area-end -->
+
+
+
+
+</Layout>

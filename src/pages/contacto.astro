@@ -1,0 +1,80 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Contacto from '../components/Contacto.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+// Metadatos SEO
+const seo = {
+    title: "Contacto | Ortodoncia para Todos Temuco",
+    description: "Contáctanos en Ortodoncia para Todos Temuco. Agenda tu cita y conoce nuestros servicios de ortodoncia. Ubicados en Av. Alemania 0455, Temuco.",
+    keywords: "contacto ortodoncia temuco, agenda cita dental temuco, clínica dental temuco, ortodoncia para todos contacto",
+    canonical: "https://ortodonciaparatodos.cl/contacto",
+    ogTitle: "Contacto | Ortodoncia para Todos Temuco",
+    ogDescription: "Contáctanos en Ortodoncia para Todos Temuco. Agenda tu cita y conoce nuestros servicios de ortodoncia.",
+    ogImage: "/img/og-image.jpg",
+    ogUrl: "https://ortodonciaparatodos.cl/contacto"
+};
+---
+
+<Layout title={seo.title} >
+    <!-- Meta tags para SEO -->
+    <meta name="description" content={seo.description} />
+    <meta name="keywords" content={seo.keywords} />
+    <link rel="canonical" href={seo.canonical} />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={seo.ogUrl} />
+    <meta property="og:title" content={seo.ogTitle} />
+    <meta property="og:description" content={seo.ogDescription} />
+    <meta property="og:image" content={seo.ogImage} />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={seo.ogUrl} />
+    <meta property="twitter:title" content={seo.ogTitle} />
+    <meta property="twitter:description" content={seo.ogDescription} />
+    <meta property="twitter:image" content={seo.ogImage} />
+
+   <Breadcrumb title="Contacto" currentPage="Contacto" />
+    <Contacto />
+</Layout>
+
+<style>
+    .breadcrumb-area {
+        background-size: cover;
+        background-position: center;
+        padding: 100px 0;
+    }
+
+    .breadcrumb-title h2 {
+        color: #fff;
+        font-size: 40px;
+        font-weight: 600;
+        margin-bottom: 15px;
+    }
+
+    .breadcrumb-wrap .breadcrumb {
+        background: transparent;
+        padding: 0;
+        margin: 0;
+    }
+
+    .breadcrumb-wrap .breadcrumb-item {
+        color: #fff;
+        font-size: 16px;
+    }
+
+    .breadcrumb-wrap .breadcrumb-item a {
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .breadcrumb-wrap .breadcrumb-item.active {
+        color: #3660d9;
+    }
+
+    .breadcrumb-wrap .breadcrumb-item + .breadcrumb-item::before {
+        color: #fff;
+    }
+</style>
+

@@ -1,0 +1,299 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+interface Props {
+	title?: string;
+}
+
+const { title = "Clínica Dental" } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.png" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{Astro.props.title}</title>
+		
+		<!-- CSS -->
+		<link rel="stylesheet" href="/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/css/animate.min.css">
+		<link rel="stylesheet" href="/css/magnific-popup.css">
+		<link rel="stylesheet" href="/fontawesome/css/all.min.css">
+		<link rel="stylesheet" href="/css/dripicons.css">
+		<link rel="stylesheet" href="/css/slick.css">
+		<link rel="stylesheet" href="/css/meanmenu.css">
+		<link rel="stylesheet" href="/css/default.css">
+		<link rel="stylesheet" href="/css/style.css">
+		<link rel="stylesheet" href="/css/responsive.css">
+		<link rel="stylesheet" href="/css/custom.css">
+	</head>
+	<body>
+		<Header />
+		<slot />
+
+		<Footer />
+		<!-- Scripts Base -->
+		<script is:inline src="/js/vendor/jquery-3.6.0.min.js"></script>
+		<script is:inline src="/js/popper.min.js"></script>
+		<script is:inline src="/js/bootstrap.min.js"></script>
+
+		<!-- Scripts de Carousel y Sliders -->
+		<script is:inline src="/js/slick.min.js"></script>
+		<script is:inline src="/js/paroller.js"></script>
+
+		<!-- Scripts de Animación -->
+		<script is:inline src="/js/wow.min.js"></script>
+		<script is:inline src="/js/parallax.min.js"></script>
+		<script is:inline src="/js/parallax-scroll.js"></script>
+
+		<!-- Scripts de Isotope y Galería -->
+		<script is:inline src="/js/js_isotope.pkgd.min.js"></script>
+		<script is:inline src="/js/imagesloaded.min.js"></script>
+		<script is:inline src="/js/jquery.magnific-popup.min.js"></script>
+
+		<!-- Scripts de Contador y Scroll -->
+		<script is:inline src="/js/jquery.waypoints.min.js"></script>
+		<script is:inline src="/js/jquery.counterup.min.js"></script>
+		<script is:inline src="/js/jquery.scrollUp.min.js"></script>
+
+		<!-- Scripts de Navegación -->
+		<script is:inline src="/js/jquery.meanmenu.min.js"></script>
+
+		<!-- Scripts de Formulario -->
+		<script is:inline src="/js/ajax-form.js"></script>
+
+		<!-- Scripts de Utilidad -->
+		<script is:inline src="/js/element-in-view.js"></script>
+
+		<!-- Script Principal -->
+		<script is:inline src="/js/main.js"></script>
+
+		<!-- Inicialización de Scripts -->
+		<script is:inline>
+			// Inicialización de WOW.js con configuración específica
+			$(document).ready(function() {
+				new WOW({
+					boxClass: 'wow',
+					animateClass: 'animated',
+					offset: 0,
+					mobile: true,
+					live: true
+				}).init();
+			});
+
+			// Inicialización de Slick solo para elementos específicos
+			$(document).ready(function(){
+				// Inicializar solo el slider principal
+				if($('.slider-area .slider-active').length) {
+					$('.slider-area .slider-active').slick({
+						dots: true,
+						infinite: true,
+						speed: 1000,
+						slidesToShow: 1,
+						slidesToScroll: 1,
+						arrows: true,
+						autoplay: true,
+						autoplaySpeed: 5000
+					});
+				}
+			});
+
+			// Inicialización de Isotope solo si existe el elemento
+			$(document).ready(function(){
+				if($('.grid').length) {
+					var $grid = $('.grid').isotope({
+						itemSelector: '.grid-item',
+						layoutMode: 'fitRows'
+					});
+				}
+			});
+		</script>
+	</body>
+</html>
+
+<style is:global>
+	html,
+	body {
+		margin: 0;
+		width: 100%;
+		height: 100%;
+		overflow-x: hidden;
+	}
+
+	/* Estilos del header */
+	.header-area {
+		padding: 0;
+		background: #fff;
+		box-shadow: 0 0 10px rgba(0,0,0,0.1);
+		position: relative;
+		z-index: 999;
+	}
+
+	.logo img {
+		max-height: 80px;
+		width: auto;
+	}
+
+	/* Estilos para los iconos del header */
+	.header-cta ul li i {
+		margin-right: 10px;
+		color: #00b6e7;
+	}
+
+	.header-cta ul li {
+		display: inline-block;
+		margin-right: 20px;
+	}
+
+	.header-cta ul li:last-child {
+		margin-right: 0;
+	}
+
+	/* Estilos para f-contact */
+	.f-contact li {
+		float: left;
+		margin-bottom: 15px !important;
+		width: 100%;
+		display: flex;
+		align-items: center;
+	}
+
+	/* Asegurar que las secciones tengan posición relativa */
+	section {
+		position: relative;
+		width: 100%;
+		overflow: hidden;
+	}
+
+	/* Estilos específicos para la sección de equipo */
+	.team-area2 {
+		background: #fff;
+		position: relative;
+	}
+
+	/* Prevenir que Slick se inicialice en elementos incorrectos */
+	.team-active {
+		display: flex;
+		flex-wrap: wrap;
+		margin: 0 -15px;
+	}
+
+	.team-active .single-team {
+		padding: 15px;
+	}
+
+	/* Estilos para animaciones WOW */
+	.wow {
+		visibility: visible !important;
+	}
+
+	.animated {
+		animation-duration: 1s;
+		animation-fill-mode: both;
+	}
+
+	@keyframes fadeInLeft {
+		from {
+			opacity: 0;
+			transform: translate3d(-100%, 0, 0);
+		}
+		to {
+			opacity: 1;
+			transform: translate3d(0, 0, 0);
+		}
+	}
+
+	@keyframes fadeInRight {
+		from {
+			opacity: 0;
+			transform: translate3d(100%, 0, 0);
+		}
+		to {
+			opacity: 1;
+			transform: translate3d(0, 0, 0);
+		}
+	}
+
+	.fadeInLeft {
+		animation-name: fadeInLeft;
+	}
+
+	.fadeInRight {
+		animation-name: fadeInRight;
+	}
+
+	.team-thumb {
+		text-align: center;
+		display: block;
+		width: 100%;
+		overflow: hidden;
+		position: relative;
+	}
+
+	.team-thumb img {
+		display: inline-block !important;
+		width: 100%;
+		margin-bottom: 25px;
+		border-radius: 4px;
+	}
+
+	.team-info {
+		padding: 5px 0px 0;
+		transition: .3s;
+		position: relative;
+		text-align: center;
+	}
+
+	.team-info h4 {
+		font-size: 24px;
+		margin-bottom: 5px;
+		transition: .3s;
+	}
+
+	.team-info p {
+		margin-bottom: 0;
+		color: #3660d9;
+	}
+
+	.team-social {
+		text-align: center;
+		transition: all 0.3s ease 0s;
+		width: 100%;
+		margin-top: 10px;
+	}
+
+	.team-social li {
+		display: inline;
+		margin: 0 3px;
+	}
+
+	.team-social a {
+		color: #3660d9;
+		display: inline-block;
+		text-align: center;
+		border-radius: 50%;
+		font-size: 16px;
+		position: relative;
+		z-index: 999;
+		margin: 5px 0;
+		width: 40px;
+		height: 40px;
+		background: #d7dff7;
+		line-height: 40px;
+	}
+
+	.team-social a:hover {
+		background: #3660d9;
+		color: #fff;
+	}
+
+	.about-title h5 {
+		font-size: 24px !important;
+		line-height: 1.4 !important;
+		font-weight: 600 !important;
+		color: #ff6d3c !important;
+	}
+</style>
