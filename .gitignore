@@ -29,3 +29,7 @@ pnpm-debug.log*
 .vscode/
 *.swp
 *.swo
+
+# Large files
+*.zip
+**/fontawesome/metadata/icons.json
