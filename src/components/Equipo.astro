@@ -1,40 +1,26 @@
 ---
 import { Image } from 'astro:assets';
-import jeanPaul from '../assets/equipo/dr-jean-paul-haemmerli.jpg';
+
 import mariaJose from '../assets/equipo/dra-josefa-alarcon-.jpg';
-import carolina from '../assets/equipo/dra-carolina-sanza.jpg';
-import camila from '../assets/equipo/dr-fernando-rivera.jpg';
+import fernandoRivera from '../assets/equipo/dr-fernando-rivera.jpg';
 import pedro from '../assets/equipo/dr-Pedro-Saavedra.jpg';
 import danielSanza from '../assets/equipo/dr-daniel-sanza.jpg';
 import carlosArriaga from '../assets/equipo/dr-carlos-arriagada.jpg';
-
+import belen from '../assets/equipo/Dra-Belen-Fernandez.jpg';
+import ricardo from '../assets/equipo/dr-Ricardo-Alveal.jpg';
 
 import danielaAntilef from '../assets/equipo/Daniela-antilef.jpg';
-import vanessaRamos from '../assets/equipo/Vanesa-Ramos.jpg';
-import gabrielaRuiz from '../assets/equipo/Gabriela-Ruiz-secretaria.jpg';
+import gabrielaRuiz from '../assets/equipo/Gabriela-Ruiz.jpg';
 import janetVilches from '../assets/equipo/Janet-Vilches.jpg';
 import yenifel from '../assets/equipo/Yenifel-Rodriguez.jpg';
-import scarlet from '../assets/equipo/Scarlet-castillo.jpg';
-import constanza from '../assets/equipo/Constanza-guajardo.jpg';
-import andrea from '../assets/equipo/Andrea-barria-secretaria.jpg';
+import andrea from '../assets/equipo/Andrea-barria.jpg';
+import camila from '../assets/equipo/Camila-antipan.jpg';
 
 const equipo = [
     {
-        imagen: jeanPaul,
-        nombre: "Dr. Jean Paul Haemmerli",
-        cargo: "Ortodoncista - Implantólogo Oral ",
-        alt: "Dr. Jean Paul Haemmerli"
-    },
-    {
-        imagen: carolina,
-        nombre: "Dra. Carolina Sanza",
-        cargo: "Ortodoncista",
-        alt: "Dra. Carolina Sanza"
-    },
-    {
         imagen: pedro,
         nombre: "Dr. Pedro Saavedra",
-        cargo: "Director ortodonciaparatodos | Implantologia, Ortodoncia  formación en España, Grand master en ortodoncia ",
+        cargo: "Ortodoncia, implantologia. Director clínica Milenium",
         alt: "Dr. Pedro Saavedra"
     },
     {
@@ -42,6 +28,12 @@ const equipo = [
         nombre: "Dra. Josefa Alarcón",
         cargo: "Odontología General ",
         alt: "Dra. Josefa Alarcón"
+    },
+    {
+        imagen: belen,
+        nombre: "Dra. Belén Fernández",
+        cargo: "Ortodoncia ",
+        alt: "Dra. Belén Fernández"
     },
     {
         imagen: danielSanza,
@@ -57,10 +49,16 @@ const equipo = [
     },
     
     {
-        imagen: camila,
+        imagen: fernandoRivera,
         nombre: "Dr. Fernando Rivera",
-        cargo: "Odontología General ",
+        cargo: "Rehabilitación oral",
         alt: "Dr. Fernando Rivera"
+    },
+    {
+        imagen: ricardo,
+        nombre: "Dr. Ricardo Alveal",
+        cargo: "Implantologia ",
+        alt: "Dr. Ricardo Alveal"
     },
     
 ];
@@ -71,12 +69,6 @@ const equipo2 = [
         nombre: "Daniela Antilef",
         cargo: "Asistente dental ",
         alt: "Daniela Antilef"
-    },
-    {
-        imagen: vanessaRamos,
-        nombre: "Vanessa Ramos",
-        cargo: "Asistente dental ",
-        alt: "Vanessa Ramos"
     },
     {
         imagen: gabrielaRuiz,
@@ -97,22 +89,16 @@ const equipo2 = [
         alt: "Yenifel Rodriguez"
     },
     {
-        imagen: scarlet,
-        nombre: "Scarlet Castillo",
-        cargo: "Asistente dental ",
-        alt: "Scarlet Castillo"
-    },
-    {
-        imagen: constanza,
-        nombre: "Constanza Guajardo",
-        cargo: "Asistente dental ",
-        alt: "Constanza Guajardo"
-    },
-    {
         imagen: andrea,
         nombre: "Andrea Barria",
         cargo: "Secretaria ",
         alt: "Andrea Barria"
+    },
+    {
+        imagen: camila,
+        nombre: "Camila Antipan",
+        cargo: "Secretaria ",
+        alt: "Camila Antipan"
     }
 ];
 ---
@@ -137,7 +123,7 @@ const equipo2 = [
                                 </div>
                             </div>
                             <div class="team-info">
-                                <h4><a href="team-single.html">{miembro.nombre}</a></h4>
+                                <h4>{miembro.nombre}</h4>
                                 <p>{miembro.cargo}</p>
                             </div>
                         </div>
@@ -154,7 +140,7 @@ const equipo2 = [
                                 <Image src={miembro.imagen} alt={miembro.alt} class="img-fluid" />
                             </div>
                             <div class="team-info">
-                                <h4><a href="team-single.html">{miembro.nombre}</a></h4>
+                                <h4>{miembro.nombre}</h4>
                                 <p>{miembro.cargo}</p>
                             </div>
                         </div>
@@ -218,9 +204,6 @@ const equipo2 = [
     .team-info h4 {
         margin-bottom: 5px;
         transition: color 0.3s ease;
-    }
-
-    .team-info h4 a:hover {
-        color: #3660d9;
+        color: #fff;
     }
 </style> 

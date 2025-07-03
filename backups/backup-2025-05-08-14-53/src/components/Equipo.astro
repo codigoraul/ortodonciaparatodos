@@ -1,0 +1,223 @@
+---
+import { Image } from 'astro:assets';
+import jeanPaul from '../assets/equipo/dr-jean-paul-haemmerli.jpg';
+import mariaJose from '../assets/equipo/dra-josefa-alarcon-.jpg';
+import carolina from '../assets/equipo/dra-carolina-sanza.jpg';
+import camila from '../assets/equipo/dr-fernando-rivera.jpg';
+import pedro from '../assets/equipo/dr-Pedro-Saavedra.jpg';
+import danielSanza from '../assets/equipo/dr-daniel-sanza.jpg';
+import carlosArriaga from '../assets/equipo/dr-carlos-arriagada.jpg';
+
+
+import danielaAntilef from '../assets/equipo/Daniela-antilef.jpg';
+import vanessaRamos from '../assets/equipo/Vanesa-Ramos.jpg';
+import gabrielaRuiz from '../assets/equipo/Gabriela-Ruiz-secretaria.jpg';
+import janetVilches from '../assets/equipo/Janet-Vilches.jpg';
+import yenifel from '../assets/equipo/Yenifel-Rodriguez.jpg';
+import scarlet from '../assets/equipo/Scarlet-castillo.jpg';
+import constanza from '../assets/equipo/Constanza-guajardo.jpg';
+import andrea from '../assets/equipo/Andrea-barria-secretaria.jpg';
+
+const equipo = [
+    {
+        imagen: jeanPaul,
+        nombre: "Dr. Jean Paul Haemmerli",
+        cargo: "Ortodoncista - Implantólogo Oral ",
+        alt: "Dr. Jean Paul Haemmerli"
+    },
+    {
+        imagen: carolina,
+        nombre: "Dra. Carolina Sanza",
+        cargo: "Ortodoncista",
+        alt: "Dra. Carolina Sanza"
+    },
+    {
+        imagen: pedro,
+        nombre: "Dr. Pedro Saavedra",
+        cargo: "Director ortodonciaparatodos | Implantologia, Ortodoncia  formación en España, Grand master en ortodoncia ",
+        alt: "Dr. Pedro Saavedra"
+    },
+    {
+        imagen: mariaJose,
+        nombre: "Dra. Josefa Alarcón",
+        cargo: "Odontología General ",
+        alt: "Dra. Josefa Alarcón"
+    },
+    {
+        imagen: danielSanza,
+        nombre: "Dr. Daniel Sanza",
+        cargo: "Ortodoncia, formación en Brasil ",
+        alt: "Dr. Daniel Sanza"
+    },
+    {
+        imagen: carlosArriaga,
+        nombre: "Dr. Carlos Arriaga",
+        cargo: "Endodoncia",
+        alt: "Dr. Carlos Arriaga"
+    },
+    
+    {
+        imagen: camila,
+        nombre: "Dr. Fernando Rivera",
+        cargo: "Odontología General ",
+        alt: "Dr. Fernando Rivera"
+    },
+    
+];
+
+const equipo2 = [
+    {
+        imagen: danielaAntilef,
+        nombre: "Daniela Antilef",
+        cargo: "Asistente dental ",
+        alt: "Daniela Antilef"
+    },
+    {
+        imagen: vanessaRamos,
+        nombre: "Vanessa Ramos",
+        cargo: "Asistente dental ",
+        alt: "Vanessa Ramos"
+    },
+    {
+        imagen: gabrielaRuiz,
+        nombre: "Gabriela Ruiz",
+        cargo: "Secretaria ",
+        alt: "Gabriela Ruiz"
+    },
+    {
+        imagen: janetVilches,
+        nombre: "Janet Vilches",
+        cargo: "Asistente dental",
+        alt: "Janet Vilches"
+    },
+    {
+        imagen: yenifel,
+        nombre: "Yenifel Rodriguez",
+        cargo: "Asistente dental ",
+        alt: "Yenifel Rodriguez"
+    },
+    {
+        imagen: scarlet,
+        nombre: "Scarlet Castillo",
+        cargo: "Asistente dental ",
+        alt: "Scarlet Castillo"
+    },
+    {
+        imagen: constanza,
+        nombre: "Constanza Guajardo",
+        cargo: "Asistente dental ",
+        alt: "Constanza Guajardo"
+    },
+    {
+        imagen: andrea,
+        nombre: "Andrea Barria",
+        cargo: "Secretaria ",
+        alt: "Andrea Barria"
+    }
+];
+---
+     <!-- team-area -->
+     <section class="team-area2 fix p-relative pt-40 pb-80">  
+        <div class="container">  
+            <div class="row">   
+                <div class="col-lg-12 p-relative">
+                   <div class="section-title center-align mb-20 text-center wow fadeInDown animated" data-animation="fadeInDown" data-delay=".4s">
+                       <h5>Nuestro Equipo</h5>
+                        <h2>Expertos en Ortodoncia</h2>
+                    </div>
+                </div>                        
+            </div>
+           <div class="row">                   
+                {equipo.map((miembro) => (
+                    <div class="col-xl-3">
+                        <div class="single-team mb-40">
+                            <div class="team-thumb">
+                                <div class="brd">
+                                     <Image src={miembro.imagen} alt={miembro.alt} class="img-fluid" />
+                                </div>
+                            </div>
+                            <div class="team-info">
+                                <h4>{miembro.nombre}</h4>
+                                <p>{miembro.cargo}</p>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                {equipo2.map((miembro) => (
+                    <div class="col-xl-3">
+                        <div class="single-team mb-40">
+                            <div class="team-thumb">
+                                <Image src={miembro.imagen} alt={miembro.alt} class="img-fluid" />
+                            </div>
+                            <div class="team-info">
+                                <h4>{miembro.nombre}</h4>
+                                <p>{miembro.cargo}</p>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    </section>
+   
+<style>
+    .team-thumb {
+        position: relative;
+        overflow: hidden;
+        border-radius: 8px;
+    }
+
+    .team-thumb .brd {
+        position: relative;
+        overflow: hidden;
+        border-radius: 8px;
+    }
+
+    .team-thumb img {
+        transition: transform 0.5s ease;
+        border-radius: 8px;
+    }
+
+    .single-team:hover .team-thumb img {
+        transform: scale(1.1);
+    }
+
+    .team-thumb::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.2) 100%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .single-team:hover .team-thumb::after {
+        opacity: 1;
+    }
+
+    .single-team {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .single-team:hover {
+        transform: translateY(-5px);
+        box-shadow: none;
+    }
+
+    .team-info {
+        padding: 20px 0;
+    }
+
+    .team-info h4 {
+        margin-bottom: 5px;
+        transition: color 0.3s ease;
+        color: #fff;
+    }
+</style> 

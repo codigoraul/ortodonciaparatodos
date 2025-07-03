@@ -1,0 +1,335 @@
+---
+import SocialIcons from './SocialIcons.astro';
+---
+
+
+ <!-- footer -->
+ <footer class="footer-bg footer-p pt-90" style="background: #00173c;">
+    <div class="footer-top pb-70">
+        <div class="container">
+            <div class="row justify-content-between">
+                
+                <div class="col-xl-4 col-lg-4 col-sm-6">
+                    <div class="footer-widget footer-widget2 mb-30">
+                        <div class="footer-logo">
+                            <a href="/"><img src="/img/logo/logo-ortodoncia-claro.png" alt="Ortodoncia para Todos"></a>
+                        </div>
+                        <div class="footer-text">
+                            <p>Clínica dental especializada en ortodoncia en Temuco. Ofrecemos tratamientos de ortodoncia y atención dental general con los mejores profesionales.</p>
+                        </div>
+                        <div class="footer-social">
+                            <ul>
+                                <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                                <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                                <li><a href="#"><i class="fab fa-whatsapp"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-xl-4 col-lg-4 col-sm-6">
+                    <div class="footer-widget footer-widget2 mb-30">
+                        <h4 class="fw-title">Enlaces</h4>
+                        <ul class="list-wrap">
+                            <li><a href="/">Inicio</a></li>
+                            <li><a href="/nosotros">Nosotros</a></li>
+                            <li><a href="/tratamientos">Tratamientos</a></li>
+                            <li><a href="/aranceles">Aranceles</a></li>
+                            <li><a href="/contacto">Contacto</a></li>
+                        </ul>
+                    </div>
+                </div>  
+                
+                <div class="col-xl-4 col-lg-4 col-sm-6">
+                    <div class="footer-widget footer-widget2 mb-30">
+                        <h4 class="fw-title">Contacto</h4>
+                        <div class="f-contact">
+                            <ul>
+                                <li>
+                                    <i class="icon fal fa-map-marker-check"></i>
+                                    <span>A. Varas 989 piso 20, edificio Capital, Temuco</span>
+                                </li>
+                                <li>
+                                    <i class="icon fal fa-phone"></i>
+                                    <span>+452-756565 | +56954063149</span>
+                                </li>
+                                <li>
+                                    <i class="icon fal fa-envelope"></i>
+                                    <span>
+                                        <a href="mailto:contacto@ortodonciaparatodos.cl">contacto@ortodonciaparatodos.cl</a>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <div class="copyright-wrap">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-4">
+                  <div class="copy-text">
+                    @ 2025 por <a href="https://diseñopaginas.cl/" target="_blank"  >  diseñopaginas.cl</a>    
+                    </div>
+                </div>
+                <div class="col-lg-4">          
+                    
+                        
+                </div>
+                <div class="col-lg-4">
+                    <div class="footer-social">                                    
+                        <SocialIcons 
+                            facebook="https://web.facebook.com/profile.php?id=100063637998188"
+                            instagram="https://instagram.com/ortodonciaparatodos"
+                            twitter="https://twitter.com/ortodonciaparatodos"
+                        />
+                    </div>    
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- footer-end -->
+
+
+<style>
+    .footer-bg {
+        background: #00173c;
+        position: relative;
+        z-index: 1;
+    }
+
+    .footer-p {
+        padding-top: 90px;
+    }
+
+    .footer-top {
+        padding-bottom: 70px;
+    }
+
+    .footer-widget {
+        margin-bottom: 30px;
+    }
+
+    .f-widget-title h2 {
+        color: #fff;
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .footer-link p {
+        color: #a2a2a2;
+        margin-bottom: 20px;
+    }
+
+    .footer-link ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .footer-link ul li {
+        margin-bottom: 10px;
+    }
+
+    .footer-link ul li a {
+        color: #a2a2a2;
+        transition: color 0.3s ease;
+    }
+
+    .footer-link ul li a:hover {
+        color: #3660d9;
+    }
+
+    .f-contact ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .f-contact ul li {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+        color: #a2a2a2;
+    }
+
+    .f-contact ul li i {
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+        background-image: -moz-linear-gradient(0deg, rgb(9,152,230) 0%, rgb(54,96,217) 100%);
+        background-image: -webkit-linear-gradient(0deg, rgb(9,152,230) 0%, rgb(54,96,217) 100%);
+        background-image: -ms-linear-gradient(0deg, rgb(9,152,230) 0%, rgb(54,96,217) 100%);
+        line-height: 40px;
+        color: #fff !important;
+        text-align: center;
+        border-radius: 50%;
+        margin-right: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .copyright-wrap {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 20px 0;
+    }
+
+    .copy-text {
+        color: #a2a2a2;
+    }
+
+    .copy-text a {
+        color: #3660d9;
+        transition: color 0.3s ease;
+    }
+
+    .copy-text a:hover {
+        color: #fff;
+    }
+
+    .footer-social {
+        text-align: right;
+    }
+
+    @media (max-width: 991px) {
+        .footer-social {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .copy-text {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+    }
+
+    .about-title h2 {
+        font-size: 46px;
+    }
+
+    .about-title h5 {
+        color: #ff6d3c !important;
+    }
+
+    .footer-area {
+        background: #00173c;
+        padding: 80px 0 0;
+        position: relative;
+    }
+
+    .footer-logo {
+        margin-bottom: 20px;
+    }
+
+    .footer-logo img {
+        max-width: 200px;
+        height: auto;
+    }
+
+    .footer-text p {
+        color: #fff;
+        margin-bottom: 20px;
+        line-height: 1.6;
+    }
+
+    .footer-social ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        gap: 15px;
+    }
+
+    .footer-social ul li a {
+        width: 40px;
+        height: 40px;
+        background: rgba(255,255,255,0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        transition: .3s;
+    }
+
+    .footer-social ul li a:hover {
+        background: #ED6C44;
+    }
+
+    .fw-title {
+        color: #fff;
+        font-size: 20px;
+        margin-bottom: 20px;
+        font-weight: 600;
+    }
+
+    .list-wrap {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .list-wrap li {
+        margin-bottom: 10px;
+    }
+
+    .list-wrap li a {
+        color: #fff;
+        transition: .3s;
+    }
+
+    .list-wrap li a:hover {
+        color: #ED6C44;
+    }
+
+    .list-wrap li .icon {
+        color: #ED6C44;
+        margin-right: 10px;
+    }
+
+    .list-wrap li .content {
+        color: #fff;
+    }
+
+    .footer-bottom {
+        background: rgba(0,0,0,0.2);
+        padding: 20px 0;
+        margin-top: 50px;
+    }
+
+    .copyright-text p {
+        color: #fff;
+        margin: 0;
+    }
+
+    @media (max-width: 991px) {
+        .footer-area {
+            padding: 60px 0 0;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .footer-area {
+            padding: 40px 0 0;
+        }
+
+        .footer-widget {
+            text-align: center;
+        }
+
+        .footer-social ul {
+            justify-content: center;
+        }
+
+        .list-wrap li {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+</style>

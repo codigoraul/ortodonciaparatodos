@@ -37,6 +37,12 @@ const seo = {
 
    <Breadcrumb title="Contacto" currentPage="Contacto" />
     <Contacto />
+    <style>
+        /* Ocultar el SeoBanner solo en la página de contacto */
+        :global(.seo-banner-area) {
+            display: none !important;
+        }
+    </style>
 </Layout>
 
 <style>

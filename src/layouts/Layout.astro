@@ -1,21 +1,32 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import ScrollToTop from '../components/ScrollToTop.astro';
+import SeoBanner from '../components/SeoBanner.astro';
 interface Props {
-	title?: string;
+	title: string;
 }
 
-const { title = "Clínica Dental" } = Astro.props;
+const { title } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="es">
 	<head>
 		<meta charset="UTF-8" />
+		<meta name="description" content="Ortodoncia Para Todos - Clínica dental en Temuco">
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.png" />
 		<meta name="generator" content={Astro.generator} />
-		<title>{Astro.props.title}</title>
+		<title>{title}</title>
+		
+		<!-- Preload de recursos críticos -->
+		<link rel="preload" href="/js/vendor/jquery-3.6.0.min.js" as="script">
+		<link rel="preload" href="/css/bootstrap.min.css" as="style">
+		<link rel="preload" href="/css/style.css" as="style">
+		<link rel="preload" href="/assets/img/slider/slider-1.jpg" as="image" fetchpriority="high">
+		<link rel="preload" href="/assets/img/slider/slider-2.jpg" as="image">
+		<link rel="preload" href="/assets/img/slider/slider-3.jpg" as="image">
 		
 		<!-- CSS -->
 		<link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -33,8 +44,9 @@ const { title = "Clínica Dental" } = Astro.props;
 	<body>
 		<Header />
 		<slot />
-
+		<SeoBanner />
 		<Footer />
+		
 		<!-- Scripts Base -->
 		<script is:inline src="/js/vendor/jquery-3.6.0.min.js"></script>
 		<script is:inline src="/js/popper.min.js"></script>
@@ -70,11 +82,11 @@ const { title = "Clínica Dental" } = Astro.props;
 
 		<!-- Script Principal -->
 		<script is:inline src="/js/main.js"></script>
-
+		
 		<!-- Inicialización de Scripts -->
 		<script is:inline>
-			// Inicialización de WOW.js con configuración específica
 			$(document).ready(function() {
+				// Inicialización de WOW.js con configuración específica
 				new WOW({
 					boxClass: 'wow',
 					animateClass: 'animated',
@@ -82,28 +94,51 @@ const { title = "Clínica Dental" } = Astro.props;
 					mobile: true,
 					live: true
 				}).init();
-			});
 
-			// Inicialización de Slick solo para elementos específicos
-			$(document).ready(function(){
-				// Inicializar solo el slider principal
-				if($('.slider-area .slider-active').length) {
-					$('.slider-area .slider-active').slick({
-						dots: true,
-						infinite: true,
-						speed: 1000,
-						slidesToShow: 1,
-						slidesToScroll: 1,
-						arrows: true,
-						autoplay: true,
-						autoplaySpeed: 5000
-					});
+				// Inicialización de Slick solo para elementos específicos
+				var $slider = $('.slider-area .slider-active');
+				if($slider.length > 0) {
+					// Verificar que tenga la estructura correcta de slides
+					if($slider.find('> div').length > 0) {
+						$slider.slick({
+							dots: true,
+							infinite: true,
+							speed: 1000,
+							slidesToShow: 1,
+							slidesToScroll: 1,
+							arrows: true,
+							autoplay: true,
+							autoplaySpeed: 5000,
+							adaptiveHeight: true,
+							responsive: true,
+							slides: '> div'
+						});
+					}
 				}
-			});
 
-			// Inicialización de Isotope solo si existe el elemento
-			$(document).ready(function(){
-				if($('.grid').length) {
+				// Verificar si el testimonial slider existe y tiene elementos
+				var $testimonial = $('.testimonial-active');
+				if($testimonial.length > 0) {
+					// Verificar que tenga la estructura correcta de slides
+					if($testimonial.find('> div').length > 0) {
+						$testimonial.slick({
+							dots: true,
+							infinite: true,
+							speed: 1000,
+							slidesToShow: 1,
+							slidesToScroll: 1,
+							arrows: false,
+							autoplay: true,
+							autoplaySpeed: 5000,
+							adaptiveHeight: true,
+							responsive: true,
+							slides: '> div'
+						});
+					}
+				}
+
+				// Inicialización de Isotope solo si existe el elemento
+				if($('.grid').length > 0) {
 					var $grid = $('.grid').isotope({
 						itemSelector: '.grid-item',
 						layoutMode: 'fitRows'
@@ -111,6 +146,9 @@ const { title = "Clínica Dental" } = Astro.props;
 				}
 			});
 		</script>
+
+		<!-- ScrollToTop debe ir al final -->
+		<ScrollToTop />
 	</body>
 </html>
 
@@ -140,7 +178,7 @@ const { title = "Clínica Dental" } = Astro.props;
 	/* Estilos para los iconos del header */
 	.header-cta ul li i {
 		margin-right: 10px;
-		color: #00b6e7;
+		color: #ED6C44;
 	}
 
 	.header-cta ul li {

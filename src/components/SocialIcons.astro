@@ -2,13 +2,13 @@
 interface Props {
     facebook?: string;
     instagram?: string;
-    twitter?: string;
+
 }
 
 const {
     facebook = "https://web.facebook.com/profile.php?id=100063637998188",
-    instagram = "https://www.instagram.com/ortodonciaparatodos1/",
-    twitter = "#"
+    instagram = "#",
+
 } = Astro.props;
 ---
 
@@ -44,5 +44,9 @@ const {
             text-align: center;
             margin-top: 20px;
         }
+    }
+
+    .feature-item h3 {
+        color: #00afdd;
     }
 </style> 

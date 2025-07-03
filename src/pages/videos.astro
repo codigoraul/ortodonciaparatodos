@@ -1,0 +1,148 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// Metadatos SEO
+const seo = {
+    title: "Videos | Ortodoncia para Todos - Temuco",
+    description: "Videos informativos sobre tratamientos de ortodoncia, consejos dentales y testimonios de pacientes en Ortodoncia para Todos Temuco.",
+    keywords: "videos ortodoncia, testimonios ortodoncia temuco, consejos dentales, tratamientos ortodoncia videos",
+    canonical: "https://ortodonciaparatodos.cl/videos",
+    ogTitle: "Videos | Ortodoncia para Todos - Temuco",
+    ogDescription: "Videos informativos sobre tratamientos de ortodoncia y consejos dentales en Ortodoncia para Todos Temuco.",
+    ogImage: "/img/og-image.jpg",
+    ogUrl: "https://ortodonciaparatodos.cl/videos"
+};
+---
+
+<Layout title={seo.title}>
+    <!-- Meta tags para SEO -->
+    <meta name="description" content={seo.description} />
+    <meta name="keywords" content={seo.keywords} />
+    <link rel="canonical" href={seo.canonical} />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={seo.ogUrl} />
+    <meta property="og:title" content={seo.ogTitle} />
+    <meta property="og:description" content={seo.ogDescription} />
+    <meta property="og:image" content={seo.ogImage} />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={seo.ogUrl} />
+    <meta property="twitter:title" content={seo.ogTitle} />
+    <meta property="twitter:description" content={seo.ogDescription} />
+    <meta property="twitter:image" content={seo.ogImage} />
+
+    <!-- Sección de Videos -->
+    <section class="videos-section pt-120 pb-120">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center mb-5">
+                    <h1 class="section-title">Nuestros videos</h1>
+                    <p class="section-description">
+                        Descubre nuestros videos de Clinica dental Ortodoncia para Todos Temuco
+                    </p>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Video Card 1 -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="video-card">
+                        <video 
+                            src="/videos/video1.mp4"
+                            controls
+                            class="w-100"
+                        ></video>
+                        <div class="video-info">
+                            <h3>Ortodoncia de ultima generación</h3>
+                            <p>Conoce más sobre los tratamientos de ortodoncia y sus beneficios</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video Card 2 -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="video-card">
+                        <video 
+                            src="/videos/video2.mp4"
+                            controls
+                            class="w-100"
+                        ></video>
+                        <div class="video-info">
+                            <h3>Consejos para el Cuidado Dental</h3>
+                            <p>Tips importantes para mantener una buena salud dental</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video Card 3 -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="video-card">
+                        <video 
+                            src="/videos/video3.mp4"
+                            controls
+                            class="w-100"
+                        ></video>
+                        <div class="video-info">
+                            <h3>A la vanguardia en Ortodoncia</h3>
+                            <p>Conoce los ultimos avances en ortodoncia</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        .videos-section {
+            background-color: #f8f9fa;
+            padding: 60px 0;
+        }
+
+        .section-title {
+            color: #1b5ca4;
+            margin-bottom: 1rem;
+        }
+
+        .section-description {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .video-card {
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .video-card video {
+            width: 100%;
+            display: block;
+            background: #000;
+        }
+
+        .video-info {
+            padding: 20px;
+        }
+
+        .video-info h3 {
+            color: #1b5ca4;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .video-info p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0;
+        }
+
+        .w-100 {
+            width: 100%;
+        }
+    </style>
+</Layout> 

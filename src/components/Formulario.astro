@@ -1,0 +1,210 @@
+---
+import emailjs from '@emailjs/browser';
+---
+
+<div class="contact-bg02">
+    <div class="section-title center-align">
+        <h2>Formulario de Contacto</h2>
+    </div>
+    <form id="contact-form" class="contact-form mt-30">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="contact-field p-relative c-name mb-20">
+                    <input type="text" id="user_name" name="user_name" placeholder="Nombre" required>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="contact-field p-relative c-subject mb-20">
+                    <input type="email" id="user_email" name="user_email" placeholder="Email" required>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="contact-field p-relative c-subject mb-20">
+                    <input type="tel" id="user_phone" name="user_phone" placeholder="Teléfono" required>
+                </div>
+            </div>
+            
+            <div class="col-lg-12">
+                <div class="contact-field p-relative c-message mb-30">
+                    <textarea name="message" id="message" cols="30" rows="10" placeholder="Escribe tu mensaje"></textarea>
+                </div>
+                <div class="slider-btn">
+                    <button type="submit" class="btn ss-btn" data-animation="fadeInRight" data-delay=".8s">
+                        <span>Enviar Mensaje</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div id="success-message" class="alert alert-success mt-3" style="display: none;">
+        ¡Mensaje enviado con éxito! Nos pondremos en contacto contigo pronto.
+    </div>
+    <div id="error-message" class="alert alert-danger mt-3" style="display: none;">
+        Hubo un error al enviar el mensaje. Por favor, intenta nuevamente.
+    </div>
+</div>
+
+<style>
+    .contact-bg02 {
+        background: #fff;
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+
+    .contact-field input,
+    .contact-field textarea {
+        width: 100%;
+        height: 50px;
+        background: #f5f5f5;
+        border: none;
+        padding: 15px 20px;
+        border-radius: 5px;
+        font-size: 16px;
+        color: #333;
+    }
+
+    .contact-field textarea {
+        height: 150px;
+        resize: none;
+    }
+
+    .contact-field input:focus,
+    .contact-field textarea:focus {
+        outline: none;
+        background: #f0f0f0;
+    }
+
+    .slider-btn {
+        display: inline-block;
+        margin-top: 20px;
+        width: 100%;
+    }
+
+    .slider-btn .btn.ss-btn {
+        background: linear-gradient(45deg, #3aafdd, #1B59A0, #2559a1);
+        background-size: 200% 200%;
+        color: #fff;
+        padding: 15px 30px;
+        border-radius: 5px;
+        border: none;
+        font-size: 16px;
+        font-weight: 500;
+        transition: all 0.5s ease;
+        width: 100%;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+        box-shadow: 0 4px 15px rgba(58, 175, 221, 0.3);
+        animation: gradientMove 3s ease infinite;
+    }
+
+    @keyframes gradientMove {
+        0% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    .slider-btn .btn.ss-btn:hover {
+        background: linear-gradient(45deg, #2559a1, #1B59A0, #3aafdd);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(58, 175, 221, 0.4);
+    }
+
+    .section-title h2 {
+        font-size: 40px;
+        font-weight: 600;
+        color: #20386A;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    .alert {
+        padding: 15px;
+        border-radius: 5px;
+        margin-top: 20px;
+    }
+
+    .alert-success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+
+    .alert-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+
+    .btn.ss-btn:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+    }
+
+    @media (max-width: 991px) {
+        .contact-bg02 {
+            padding: 30px;
+        }
+    }
+</style>
+
+<script>
+    // Cargar EmailJS
+    import emailjs from '@emailjs/browser';
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Inicializar EmailJS con tu clave pública
+        emailjs.init("Wnmz_tauG1p-dtmaF");
+
+        const form = document.getElementById('contact-form') as HTMLFormElement;
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Obtener los valores del formulario
+                const formData = {
+                    name: (document.getElementById('user_name') as HTMLInputElement)?.value,
+                    email: (document.getElementById('user_email') as HTMLInputElement)?.value,
+                    phone: (document.getElementById('user_phone') as HTMLInputElement)?.value,
+                    message: (document.getElementById('message') as HTMLTextAreaElement)?.value,
+                    time: new Date().toLocaleString('es-CL', { 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    })
+                };
+
+                // Enviar el email usando EmailJS
+                emailjs.send('service_raul4q', 'template_rd29wef', formData)
+                    .then(function() {
+                        // Mostrar mensaje de éxito
+                        const successMessage = document.getElementById('success-message');
+                        if (successMessage) successMessage.style.display = 'block';
+                        
+                        // Limpiar el formulario
+                        form.reset();
+                    })
+                    .catch(function(error) {
+                        // Mostrar mensaje de error específico
+                        const errorMessage = document.getElementById('error-message');
+                        if (errorMessage) {
+                            errorMessage.textContent = `Error: ${error.text || error.message || 'Error desconocido'}`;
+                            errorMessage.style.display = 'block';
+                        }
+                        console.error('Error detallado:', error);
+                    });
+            });
+        }
+    });
+</script> 

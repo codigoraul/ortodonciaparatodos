@@ -56,6 +56,7 @@ const { title, subtitle, currentPage, parentPage, parentUrl } = Astro.props;
     .breadcrumb-item {
         display: flex;
         align-items: center;
+        font-size: 16px;
     }
     .breadcrumb-item + .breadcrumb-item::before {
         content: "/";
@@ -63,19 +64,48 @@ const { title, subtitle, currentPage, parentPage, parentUrl } = Astro.props;
         color: #6c757d;
     }
     .breadcrumb-item a {
-        color: #3660d9;
+        color: #3aafdd;
         text-decoration: none;
+        transition: color 0.3s ease;
+        font-size: 16px;
+    }
+    .breadcrumb-item a:hover {
+        color: #2d8cb3;
     }
     .breadcrumb-item.active {
         color: #6c757d;
+        font-size: 16px;
     }
     .breadcrumb-title h2 {
         color: #d2d2d2;
         font-size: 36px;
         font-weight: 600;
-        margin-bottom: 9px;
+        margin-bottom: 0;
     }
     .about-title h2 {
         font-size: 46px;
+    }
+    .breadcrumb-area .breadcrumb .breadcrumb-item {
+        display: flex;
+        align-items: center;
+        font-size: 16px !important;
+    }
+    .breadcrumb-area .breadcrumb .breadcrumb-item + .breadcrumb-item::before {
+        content: "/";
+        padding: 0 8px;
+        color: #6c757d;
+    }
+    .breadcrumb-area .breadcrumb .breadcrumb-item a {
+        color: #3aafdd;
+        text-decoration: none;
+        transition: color 0.3s ease;
+        font-size: 16px !important;
+    }
+    .breadcrumb-area .breadcrumb .breadcrumb-item a:hover {
+        color: #2d8cb3;
+    }
+    .breadcrumb-area .breadcrumb .breadcrumb-item.active {
+        color: #6c757d;
+        font-size: 16px !important;
     }
 </style> 

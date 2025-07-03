@@ -1,0 +1,11 @@
+# Registro de Cambios
+
+## 2024-03-20
+- Configuración inicial del sistema de respaldos
+- Creación de script de respaldo automático
+- Estructura de carpetas para backups y versiones
+
+## Notas Importantes
+- Antes de hacer cambios grandes, ejecutar ./backup.sh
+- Mantener registro de cambios en este archivo
+- Guardar versiones estables en la carpeta 'versiones' 
