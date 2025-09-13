@@ -1,0 +1,376 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+
+// Metadatos SEO
+const seo = {
+    title: "Educación Dental | Ortodoncia para Todos - Temuco",
+    description: "Recursos educativos sobre salud dental, ortodoncia y cuidados bucales. Aprende sobre tratamientos, prevención y mantenimiento de tu salud oral.",
+    keywords: "educación dental, salud bucal, ortodoncia temuco, cuidados dentales, prevención dental",
+    canonical: "https://ortodonciaparatodos.cl/educacion",
+    ogTitle: "Educación Dental | Ortodoncia para Todos - Temuco",
+    ogDescription: "Recursos educativos sobre salud dental, ortodoncia y cuidados bucales en Temuco.",
+    ogImage: "/img/og-image.jpg",
+    ogUrl: "https://ortodonciaparatodos.cl/educacion"
+};
+---
+
+<Layout title={seo.title}>
+    <!-- Meta tags para SEO -->
+    <meta name="description" content={seo.description} />
+    <meta name="keywords" content={seo.keywords} />
+    <link rel="canonical" href={seo.canonical} />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={seo.ogUrl} />
+    <meta property="og:title" content={seo.ogTitle} />
+    <meta property="og:description" content={seo.ogDescription} />
+    <meta property="og:image" content={seo.ogImage} />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={seo.ogUrl} />
+    <meta property="twitter:title" content={seo.ogTitle} />
+    <meta property="twitter:description" content={seo.ogDescription} />
+    <meta property="twitter:image" content={seo.ogImage} />
+
+    <Breadcrumb title="Educación" currentPage="Educación" parentPage="Inicio" parentUrl="/" />
+
+    <!-- Sección Principal -->
+    <section class="education-area pt-120 pb-120">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="section-title text-center mb-50">
+                        <h2>Educación Dental</h2>
+                        <p>Conoce más sobre salud bucal, ortodoncia y cuidados dentales</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección de Imágenes -->
+            <div class="row mb-50">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="education-image-card">
+                        <img src="/img/educacion/por-que-sangran-las-encias.jpeg" alt="¿Por qué sangran las encías?" class="img-fluid">
+                        <div class="image-overlay">
+                            <h4>¿Por qué sangran las encías?</h4>
+                            <p>Descubre las causas y soluciones para el sangrado de encías</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="education-image-card">
+                        <img src="/img/educacion/por-que-se-mueve-un-diente.jpg" alt="¿Por qué se mueve un diente?" class="img-fluid">
+                        <div class="image-overlay">
+                            <h4>¿Por qué se mueve un diente?</h4>
+                            <p>Conoce las causas de la movilidad dental y sus tratamientos</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="education-image-card">
+                        <img src="/img/educacion/traumatismo-dental.jpg" alt="Traumatismo dental" class="img-fluid">
+                        <div class="image-overlay">
+                            <h4>Traumatismo Dental</h4>
+                            <p>Guía completa sobre qué hacer en caso de traumatismo dental</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección de Cuidados Básicos -->
+            <div class="row mb-50">
+                <div class="col-12">
+                    <div class="education-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-tooth"></i> Cuidados Básicos de Salud Bucal</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <h4>Cepillado Correcto</h4>
+                                    <ul>
+                                        <li>Cepilla tus dientes al menos 2 veces al día</li>
+                                        <li>Usa movimientos suaves y circulares</li>
+                                        <li>No olvides cepillar la lengua</li>
+                                        <li>Cambia tu cepillo cada 3 meses</li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-6">
+                                    <h4>Uso del Hilo Dental</h4>
+                                    <ul>
+                                        <li>Usa hilo dental al menos una vez al día</li>
+                                        <li>Desliza suavemente entre los dientes</li>
+                                        <li>Forma una "C" alrededor de cada diente</li>
+                                        <li>No olvides la línea de las encías</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección de Ortodoncia -->
+            <div class="row mb-50">
+                <div class="col-12">
+                    <div class="education-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-bullseye"></i> Información sobre Ortodoncia</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <h4>¿Cuándo necesitas ortodoncia?</h4>
+                                    <ul>
+                                        <li>Dientes apiñados o muy separados</li>
+                                        <li>Problemas de mordida</li>
+                                        <li>Dientes que no se alinean correctamente</li>
+                                        <li>Dificultad para masticar o hablar</li>
+                                        <li>Dolores en la mandíbula</li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-6">
+                                    <h4>Tipos de Tratamiento</h4>
+                                    <ul>
+                                        <li><strong>Brackets metálicos:</strong> Opción más económica</li>
+                                        <li><strong>Brackets estéticos:</strong> Más discretos</li>
+                                        <li><strong>Alineadores transparentes:</strong> Casi invisibles</li>
+                                        <li><strong>Ortodoncia lingual:</strong> Completamente oculta</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección de Emergencias -->
+            <div class="row mb-50">
+                <div class="col-12">
+                    <div class="education-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-exclamation-triangle"></i> Emergencias Dentales</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <h4>Dolor de Diente</h4>
+                                    <ul>
+                                        <li>Enjuaga con agua tibia</li>
+                                        <li>Usa hilo dental suavemente</li>
+                                        <li>Aplica compresa fría</li>
+                                        <li>Llama a tu dentista inmediatamente</li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-6">
+                                    <h4>Diente Roto o Perdido</h4>
+                                    <ul>
+                                        <li>Guarda el diente en leche o saliva</li>
+                                        <li>No toques la raíz del diente</li>
+                                        <li>Acude al dentista en menos de 1 hora</li>
+                                        <li>Aplica presión si hay sangrado</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Call to Action -->
+            <div class="row">
+                <div class="col-12 text-center">
+                    <div class="cta-section">
+                        <h3>¿Tienes dudas sobre tu salud dental?</h3>
+                        <p>Nuestro equipo está aquí para ayudarte. Agenda una consulta y recibe orientación personalizada.</p>
+                        <a href="https://6741b06af294b3ee72021da7f5d254f29122a29f.agenda.softwaredentalink.com/agenda" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Agendar Consulta</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        .education-area {
+            background-color: #f8f9fa;
+            padding: 60px 0;
+        }
+
+        .section-title h2 {
+            color: #1b5ca4;
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .section-title p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        /* Estilos para las tarjetas de imágenes */
+        .education-image-card {
+            background: #fff;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            transition: all 0.4s ease;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .education-image-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        .education-image-card img {
+            width: 100%;
+            height: 550px;
+            object-fit: cover;
+            display: block;
+            transition: all 0.4s ease;
+        }
+
+        .education-image-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .image-overlay {
+            padding: 20px;
+            background: #3aafdd;
+            color: white;
+        }
+
+        .image-overlay h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .image-overlay p {
+            font-size: 0.9rem;
+            margin-bottom: 0;
+            opacity: 0.9;
+        }
+
+        .education-card {
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        .card-header {
+            background: #1b5ca4 !important;
+            color: white !important;
+            padding: 25px 30px;
+        }
+
+        .card-header h3 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: white !important;
+        }
+
+        .card-header h3 i {
+            margin-right: 10px;
+            font-size: 1.3rem;
+            color: white !important;
+        }
+
+        .card-content {
+            padding: 30px;
+            background: #ffffff !important;
+        }
+
+        .card-content h4 {
+            color: #1b5ca4 !important;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .card-content ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .card-content li {
+            margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .card-content li:before {
+            content: "✓";
+            color: #4CAF50;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .cta-section {
+            background: #3aafdd;
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+
+        .cta-section h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .cta-section p {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+        }
+
+        .btn-primary {
+            background: #fff;
+            color: #1b5ca4;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            border: 2px solid #fff;
+        }
+
+        .btn-primary:hover {
+            background: transparent;
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .card-header h3 {
+                font-size: 1.3rem;
+            }
+            
+            .card-content {
+                padding: 20px;
+            }
+
+            .education-image-card img {
+                height: 400px;
+            }
+        }
+    </style>
+</Layout> 

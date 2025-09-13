@@ -52,10 +52,15 @@
                             <nav id="mobile-menu">
                                 <ul>
                                     <li><a href="/">Inicio</a></li>
-                                    <li><a href="/nosotros">Nosotros</a></li>
                                     <li><a href="/aranceles">Aranceles</a></li>
                                     <li><a href="/videos">Videos</a></li>
-                                    <li><a href="/contacto">Contacto</a></li>
+                                    <li><a href="/educacion">Educación</a></li>
+                                    <li class="has-submenu">
+                                        <a href="/contacto">Contacto</a>
+                                        <ul class="submenu">
+                                            <li><a href="/nosotros">Nosotros</a></li>
+                                        </ul>
+                                    </li>
                                 </ul>
                             </nav>
                         </div>
@@ -81,6 +86,13 @@
 </header>
 <!-- header-end -->
 
+<!-- Botón flotante para móviles -->
+<div class="mobile-agendar-floating d-lg-none">
+    <a href="https://6741b06af294b3ee72021da7f5d254f29122a29f.agenda.softwaredentalink.com/agenda" target="_blank" rel="noopener noreferrer" class="btn mobile-agendar-btn">
+        <i class="fal fa-calendar-alt"></i> Agendar Cita
+    </a>
+</div>
+
 <script>
     // Script para el menú sticky
     window.addEventListener('scroll', function() {
@@ -88,6 +100,35 @@
         if (header) {
             header.classList.toggle('sticky', window.scrollY > 0);
         }
+    });
+
+    // Script para agregar el botón al menú móvil dinámicamente
+    document.addEventListener('DOMContentLoaded', function() {
+        // Buscar el menú móvil (solo el menú móvil, no el principal)
+        var mobileMenu = document.querySelector('.mobile-menu ul');
+        if (mobileMenu) {
+            // Crear el elemento del botón
+            var buttonLi = document.createElement('li');
+            buttonLi.className = 'mobile-agendar-item';
+            buttonLi.innerHTML = '<a href="https://6741b06af294b3ee72021da7f5d254f29122a29f.agenda.softwaredentalink.com/agenda" target="_blank" rel="noopener noreferrer" class="mobile-agendar-btn">Agendar Cita</a>';
+            
+            // Agregar al final del menú móvil
+            mobileMenu.appendChild(buttonLi);
+        }
+        
+        // Manejar submenús en móviles (solo para el menú principal)
+        var submenuItems = document.querySelectorAll('#mobile-menu .has-submenu');
+        submenuItems.forEach(function(item) {
+            var link = item.querySelector('a');
+            if (link !== null) {
+                link.addEventListener('click', function(e) {
+                    if (window.innerWidth <= 991) {
+                        e.preventDefault();
+                        item.classList.toggle('active');
+                    }
+                });
+            }
+        });
     });
 </script>
 
@@ -156,10 +197,149 @@
     color: #1b59a0;
 }
 
+/* Estilos para el submenú */
+.has-submenu {
+    position: relative;
+}
+
+.has-submenu:hover .submenu {
+    display: block;
+}
+
+.submenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #fff;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    border-radius: 5px;
+    min-width: 200px;
+    z-index: 1000;
+    padding: 10px 0;
+    text-align: center;
+}
+
+.submenu li {
+    list-style: none;
+}
+
+.submenu li a {
+    display: block;
+    padding: 10px 20px;
+    color: #00173c;
+    text-decoration: none;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.submenu li a:hover {
+    background: #f8f9fa;
+    color: #3aafdd;
+}
+
+/* Estilos para móviles */
+@media (max-width: 991px) {
+    .submenu {
+        position: static;
+        display: none;
+        background: transparent;
+        box-shadow: none;
+        padding-left: 20px;
+    }
+    
+    .has-submenu.active .submenu {
+        display: block;
+    }
+    
+    .submenu li a {
+        padding: 8px 15px;
+        font-size: 14px;
+    }
+}
+
+/* Estilos para el botón móvil */
+.mobile-agendar-btn {
+    background: #3aafdd !important;
+    color: #fff !important;
+    text-align: center;
+    margin: 10px 0;
+    padding: 15px 20px !important;
+    border-radius: 4px;
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 16px !important;
+    transition: all 0.3s ease;
+    display: block;
+    width: 100%;
+    box-shadow: 0px 5px 15px 0px rgba(58, 175, 221, 0.3);
+    border: none;
+}
+
+.mobile-agendar-btn:hover {
+    background: #2d8cb3 !important;
+    color: #fff !important;
+    transform: translateY(-2px);
+    text-decoration: none;
+}
+
+/* Botón flotante para móviles */
+.mobile-agendar-floating {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: none;
+}
+
+.mobile-agendar-floating .mobile-agendar-btn {
+    background: #3aafdd !important;
+    color: #fff !important;
+    padding: 15px 20px !important;
+    border-radius: 50px;
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 14px !important;
+    box-shadow: 0px 5px 15px 0px rgba(58, 175, 221, 0.3);
+    border: none;
+    white-space: nowrap;
+}
+
+.mobile-agendar-floating .mobile-agendar-btn i {
+    margin-right: 8px;
+}
+
+/* Ocultar el botón móvil en desktop */
+@media (min-width: 992px) {
+    .mobile-agendar-btn {
+        display: none !important;
+    }
+    .mobile-agendar-floating {
+        display: none !important;
+    }
+}
+
 @media (max-width: 991px) {
     .main-menu ul li a,
     #mobile-menu ul li a,
     .mobile-menu ul li a {
+        font-size: 16px !important;
+    }
+    
+    /* Mostrar el botón flotante en móviles */
+    .mobile-agendar-floating {
+        display: block !important;
+    }
+    
+    /* Estilos específicos para el botón en el menú móvil */
+    .mobile-agendar-item {
+        margin: 15px 0;
+        padding: 0 15px;
+    }
+    
+    .mobile-agendar-item .mobile-agendar-btn {
+        margin: 0;
+        padding: 15px 20px !important;
         font-size: 16px !important;
     }
 }
