@@ -51,7 +51,8 @@ const seo = {
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="video-card">
                         <video 
-                            src="/videos/video1.mp4"
+                            preload="metadata"
+                            src="/videos/video1.mp4#t=0.1"
                             controls
                             class="w-100"
                             title="Ortodoncia de ultima generación Ortodoncia Temuco"
@@ -67,7 +68,8 @@ const seo = {
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="video-card">
                         <video 
-                            src="/videos/video2.mp4"
+                            preload="metadata"
+                            src="/videos/video2.mp4#t=0.1"
                             controls
                             class="w-100"
                             title="Consejos para el Cuidado Dental"
@@ -83,7 +85,8 @@ const seo = {
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="video-card">
                         <video 
-                            src="/videos/Ortodoncia-implantologia-periodoncia.mp4"
+                            preload="metadata"
+                            src="/videos/Ortodoncia-implantologia-periodoncia.mp4#t=0.1"
                             controls
                             class="w-100"
                             title="Ortodoncia, Implantología y Periodoncia - Ortodoncia Temuco"
@@ -99,7 +102,8 @@ const seo = {
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="video-card">
                         <video 
-                            src="/videos/video3.mp4"
+                            preload="metadata"
+                            src="/videos/video3.mp4#t=0.1"
                             controls
                             class="w-100"
                             title="A la vanguardia en Ortodoncia"
@@ -115,7 +119,8 @@ const seo = {
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="video-card">
                         <video 
-                            src="/videos/video4.mp4"
+                            preload="metadata"
+                            src="/videos/video4.mp4#t=0.1"
                             controls
                             class="w-100"
                             title="Cerámica de una sesión Ortodoncia Temuco"
@@ -131,7 +136,8 @@ const seo = {
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="video-card">
                         <video 
-                            src="/videos/video5.mp4"
+                            preload="metadata"
+                            src="/videos/video5.mp4#t=0.1"
                             controls
                             class="w-100"
                             title="Tinción en cerámica dental Ortodoncia Temuco"
@@ -147,7 +153,8 @@ const seo = {
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="video-card">
                         <video 
-                            src="/videos/video6.mp4"
+                            preload="metadata"
+                            src="/videos/video6.mp4#t=0.1"
                             controls
                             class="w-100"
                             title="Cuanto duran los implantes Ortodoncia Temuco "
@@ -161,7 +168,7 @@ const seo = {
                 <!-- Video 7 - Plano de barcelona, guia estetica para planificar tratamiento -->
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="video-card">
-                        <video src="/videos/plano-de-barcelona.mp4" controls class="w-100" title="Plano de barcelona, guia estetica para planificar tratamiento"></video>
+                        <video preload="metadata" src="/videos/plano-de-barcelona.mp4#t=0.1" controls class="w-100" title="Plano de barcelona, guia estetica para planificar tratamiento"></video>
                         <div class="video-info">
                             <h3>Plano de barcelona</h3>
                             <p>Guia estetica para planificar tratamiento</p>
@@ -171,7 +178,7 @@ const seo = {
                 <!-- Video 8 - Dolor dental en la noche -->
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="video-card">
-                        <video src="/videos/dolor-dental-en-la-noche.mp4" controls class="w-100" title="Dolor dental en la noche"></video>
+                        <video preload="metadata" src="/videos/dolor-dental-en-la-noche.mp4#t=0.1" controls class="w-100" title="Dolor dental en la noche"></video>
                         <div class="video-info">
                             <h3>Dolor dental en la noche</h3>
                             <p>Conoce más sobre el dolor dental y cómo prevenirlo</p>
@@ -181,7 +188,7 @@ const seo = {
                 <!-- Video 9 - Tratamiento de la enfermedad periodontal --> 
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="video-card">
-                        <video src="/videos/correccion-dental.mp4" controls class="w-100" title="Tratamiento de la enfermedad periodontal"></video>
+                        <video preload="metadata" src="/videos/correccion-dental.mp4#t=0.1" controls class="w-100" title="Tratamiento de la enfermedad periodontal"></video>
                         <div class="video-info">
                             <h3>Ultima tecnologia en Carillas cerámicas</h3>
                             <p>Conoce más sobre la ultima tecnologia en carillas cerámicas</p>
@@ -191,7 +198,7 @@ const seo = {
                 <!-- Video 10 - Respiración bucal en niños -->
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="video-card">
-                        <video src="/videos/video7.mp4" controls class="w-100" title="Respiración bucal en niños - Ortodoncia Temuco"></video>
+                        <video preload="metadata" src="/videos/video7.mp4#t=0.1" controls class="w-100" title="Respiración bucal en niños - Ortodoncia Temuco"></video>
                         <div class="video-info">
                             <h3>Respiración bucal en niños</h3>
                             <p>Descubre por qué es importante que los niños respiren por la nariz y no por la boca al dormir</p>
@@ -223,6 +230,7 @@ const seo = {
         .section-title {
             color: #1b5ca4;
             margin-bottom: 1rem;
+            font-size: 28px !important;
         }
 
         .section-description {
@@ -306,4 +314,17 @@ const seo = {
             transform: translateY(-2px);
         }
     </style>
+
+    <script>
+        const videos = document.querySelectorAll<HTMLVideoElement>('.video-card video');
+        videos.forEach((video) => {
+            video.addEventListener('play', () => {
+                videos.forEach((otro) => {
+                    if (otro !== video && !otro.paused) {
+                        otro.pause();
+                    }
+                });
+            });
+        });
+    </script>
 </Layout> 
