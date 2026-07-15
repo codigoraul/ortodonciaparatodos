@@ -36,9 +36,9 @@ const seo = {
 
     <!-- Sección de Videos -->
     <section class="videos-section pt-120 pb-120">
-        <div class="container">
+        <div class="container-fluid px-lg-5">
             <div class="row">
-                <div class="col-12 text-center mb-5">
+                <div class="col-12 text-center mb-2">
                     <h1 class="section-title">Nuestros videos</h1>
                     <p class="section-description">
                         Descubre nuestros videos de Clinica dental Ortodoncia para Todos Temuco
@@ -46,9 +46,20 @@ const seo = {
                 </div>
             </div>
 
+            <!-- Barra de orden -->
             <div class="row">
+                <div class="col-12 d-flex justify-content-center mt-1 mb-3">
+                    <div class="video-sort" role="group" aria-label="Ordenar videos">
+                        <button type="button" class="sort-btn active" data-sort="random">Aleatorio</button>
+                        <button type="button" class="sort-btn" data-sort="newest">Más recientes</button>
+                        <button type="button" class="sort-btn" data-sort="oldest">Más antiguos</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" id="videosGrid">
                 <!-- Video Card 1 -->
-                <div class="col-lg-4 col-md-6 mb-4">
+                <div class="col-lg-3 col-md-6 mb-4">
                     <div class="video-card">
                         <video 
                             preload="metadata"
@@ -65,7 +76,7 @@ const seo = {
                 </div>
 
                 <!-- Video Card 2 -->
-                <div class="col-lg-4 col-md-6 mb-4">
+                <div class="col-lg-3 col-md-6 mb-4">
                     <div class="video-card">
                         <video 
                             preload="metadata"
@@ -82,7 +93,7 @@ const seo = {
                 </div>
 
                 <!-- Video Card 3 - NUEVO VIDEO -->
-                <div class="col-lg-4 col-md-6 mb-4">
+                <div class="col-lg-3 col-md-6 mb-4">
                     <div class="video-card">
                         <video 
                             preload="metadata"
@@ -99,7 +110,7 @@ const seo = {
                 </div>
 
                 <!-- Video Card 4 (antes era el 3) -->
-                <div class="col-lg-4 col-md-6 mb-4">
+                <div class="col-lg-3 col-md-6 mb-4">
                     <div class="video-card">
                         <video 
                             preload="metadata"
@@ -116,7 +127,7 @@ const seo = {
                 </div>
 
                 <!-- Video Card 5 (antes era el 4) -->
-                <div class="col-lg-4 col-md-6 mb-4">
+                <div class="col-lg-3 col-md-6 mb-4">
                     <div class="video-card">
                         <video 
                             preload="metadata"
@@ -133,7 +144,7 @@ const seo = {
                 </div>
 
                 <!-- Video Card 6 (antes era el 5) -->
-                <div class="col-lg-4 col-md-6 mb-4">
+                <div class="col-lg-3 col-md-6 mb-4">
                     <div class="video-card">
                         <video 
                             preload="metadata"
@@ -150,7 +161,7 @@ const seo = {
                 </div>
 
                 <!-- Video Card 6 (antes era el 6) -->
-                <div class="col-lg-4 col-md-6 mb-4">
+                <div class="col-lg-3 col-md-6 mb-4">
                     <div class="video-card">
                         <video 
                             preload="metadata"
@@ -166,7 +177,7 @@ const seo = {
                     </div>
                 </div>
                 <!-- Video 7 - Plano de barcelona, guia estetica para planificar tratamiento -->
-                <div class="col-lg-4 col-md-6 mb-4">
+                <div class="col-lg-3 col-md-6 mb-4">
                     <div class="video-card">
                         <video preload="metadata" src="/videos/plano-de-barcelona.mp4#t=0.1" controls class="w-100" title="Plano de barcelona, guia estetica para planificar tratamiento"></video>
                         <div class="video-info">
@@ -176,7 +187,7 @@ const seo = {
                     </div>
                 </div>
                 <!-- Video 8 - Dolor dental en la noche -->
-                <div class="col-lg-4 col-md-6 mb-4">
+                <div class="col-lg-3 col-md-6 mb-4">
                     <div class="video-card">
                         <video preload="metadata" src="/videos/dolor-dental-en-la-noche.mp4#t=0.1" controls class="w-100" title="Dolor dental en la noche"></video>
                         <div class="video-info">
@@ -186,7 +197,7 @@ const seo = {
                     </div>
                 </div>
                 <!-- Video 9 - Tratamiento de la enfermedad periodontal --> 
-                <div class="col-lg-4 col-md-6 mb-4">
+                <div class="col-lg-3 col-md-6 mb-4">
                     <div class="video-card">
                         <video preload="metadata" src="/videos/correccion-dental.mp4#t=0.1" controls class="w-100" title="Tratamiento de la enfermedad periodontal"></video>
                         <div class="video-info">
@@ -196,7 +207,7 @@ const seo = {
                     </div>
                 </div>
                 <!-- Video 10 - Respiración bucal en niños -->
-                <div class="col-lg-4 col-md-6 mb-4">
+                <div class="col-lg-3 col-md-6 mb-4">
                     <div class="video-card">
                         <video preload="metadata" src="/videos/video7.mp4#t=0.1" controls class="w-100" title="Respiración bucal en niños - Ortodoncia Temuco"></video>
                         <div class="video-info">
@@ -206,7 +217,7 @@ const seo = {
                     </div>
                 </div>
                 <!-- Video 11 - La caries se puede contagiar -->
-                <div class="col-lg-4 col-md-6 mb-4">
+                <div class="col-lg-3 col-md-6 mb-4">
                     <div class="video-card">
                         <video preload="metadata" src="/videos/la-caries-se-puede-contagiar.mp4#t=0.1" controls class="w-100" title="La caries se puede contagiar - Ortodoncia Temuco"></video>
                         <div class="video-info">
@@ -216,7 +227,7 @@ const seo = {
                     </div>
                 </div>
                 <!-- Video 12 - Síndrome del respirador bucal -->
-                <div class="col-lg-4 col-md-6 mb-4">
+                <div class="col-lg-3 col-md-6 mb-4">
                     <div class="video-card">
                         <video preload="metadata" src="/videos/sindrome-del-respirador-bucal.mp4#t=0.1" controls class="w-100" title="Síndrome del respirador bucal - Ortodoncia Temuco"></video>
                         <div class="video-info">
@@ -226,7 +237,7 @@ const seo = {
                     </div>
                 </div>
                 <!-- Video 13 - Paladar estrecho -->
-                <div class="col-lg-4 col-md-6 mb-4">
+                <div class="col-lg-3 col-md-6 mb-4">
                     <div class="video-card">
                         <video preload="metadata" src="/videos/paladar-estrecho.mp4#t=0.1" controls class="w-100" title="Paladar estrecho - Ortodoncia Temuco"></video>
                         <div class="video-info">
@@ -236,7 +247,7 @@ const seo = {
                     </div>
                 </div>
                 <!-- Video 14 - Los retenedores, hasta cuándo ocupar -->
-                <div class="col-lg-4 col-md-6 mb-4">
+                <div class="col-lg-3 col-md-6 mb-4">
                     <div class="video-card">
                         <video preload="metadata" src="/videos/retenedores-hasta-cuando-ocupar.mp4#t=0.1" controls class="w-100" title="Los retenedores, hasta cuándo ocupar - Ortodoncia Temuco"></video>
                         <div class="video-info">
@@ -246,7 +257,7 @@ const seo = {
                     </div>
                 </div>
                 <!-- Video 15 - La Osteointegración -->
-                <div class="col-lg-4 col-md-6 mb-4">
+                <div class="col-lg-3 col-md-6 mb-4">
                     <div class="video-card">
                         <video preload="metadata" src="/videos/la-osteointegracion.mp4#t=0.1" controls class="w-100" title="La Osteointegración - Ortodoncia Temuco"></video>
                         <div class="video-info">
@@ -256,7 +267,7 @@ const seo = {
                     </div>
                 </div>
                 <!-- Video 16 - La periimplantitis -->
-                <div class="col-lg-4 col-md-6 mb-4">
+                <div class="col-lg-3 col-md-6 mb-4">
                     <div class="video-card">
                         <video preload="metadata" src="/videos/la-periimplantitis.mp4#t=0.1" controls class="w-100" title="La periimplantitis - Ortodoncia Temuco"></video>
                         <div class="video-info">
@@ -324,7 +335,7 @@ const seo = {
 
         .video-info p {
             color: #666;
-            font-size: 0.9rem;
+            font-size: 14px !important;
             margin-bottom: 0;
         }
 
@@ -373,9 +384,43 @@ const seo = {
             color: #fff;
             transform: translateY(-2px);
         }
+
+        /* Barra de orden */
+        .video-sort {
+            display: inline-flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            justify-content: center;
+            background: #fff;
+            padding: 5px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.08);
+        }
+
+        .sort-btn {
+            border: 1px solid #1b5ca4;
+            background: #fff;
+            color: #1b5ca4;
+            padding: 5px 14px;
+            border-radius: 4px;
+            font-weight: 500;
+            font-size: 14px !important;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .sort-btn:hover {
+            background: #e9f3fb;
+        }
+
+        .sort-btn.active {
+            background: #1b5ca4;
+            color: #fff;
+        }
     </style>
 
     <script>
+        // Pausar los demás videos cuando uno se reproduce
         const videos = document.querySelectorAll<HTMLVideoElement>('.video-card video');
         videos.forEach((video) => {
             video.addEventListener('play', () => {
@@ -386,5 +431,47 @@ const seo = {
                 });
             });
         });
+
+        // Ordenamiento de videos (aleatorio / más recientes / más antiguos)
+        const grid = document.getElementById('videosGrid');
+        if (grid) {
+            const cards = Array.from(grid.children) as HTMLElement[];
+            // Guardar el orden original (= orden en que se agregaron) como referencia de fecha
+            cards.forEach((card, i) => card.dataset.order = String(i));
+
+            const shuffle = (arr: HTMLElement[]) => {
+                const a = arr.slice();
+                for (let i = a.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [a[i], a[j]] = [a[j], a[i]];
+                }
+                return a;
+            };
+
+            const render = (arr: HTMLElement[]) => arr.forEach((card) => grid.appendChild(card));
+
+            const ordenar = (modo: string) => {
+                const orig = Array.from(grid.children) as HTMLElement[];
+                if (modo === 'random') {
+                    render(shuffle(orig));
+                } else if (modo === 'newest') {
+                    render(orig.sort((a, b) => Number(b.dataset.order) - Number(a.dataset.order)));
+                } else {
+                    render(orig.sort((a, b) => Number(a.dataset.order) - Number(b.dataset.order)));
+                }
+            };
+
+            const botones = document.querySelectorAll<HTMLButtonElement>('.sort-btn');
+            botones.forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    botones.forEach((b) => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    ordenar(btn.dataset.sort || 'oldest');
+                });
+            });
+
+            // Orden aleatorio por defecto al cargar
+            ordenar('random');
+        }
     </script>
 </Layout> 
