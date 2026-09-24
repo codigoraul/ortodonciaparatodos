@@ -26,7 +26,7 @@ export const SITE = {
   },
   agendaUrl: 'https://6741b06af294b3ee72021da7f5d254f29122a29f.agenda.softwaredentalink.com/agenda',
   social: {
-    instagram: 'https://instagram.com/ortodonciaparatodos',
+    instagram: 'https://www.instagram.com/clinica_milenium/',
     facebook: 'https://web.facebook.com/profile.php?id=100063637998188',
   },
   yearsExperience: 18,
