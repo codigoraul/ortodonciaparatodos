@@ -5,11 +5,11 @@ on:
     branches: [main]
   workflow_dispatch:
 
-# Vista previa: se publica en ortodonciaparatodos.cl/prueba
-# Para pasar a producción: dejar BASE_PATH vacío y SUBDIR vacío.
+# Producción: se publica en la raíz de ortodonciaparatodos.cl
+# Para una vista previa en subcarpeta: BASE_PATH: /prueba y SUBDIR: prueba
 env:
-  BASE_PATH: /prueba
-  SUBDIR: prueba
+  BASE_PATH: ''
+  SUBDIR: ''
 
 concurrency:
   group: deploy
