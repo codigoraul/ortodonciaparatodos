@@ -23,7 +23,7 @@ const { title, description, image = ogDefault, type = 'website', noindex = false
 const canonical = new URL(Astro.url.pathname, SITE.url).href;
 const og = await getImage({ src: image, width: 1200, height: 630, format: 'jpg', fit: 'cover' });
 const ogUrl = new URL(og.src, SITE.url).href;
-const fullTitle = title.includes(SITE.name) || title.length + SITE.name.length + 3 > 66 ? title : `${title} | ${SITE.name}`;
+const fullTitle = title.toLowerCase().includes(SITE.name.toLowerCase()) || title.length + SITE.name.length + 3 > 66 ? title : `${title} | ${SITE.name}`;
 
 // Datos estructurados globales: clínica dental (LocalBusiness) + WebSite
 const business = {

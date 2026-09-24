@@ -16,6 +16,18 @@ ErrorDocument 404 /404.html
   RewriteCond %{REQUEST_URI} ^(.*/)index\.html$ [NC]
   RewriteRule ^ %1 [R=301,L]
 
+  # 3a) Rutas del sitio anterior -> equivalentes nuevas (conserva enlaces e imágenes indexadas)
+  RewriteRule ^sitemap\.xml$ /sitemap-index.xml [R=301,L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule ^img/educacion/ /educacion/ [R=301,L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule ^img/nosotros/ /nosotros/ [R=301,L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule ^(img/|assets/img/) / [R=301,L]
+  RewriteRule ^(inicio|home)/?$ / [R=301,L,NC]
+  RewriteRule ^(arancel|precios)/?$ /aranceles/ [R=301,L,NC]
+  RewriteRule ^(equipo|profesionales)/?$ /especialistas/ [R=301,L,NC]
+
   # 3) Barra final en URLs de páginas (canonical con /)
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_URI} !/$

@@ -79,15 +79,12 @@ import ricardo from '../assets/equipo/ricardo-alveal.webp';
 import carlos from '../assets/equipo/carlos-arriagada.webp';
 import fernando from '../assets/equipo/fernando-rivera.webp';
 import nicol from '../assets/equipo/nicol-buck.webp';
-import josefa from '../assets/equipo/josefa-alarcon.webp';
 import daniela from '../assets/equipo/daniela-antilef.webp';
 import janet from '../assets/equipo/janet-vilches.webp';
 import danae from '../assets/equipo/danae-ortiz.webp';
 import gabrielaV from '../assets/equipo/gabriela-velasquez.webp';
-import yenifel from '../assets/equipo/yenifel-rodriguez.webp';
 import gabriela from '../assets/equipo/gabriela-ruiz.webp';
 import andrea from '../assets/equipo/andrea-barria.webp';
-import camila from '../assets/equipo/camila-antipan.webp';
 
 export const SPECIALISTS = [
   { name: 'Dr. Pedro Saavedra', role: 'Ortodoncia e implantología', note: 'Director clínica Milenium', photo: pedro, tags: ['ortodoncia', 'implantes'] },
@@ -97,7 +94,6 @@ export const SPECIALISTS = [
   { name: 'Dr. Carlos Arriagada', role: 'Endodoncia', note: 'Especialista en endodoncia', photo: carlos, tags: ['endodoncia'] },
   { name: 'Dr. Fernando Rivera', role: 'Rehabilitación oral', note: 'Especialista en rehabilitación oral', photo: fernando, tags: ['rehabilitacion', 'implantes'] },
   { name: 'Dra. Nicol Buck', role: 'Odontología general', note: 'Prevención y salud bucal', photo: nicol, tags: ['general'] },
-  { name: 'Dra. Josefa Alarcón', role: 'Odontología general', note: 'Cirujano dentista', photo: josefa, tags: ['general'] },
 ];
 
 export const STAFF = [
@@ -105,10 +101,8 @@ export const STAFF = [
   { name: 'Janet Vilches', role: 'Asistente dental', photo: janet },
   { name: 'Danae Ortiz', role: 'Asistente dental', photo: danae },
   { name: 'Gabriela Velásquez', role: 'Asistente dental', photo: gabrielaV },
-  { name: 'Yenifel Rodríguez', role: 'Asistente dental', photo: yenifel },
   { name: 'Gabriela Ruiz', role: 'Secretaria', photo: gabriela },
   { name: 'Andrea Barría', role: 'Secretaria', photo: andrea },
-  { name: 'Camila Antipan', role: 'Secretaria', photo: camila },
 ];
 
 /* ---------------- Aranceles ---------------- */
