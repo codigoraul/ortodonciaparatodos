@@ -1,0 +1,58 @@
+# ===== Ortodoncia Para Todos — Apache =====
+Options -Indexes
+DirectoryIndex index.html
+ErrorDocument 404 /404.html
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # 1) Forzar HTTPS y dominio sin www (evita contenido duplicado)
+  RewriteCond %{HTTPS} off [OR]
+  RewriteCond %{HTTP_HOST} ^www\. [NC]
+  RewriteRule ^ https://ortodonciaparatodos.cl%{REQUEST_URI} [R=301,L]
+
+  # 2) /index.html -> /  (usa REQUEST_URI: funciona en raíz y en subcarpetas como /prueba)
+  RewriteCond %{THE_REQUEST} \s/+.*index\.html[\s?] [NC]
+  RewriteCond %{REQUEST_URI} ^(.*/)index\.html$ [NC]
+  RewriteRule ^ %1 [R=301,L]
+
+  # 3) Barra final en URLs de páginas (canonical con /)
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_URI} !/$
+  RewriteCond %{REQUEST_URI} !\.[a-zA-Z0-9]{2,5}$
+  RewriteRule ^ %{REQUEST_URI}/ [R=301,L]
+</IfModule>
+
+# Compresión
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript text/javascript application/json image/svg+xml application/xml text/xml text/plain
+</IfModule>
+
+# Caché del navegador
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault "access plus 1 month"
+  ExpiresByType text/html "access plus 0 seconds"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType image/x-icon "access plus 1 year"
+  ExpiresByType video/mp4 "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType text/javascript "access plus 1 year"
+</IfModule>
+<IfModule mod_headers.c>
+  <FilesMatch "^_astro/">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "SAMEORIGIN"
+</IfModule>
+
+AddType video/mp4 .mp4
+AddType font/woff2 .woff2
+AddType application/manifest+json .webmanifest

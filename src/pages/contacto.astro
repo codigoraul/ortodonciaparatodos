@@ -1,86 +1,50 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Contacto from '../components/Contacto.astro';
-import Breadcrumb from '../components/Breadcrumb.astro';
-// Metadatos SEO
-const seo = {
-    title: "Contacto | Ortodoncia para Todos Temuco",
-    description: "Contáctanos en Ortodoncia para Todos Temuco. Agenda tu cita y conoce nuestros servicios de ortodoncia. Ubicados en Av. Alemania 0455, Temuco.",
-    keywords: "contacto ortodoncia temuco, agenda cita dental temuco, clínica dental temuco, ortodoncia para todos contacto",
-    canonical: "https://ortodonciaparatodos.cl/contacto",
-    ogTitle: "Contacto | Ortodoncia para Todos Temuco",
-    ogDescription: "Contáctanos en Ortodoncia para Todos Temuco. Agenda tu cita y conoce nuestros servicios de ortodoncia.",
-    ogImage: "/img/og-image.jpg",
-    ogUrl: "https://ortodonciaparatodos.cl/contacto"
-};
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import ContactBlock from '../components/ContactBlock.astro';
+import Icon from '../components/Icon.astro';
+import { SITE } from '../data/site';
+
+const crumbs = [{ name: 'Contacto', url: '/contacto/' }];
+const quick = [
+  { icon: 'calendar', title: 'Agenda en línea', text: 'Disponible las 24 horas', href: SITE.agendaUrl, cta: 'Agendar', ext: true },
+  { icon: 'whatsapp', title: 'WhatsApp', text: SITE.whatsapp.label, href: SITE.whatsapp.href, cta: 'Escribir', ext: true },
+  { icon: 'phone', title: 'Teléfono', text: `${SITE.phones[0].label} · ${SITE.phones[1].label}`, href: SITE.phones[0].href, cta: 'Llamar', ext: false },
+];
+const schema = [{ '@context': 'https://schema.org', '@type': 'ContactPage', name: 'Contacto Ortodoncia Para Todos', url: `${SITE.url}/contacto/`, about: { '@id': `${SITE.url}/#clinica` } }];
 ---
+<BaseLayout
+  title="Contacto | Agenda tu hora de ortodoncia en Temuco"
+  description="Contáctanos en Ortodoncia Para Todos Temuco. Agenda tu cita en línea, por WhatsApp o teléfono. Ubicados en A. Varas 989, piso 20, Edificio Capital, Temuco."
+  breadcrumbs={crumbs}
+  schema={schema}
+>
+  <PageHero eyebrow="Contacto" title="Hablemos de tu sonrisa" lead="Estamos en A. Varas 989, piso 20, Edificio Capital, en el centro de Temuco. Elige el canal que más te acomode." crumbs={crumbs} />
 
-<Layout title={seo.title} >
-    <!-- Meta tags para SEO -->
-    <meta name="description" content={seo.description} />
-    <meta name="keywords" content={seo.keywords} />
-    <link rel="canonical" href={seo.canonical} />
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content={seo.ogUrl} />
-    <meta property="og:title" content={seo.ogTitle} />
-    <meta property="og:description" content={seo.ogDescription} />
-    <meta property="og:image" content={seo.ogImage} />
-    
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content={seo.ogUrl} />
-    <meta property="twitter:title" content={seo.ogTitle} />
-    <meta property="twitter:description" content={seo.ogDescription} />
-    <meta property="twitter:image" content={seo.ogImage} />
+  <section class="section section--ice" style="padding-top:56px">
+    <div class="container">
+      <ContactBlock title="Envíanos tu consulta" />
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <div class="grid grid-3 quick">
+        {quick.map((q, i) => (
+          <a href={q.href} target={q.ext ? '_blank' : undefined} rel={q.ext ? 'noopener' : undefined} class="card qcard" data-reveal style={`--d:${i * 0.07}s`}>
+            <span class="icon-badge"><Icon name={q.icon} /></span>
+            <div><h2>{q.title}</h2><p>{q.text}</p></div>
+            <span class="link-arrow">{q.cta} <Icon name="arrow" /></span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
 
-   <Breadcrumb title="Contacto" currentPage="Contacto" />
-    <Contacto />
-    <style>
-        /* Ocultar el SeoBanner solo en la página de contacto */
-        :global(.seo-banner-area) {
-            display: none !important;
-        }
-    </style>
-</Layout>
+</BaseLayout>
 
 <style>
-    .breadcrumb-area {
-        background-size: cover;
-        background-position: center;
-        padding: 100px 0;
-    }
-
-    .breadcrumb-title h2 {
-        color: #fff;
-        font-size: 40px;
-        font-weight: 600;
-        margin-bottom: 15px;
-    }
-
-    .breadcrumb-wrap .breadcrumb {
-        background: transparent;
-        padding: 0;
-        margin: 0;
-    }
-
-    .breadcrumb-wrap .breadcrumb-item {
-        color: #fff;
-        font-size: 16px;
-    }
-
-    .breadcrumb-wrap .breadcrumb-item a {
-        color: #fff;
-        text-decoration: none;
-    }
-
-    .breadcrumb-wrap .breadcrumb-item.active {
-        color: #3660d9;
-    }
-
-    .breadcrumb-wrap .breadcrumb-item + .breadcrumb-item::before {
-        color: #fff;
-    }
+  .qcard { display: flex; flex-direction: column; gap: 4px; color: inherit; }
+  .qcard:hover { color: inherit; }
+  .qcard h2 { font-size: 1.2rem; margin: 0 0 4px; letter-spacing: -0.01em; }
+  .qcard p { color: var(--text-soft); margin: 0 0 14px; }
 </style>
-

@@ -1,436 +1,99 @@
 ---
-import SocialIcons from './SocialIcons.astro';
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import logoWhite from '../assets/img/logo-blanco.png';
+import { SITE } from '../data/site';
+import { TREATMENTS } from '../data/treatments';
+const year = new Date().getFullYear();
 ---
-
-
- <!-- footer -->
- <footer class="footer-bg footer-p pt-90" style="background: #00173c;">
-    <div class="footer-top pb-70">
-        <div class="container">
-            <div class="row justify-content-between">
-                <div class="col-xl-5 col-lg-5 col-sm-6">
-                    <div class="footer-widget footer-widget2 mb-30">
-                        <div class="footer-logo">
-                            <a href="/"><img src="/img/logo/logo-ortodoncia-claro.png" alt="Ortodoncia para Todos"></a>
-                        </div>
-                        <div class="footer-text">
-                            <p>Ortodoncia para Todos es una clínica dental ubicada en Temuco, 
-                                especializada en tratamientos de ortodoncia para pacientes de todas las edades. Ofrecen una variedad de servicios. La clínica se destaca por su equipo profesional y su compromiso con la atención personalizada, utilizando tecnología de vanguardia para asegurar resultados 
-                                óptimos y una experiencia cómoda para los pacientes</p>
-                        </div>
-                        <div class="footer-social text-center">
-                            <SocialIcons 
-                                facebook="https://web.facebook.com/profile.php?id=100063637998188"
-                                instagram="#"
-                            />
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-xl-3 col-lg-3 col-sm-6 footer-second-column">
-                    <div class="footer-widget footer-widget2 mb-30">
-                        <h4 class="fw-title">Enlaces</h4>
-                        <ul class="list-wrap">
-                            <li><a href="/"><i class="fas fa-chevron-right"></i> Inicio</a></li>
-                            <li><a href="/nosotros"><i class="fas fa-chevron-right"></i> Nosotros</a></li>
-                            <li><a href="/aranceles"><i class="fas fa-chevron-right"></i> Aranceles</a></li>
-                            <li><a href="/contacto"><i class="fas fa-chevron-right"></i> Contacto</a></li>
-                        </ul>
-                    </div>
-                </div>  
-                
-                <div class="col-xl-3 col-lg-3 col-sm-6">
-                    <div class="footer-widget footer-widget2 mb-30">
-                        <h4 class="fw-title">Contacto</h4>
-                        <div class="f-contact">
-                            <ul>
-                                
-                                <li>
-                                    <i class="icon fal fa-map-marker-check"></i>
-                                    <span>A. Varas 989 piso 20, edificio Capital, Temuco</span>
-                                </li>
-                                <li>
-                                    <i class="icon fal fa-phone"></i>
-                                    <span>+452-756565 | +56954063149</span>
-                                </li>
-                                <li>
-                                    <i class="icon fal fa-envelope"></i>
-                                    <span>
-                                        <a href="mailto:contacto@ortodonciaparatodos.cl">contacto@ortodonciaparatodos.cl</a>
-                                    </span>
-                                </li>
-                                <li>
-                                    <a href="https://api.whatsapp.com/send?phone=56998447356&text=Hola,%20vi%20su%20contacto%20desde%20ortodonciaparatodos.cl%20y%20necesito%20un%20servicio:" target="_blank" rel="noopener noreferrer" class="whatsapp-link">
-                                        <svg aria-hidden="true" class="e-font-icon-svg e-fab-whatsapp" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"></path></svg>
-                                        <span>Whatsapp</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
-        </div>
+<footer class="footer">
+  <div class="footer__glow" aria-hidden="true"></div>
+  <div class="container">
+    <div class="footer__cta" data-reveal>
+      <div>
+        <p class="hand footer__hand">Más que ortodoncia, personas</p>
+        <h2>¿Listo para comenzar tu nueva sonrisa?</h2>
+        <p>Agenda tu evaluación en línea en menos de un minuto o escríbenos por WhatsApp.</p>
+      </div>
+      <div class="footer__cta-btns">
+        <a href={SITE.agendaUrl} target="_blank" rel="noopener" class="btn btn--white"><Icon name="calendar" />Agendar evaluación</a>
+        <a href={SITE.whatsapp.href} target="_blank" rel="noopener" class="btn btn--wa"><Icon name="whatsapp" />WhatsApp</a>
+      </div>
     </div>
-    <div class="copyright-wrap">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-4">
-                  <div class="copy-text">
-                    @ 2025 por <a href="https://diseñopaginas.cl/" target="_blank">diseñopaginas.cl</a>    
-                    </div>
-                </div>
-                <div class="col-lg-4">          
-                    
-                </div>
-                <div class="col-lg-4">
-                </div>
-            </div>
+
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <Image src={logoWhite} alt={SITE.name} width={240} class="footer__logo" />
+        <p>Clínica dental en el centro de Temuco especializada en ortodoncia para niños, adolescentes y adultos. {SITE.yearsExperience} años haciendo la ortodoncia accesible, con un arancel único para todos.</p>
+        <div class="footer__social">
+          <a href={SITE.social.instagram} target="_blank" rel="noopener" aria-label="Instagram"><Icon name="instagram" size={20} /></a>
+          <a href={SITE.social.facebook} target="_blank" rel="noopener" aria-label="Facebook"><Icon name="facebook" size={20} /></a>
+          <a href={SITE.whatsapp.href} target="_blank" rel="noopener" aria-label="WhatsApp"><Icon name="whatsapp" size={20} /></a>
         </div>
+      </div>
+
+      <nav aria-label="Tratamientos">
+        <h3>Tratamientos</h3>
+        <ul>
+          {TREATMENTS.map((t) => <li><a href={`/tratamientos/${t.slug}/`}>{t.name}</a></li>)}
+        </ul>
+      </nav>
+
+      <nav aria-label="Clínica">
+        <h3>Clínica</h3>
+        <ul>
+          <li><a href="/nosotros/">Nosotros</a></li>
+          <li><a href="/especialistas/">Especialistas</a></li>
+          <li><a href="/aranceles/">Aranceles</a></li>
+          <li><a href="/educacion/">Educación dental</a></li>
+          <li><a href="/videos/">Videos</a></li>
+          <li><a href="/preguntas-frecuentes/">Preguntas frecuentes</a></li>
+          <li><a href="/contacto/">Contacto</a></li>
+        </ul>
+      </nav>
+
+      <div>
+        <h3>Contacto</h3>
+        <ul class="footer__contact">
+          <li><Icon name="pin" size={20} /><a href={SITE.mapsUrl} target="_blank" rel="noopener">{SITE.address}<br />Temuco, La Araucanía</a></li>
+          <li><Icon name="phone" size={20} /><span><a href={SITE.phones[0].href}>{SITE.phones[0].label}</a><br /><a href={SITE.phones[1].href}>{SITE.phones[1].label}</a></span></li>
+          <li><Icon name="whatsapp" size={20} /><a href={SITE.whatsapp.href} target="_blank" rel="noopener">{SITE.whatsapp.label}</a></li>
+          <li><Icon name="mail" size={20} /><a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
+        </ul>
+      </div>
     </div>
+
+    <div class="footer__bottom">
+      <p>© {year} {SITE.name}. Todos los derechos reservados.</p>
+      <p>Diseño y desarrollo por <a href="https://diseñopaginas.cl/" target="_blank" rel="noopener">diseñopaginas.cl</a></p>
+    </div>
+  </div>
 </footer>
-<!-- footer-end -->
-
 
 <style>
-    .footer-bg {
-        background: #00173c;
-        position: relative;
-        z-index: 1;
-    }
+  .footer { position: relative; background: var(--navy-900); color: #aebfd3; overflow: hidden; padding-top: clamp(56px, 7vw, 88px); font-size: 0.96rem; }
+  .footer__glow { position: absolute; width: 800px; height: 800px; right: -300px; top: -400px; background: radial-gradient(closest-side, rgb(15 100 193 / 0.35), transparent); pointer-events: none; }
+  .footer__cta { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 32px; padding: clamp(28px, 4vw, 48px); border-radius: var(--radius-lg); background: linear-gradient(120deg, var(--blue) 0%, #0b4f9c 55%, var(--navy-800) 100%); color: #d8e8f8; box-shadow: var(--shadow-lg); margin-bottom: 72px; overflow: hidden; }
+  .footer__cta::after { content: ''; position: absolute; right: -80px; bottom: -120px; width: 340px; height: 340px; border-radius: 50%; border: 50px solid rgb(255 255 255 / 0.06); }
+  .footer__cta h2 { color: #fff; font-size: clamp(1.6rem, 3vw, 2.4rem); margin-bottom: 8px; }
+  .footer__cta p { margin: 0; }
+  .footer__hand { font-size: 1.7rem; color: #bfe0ff; margin-bottom: 4px !important; line-height: 1; }
+  .footer__cta-btns { display: flex; gap: 12px; flex-wrap: wrap; position: relative; z-index: 1; }
 
-    .footer-text p,
-    .list-wrap li a,
-    .f-contact ul li,
-    .footer-social ul li a {
-        font-size: 16px !important;
-    }
-
-    .copy-text {
-        color: #a2a2a2;
-        font-size: 14px !important;
-    }
-
-    .copy-text a,
-    .copyright-wrap .copy-text a,
-    .copyright-wrap .copy-text a[href] {
-        color: #00afdd !important;
-        font-size: 14px !important;
-    }
-
-    h4.fw-title {
-        color: #fff;
-        font-size: 20px;
-        padding-bottom: 32px !important;
-        font-weight: 600;
-    }
-
-    .footer-p {
-        padding-top: 90px;
-    }
-
-    .footer-top {
-        padding-bottom: 70px;
-    }
-
-    .footer-widget {
-        margin-bottom: 30px;
-    }
-
-    .f-widget-title h2 {
-        color: #fff;
-        font-size: 24px;
-        margin-bottom: 20px;
-    }
-
-    .footer-link p {
-        color: #a2a2a2;
-        margin-bottom: 20px;
-    }
-
-    .footer-link ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-
-    .footer-link ul li {
-        margin-bottom: 10px;
-    }
-
-    .footer-link ul li a {
-        color: #a2a2a2;
-        transition: color 0.3s ease;
-    }
-
-    .footer-link ul li a:hover {
-        color: #3660d9;
-    }
-
-    .f-contact ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-
-    .f-contact ul li {
-        display: flex;
-        align-items: center;
-        margin-bottom: 15px;
-        color: #a2a2a2;
-        line-height: 1.8;
-    }
-
-    .f-contact ul li i {
-        width: 40px;
-        height: 40px;
-        min-width: 40px;
-        background-image: -moz-linear-gradient(0deg, #3aafdd 0%, #2559a1 100%);
-        background-image: -webkit-linear-gradient(0deg, #3aafdd 0%, #2559a1 100%);
-        background-image: -ms-linear-gradient(0deg, #3aafdd 0%, #2559a1 100%);
-        line-height: 40px;
-        color: #fff !important;
-        text-align: center;
-        border-radius: 50%;
-        margin-right: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .f-contact ul li a {
-        color: #fff;
-        text-decoration: none;
-        transition: color 0.3s ease;
-    }
-
-    .f-contact ul li a:hover {
-        color: #76D4ED;
-    }
-
-    .copyright-wrap {
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        padding: 20px 0;
-    }
-
-    .copy-text a {
-        color: #3660d9;
-        transition: color 0.3s ease;
-    }
-
-    .copy-text a:hover {
-        color: #fff;
-    }
-
-    .footer-social {
-        text-align: left;
-        margin-top: 20px;
-        display: flex;
-        justify-content: flex-start;
-        width: 100%;
-    }
-
-    .footer-social :global(ul) {
-        margin: 0;
-        padding: 0;
-        list-style: none;
-        display: flex;
-        justify-content: flex-start;
-        gap: 15px;
-    }
-
-    .footer-social :global(ul li a) {
-        width: 40px;
-        height: 40px;
-        background: rgba(255,255,255,0.1);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #fff;
-        transition: .3s;
-    }
-
-    .footer-social :global(ul li a:hover) {
-        background: #ED6C44;
-    }
-
-    .about-title h2 {
-        font-size: 46px;
-    }
-
-    .about-title h5 {
-        color: #ff6d3c !important;
-    }
-
-    .footer-area {
-        background: #00173c;
-        padding: 80px 0 0;
-        position: relative;
-    }
-
-    .footer-logo {
-        margin-bottom: 20px;
-    }
-
-    .footer-logo img {
-        max-width: 200px;
-        height: auto;
-    }
-
-    .footer-text p {
-        color: #fff;
-        margin-bottom: 20px;
-        line-height: 1.6;
-    }
-
-    .list-wrap {
-        margin: 0;
-        padding: 0;
-        list-style: none;
-    }
-
-    .list-wrap li {
-        margin-bottom: 10px;
-    }
-
-    .list-wrap li a {
-        color: #a2a2a2;
-        transition: all 0.3s ease;
-        display: flex;
-        align-items: center;
-    }
-
-    .list-wrap li a i {
-        font-size: 12px;
-        margin-right: 8px;
-        transition: transform 0.3s ease;
-    }
-
-    .list-wrap li a:hover {
-        color: #76D4ED;
-        padding-left: 5px;
-    }
-
-    .list-wrap li a:hover i {
-        transform: translateX(3px);
-    }
-
-    .footer-bottom {
-        background: rgba(0,0,0,0.2);
-        padding: 20px 0;
-        margin-top: 50px;
-    }
-
-    .copyright-text p {
-        color: #fff;
-        margin: 0;
-    }
-
-    @media (max-width: 991px) {
-        .footer-area {
-            padding: 60px 0 0;
-        }
-    }
-
-    @media (max-width: 767px) {
-        .footer-area {
-            padding: 40px 0 0;
-        }
-
-        .footer-widget {
-            text-align: center;
-        }
-
-        .footer-social ul {
-            justify-content: center;
-        }
-
-        .list-wrap li {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-    }
-
-    .footer-widget {
-        margin-bottom: 30px;
-    }
-
-    .footer-widget2 {
-        padding: 0 15px;
-    }
-
-    @media (max-width: 991px) {
-        .footer-widget2 {
-            padding: 0;
-        }
-    }
-
-    .footer-second-column {
-        margin-left: 25px;
-    }
-
-    @media (max-width: 991px) {
-        .footer-second-column {
-            margin-left: 0;
-        }
-    }
-
-    .whatsapp-link {
-        display: inline-flex;
-        align-items: center;
-        color: #6EE489;
-        text-decoration: none;
-        transition: all 0.3s ease;
-        gap: 8px;
-        margin-top: 6px;
-    }
-
-    .whatsapp-link svg {
-        width: 48px;
-        height: 48px;
-        fill: #6EE489;
-        color: #6EE489;
-    }
-
-    .whatsapp-link span {
-        font-size: 16px;
-        font-weight: 500;
-    }
-
-    .whatsapp-link:hover {
-        color: #5CD378;
-        transform: translateY(-2px);
-    }
-
-    .whatsapp-link:hover svg {
-        fill: #5CD378;
-        color: #5CD378;
-    }
-
-    .map-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        text-decoration: none;
-        font-weight: bold;
-        color: #23262b;
-        font-size: 1.2rem;
-        background: none;
-        border: none;
-        cursor: pointer;
-        padding: 0;
-        transition: color 0.2s;
-    }
-
-    .map-btn:hover {
-        color: #007491;
-    }
-
-    .map-icon {
-        display: inline-block;
-        vertical-align: middle;
-    }
+  .footer__grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.3fr; gap: 40px; padding-bottom: 48px; position: relative; }
+  .footer__brand :global(.footer__logo) { width: 154px; height: auto; margin-bottom: 20px; }
+  .footer__brand p { max-width: 38ch; }
+  .footer h3 { color: #fff; font-size: 1.02rem; margin-bottom: 18px; letter-spacing: 0; }
+  .footer ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+  .footer a:not(.btn) { color: #c7d5e5; transition: color 0.2s; }
+  .footer a:not(.btn):hover { color: #fff; }
+  .footer__social { display: flex; gap: 10px; margin-top: 20px; }
+  .footer__social a { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; background: rgb(255 255 255 / 0.07); border: 1px solid rgb(255 255 255 / 0.1); transition: background 0.2s, transform 0.3s var(--ease); }
+  .footer__social a:hover { background: var(--blue); transform: translateY(-2px); }
+  .footer__contact li { display: flex; gap: 12px; align-items: flex-start; line-height: 1.5; }
+  .footer__contact :global(svg) { color: #6fb0f0; flex: none; margin-top: 2px; }
+  .footer__bottom { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; border-top: 1px solid rgb(255 255 255 / 0.1); padding: 22px 0 96px; font-size: 0.86rem; }
+  .footer__bottom p { margin: 0; }
+  @media (max-width: 1024px) { .footer__grid { grid-template-columns: 1fr 1fr; } .footer__cta { flex-direction: column; align-items: flex-start; } }
+  @media (max-width: 600px) { .footer__grid { grid-template-columns: 1fr; } }
 </style>

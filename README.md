@@ -1,48 +1,49 @@
-# Astro Starter Kit: Basics
+# ortodonciaparatodos.cl — Astro
 
-```sh
-npm create astro@latest -- --template basics
+Rediseño 2026 del sitio de **Ortodoncia Para Todos** (Temuco). Astro 5, estático, sin frameworks de UI.
+
+## Comandos
+
+```bash
+npm install
+npm run dev      # http://localhost:4321
+npm run build    # genera /dist listo para subir al hosting (Apache)
+npm run preview
 ```
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
+Subir **todo el contenido de `dist/`** (incluye `.htaccess`, oculto) a `public_html`.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Dónde editar
 
-![just-the-basics](https://github.com/withastro/astro/assets/2244813/a0a5533c-a856-4198-8470-2d67b1d7c554)
+| Qué | Archivo |
+|---|---|
+| Teléfonos, WhatsApp, dirección, agenda, redes, EmailJS | `src/data/site.ts` → `SITE` |
+| Menú | `src/data/site.ts` → `NAV` |
+| Equipo (fotos en `src/assets/equipo/`) | `src/data/site.ts` → `SPECIALISTS`, `STAFF` |
+| Aranceles | `src/data/site.ts` → `PRICE_PLANS` |
+| Videos (mp4 en `public/videos/`, pósters en `public/videos/posters/`) | `src/data/site.ts` → `VIDEOS` |
+| Preguntas frecuentes generales | `src/data/site.ts` → `FAQS_GENERAL` |
+| Tratamientos (textos, FAQ, precios) | `src/data/treatments.ts` |
+| Artículos de Educación | `src/content/educacion/*.md` (un archivo = un artículo) |
+| Colores, tipografía, estilos globales | `src/styles/global.css` |
 
-## 🚀 Project Structure
+Para agregar un video: copiar el `.mp4` a `public/videos/`, generar póster
+`ffmpeg -ss 2 -i public/videos/NOMBRE.mp4 -frames:v 1 -vf scale=480:-2 public/videos/posters/NOMBRE.jpg`
+y sumar una entrada en `VIDEOS`.
 
-Inside of your Astro project, you'll see the following folders and files:
+## SEO incluido
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src/
-│   ├── layouts/
-│   │   └── Layout.astro
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+- URLs del sitio anterior conservadas (`/aranceles/`, `/videos/`, `/educacion/`, `/contacto/`, `/nosotros/`) + nuevas páginas indexables por tratamiento y artículo.
+- Canonical con barra final (el servidor redirige `/pagina` → `/pagina/`), `.htaccess` fuerza HTTPS y dominio sin `www`.
+- Title/description únicos por página, Open Graph + Twitter con imagen 1200×630 generada.
+- Datos estructurados: `Dentist`/`MedicalClinic`, `BreadcrumbList`, `FAQPage`, `MedicalProcedure` con precios, `OfferCatalog`, `VideoObject`, `Article`.
+- `sitemap-index.xml` automático + `robots.txt`.
+- Imágenes optimizadas (WebP, `srcset`), fuentes locales, videos cargan solo al hacer clic.
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## Formulario
 
-## 🧞 Commands
+EmailJS (mismas credenciales del sitio anterior: `service_raul4q` / `template_rd29wef`). Variables enviadas: `name`, `email`, `phone`, `message`, `time`.
 
-All commands are run from the root of the project, from a terminal:
+## Créditos de imágenes
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Fotos de stock de tratamientos/hero: Freepik (licencia gratuita, requiere atribución si no hay plan Premium). Fotos del equipo, clínica, videos e infografías: del sitio anterior del cliente.

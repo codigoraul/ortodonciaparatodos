@@ -1,346 +1,169 @@
 ---
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import logo from '../assets/img/logo-ortodoncia-para-todos.png';
+import { NAV, SITE } from '../data/site';
 
+const path = Astro.url.pathname;
+const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href) || (href === '/educacion/' && path.startsWith('/videos')));
 ---
-
-
-<!-- header -->
-<header class="header-area">  
-    <div class="header-top second-header d-none d-md-block">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-8 col-md-8 d-none d-lg-block">
-                    <div class="header-cta">
-                        <ul>                                   
-                            <li>
-                                <i class="icon fal fa-map-marker-alt"></i>
-                                <span>A. Varas 989 piso 20, edificio Capital, Temuco</span>
-                            </li>
-                            <li>
-                                <i class="icon fal fa-envelope"></i>
-                                <span>contacto@ortodonciaparatodos.cl</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div class="col-lg-4 col-md-4 d-none d-lg-block text-right">
-                    <div class="header-cta">
-                        <ul>                                     
-                            <li>
-                                <i class="icon fal fa-phone"></i>
-                                <span>+452-756565 | +56954063149</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>		
-    <div id="header-sticky" class="menu-area">
-        <div class="container">
-            <div class="second-menu">
-                <div class="row align-items-center">
-                    <div class="col-xl-2 col-lg-2">
-                        <div class="logo">
-                            <a href="/">
-                                <img src="/img/logo/logo-ortodoncia-para-todos.png" alt="Logo Ortodoncia Para Todos">
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-xl-7 col-lg-7">
-                        <div class="main-menu text-right text-xl-right">
-                            <nav id="mobile-menu">
-                                <ul>
-                                    <li><a href="/">Inicio</a></li>
-                                    <li><a href="/aranceles">Aranceles</a></li>
-                                    <li><a href="/videos">Videos</a></li>
-                                    <li><a href="/educacion">Educación</a></li>
-                                    <li class="has-submenu">
-                                        <a href="/contacto">Contacto</a>
-                                        <ul class="submenu">
-                                            <li><a href="/nosotros">Nosotros</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>   
-                    <div class="col-xl-3 col-lg-3 text-right d-none d-lg-block mt-25 mb-25 text-right text-xl-right">
-                        <div class="login">
-                            <ul>
-                                <li>
-                                    <div class="second-header-btn">
-                                        <a href="https://6741b06af294b3ee72021da7f5d254f29122a29f.agenda.softwaredentalink.com/agenda" target="_blank" rel="noopener noreferrer" class="btn">Agendar Cita</a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="mobile-menu"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
-<!-- header-end -->
-
-<!-- Botón flotante para móviles -->
-<div class="mobile-agendar-floating d-lg-none">
-    <a href="https://6741b06af294b3ee72021da7f5d254f29122a29f.agenda.softwaredentalink.com/agenda" target="_blank" rel="noopener noreferrer" class="btn mobile-agendar-btn">
-        <i class="fal fa-calendar-alt"></i> Agendar Cita
+<header class="site-header" data-header>
+  <div class="container site-header__inner">
+    <a href="/" class="brand" aria-label={`${SITE.name} — Inicio`}>
+      <Image src={logo} alt={`${SITE.name} — ${SITE.slogan}`} width={420} densities={[1, 2]} loading="eager" fetchpriority="high" class="brand__logo" />
     </a>
+
+    <nav class="nav" aria-label="Principal">
+      <ul class="nav__list">
+        {NAV.map((item) => (
+          <li class:list={['nav__item', { 'has-sub': item.children }]}>
+            <a href={item.href} class:list={['nav__link', { 'is-active': isActive(item.href) }]} aria-current={isActive(item.href) ? 'page' : undefined}>
+              {item.label}
+              {item.children && <Icon name="chevron" size={16} class="nav__chev" />}
+            </a>
+            {item.children && (
+              <div class:list={['sub', { 'sub--wide': item.children.length > 4 }]}>
+                <ul>
+                  {item.children.map((c) => (
+                    <li>
+                      <a href={c.href}>
+                        <strong>{c.label}</strong>
+                        {c.desc && <span>{c.desc}</span>}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="header-cta">
+      <a href={SITE.agendaUrl} target="_blank" rel="noopener" class="btn"><Icon name="calendar" />Agendar cita</a>
+      <button class="burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-menu" data-burger>
+        <Icon name="menu" size={26} />
+      </button>
+    </div>
+  </div>
+
+</header>
+
+<!-- Menú móvil fuera del header: el backdrop-filter del header atrapa elementos fixed -->
+  <div class="mobile" id="mobile-menu" data-mobile hidden>
+  <div class="mobile__panel">
+    <div class="mobile__head">
+      <Image src={logo} alt={SITE.name} width={180} class="mobile__logo" />
+      <button class="burger burger--close" aria-label="Cerrar menú" data-close><Icon name="close" size={26} /></button>
+    </div>
+    <ul class="mobile__list">
+      {NAV.map((item) => (
+        <li>
+          {item.children ? (
+            <details>
+              <summary>{item.label}<Icon name="chevron" size={18} /></summary>
+              <ul>
+                {item.href !== item.children[0].href && <li><a href={item.href}>Ver todo</a></li>}
+                {item.children.map((c) => <li><a href={c.href}>{c.label}</a></li>)}
+              </ul>
+            </details>
+          ) : (
+            <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>
+          )}
+        </li>
+      ))}
+    </ul>
+    <div class="mobile__cta">
+      <a href={SITE.agendaUrl} target="_blank" rel="noopener" class="btn btn--block"><Icon name="calendar" />Agendar evaluación</a>
+      <a href={SITE.whatsapp.href} target="_blank" rel="noopener" class="btn btn--wa btn--block"><Icon name="whatsapp" />Escribir por WhatsApp</a>
+      <a href={SITE.phones[0].href} class="mobile__phone"><Icon name="phone" size={18} />{SITE.phones[0].label}</a>
+    </div>
+  </div>
 </div>
 
-<script>
-    // Script para el menú sticky
-    window.addEventListener('scroll', function() {
-        var header = document.querySelector('#header-sticky');
-        if (header) {
-            header.classList.toggle('sticky', window.scrollY > 0);
-        }
-    });
 
-    // Script para agregar el botón al menú móvil dinámicamente
-    document.addEventListener('DOMContentLoaded', function() {
-        // Buscar el menú móvil (solo el menú móvil, no el principal)
-        var mobileMenu = document.querySelector('.mobile-menu ul');
-        if (mobileMenu) {
-            // Crear el elemento del botón
-            var buttonLi = document.createElement('li');
-            buttonLi.className = 'mobile-agendar-item';
-            buttonLi.innerHTML = '<a href="https://6741b06af294b3ee72021da7f5d254f29122a29f.agenda.softwaredentalink.com/agenda" target="_blank" rel="noopener noreferrer" class="mobile-agendar-btn">Agendar Cita</a>';
-            
-            // Agregar al final del menú móvil
-            mobileMenu.appendChild(buttonLi);
-        }
-        
-        // Manejar submenús en móviles (solo para el menú principal)
-        var submenuItems = document.querySelectorAll('#mobile-menu .has-submenu');
-        submenuItems.forEach(function(item) {
-            var link = item.querySelector('a');
-            if (link !== null) {
-                link.addEventListener('click', function(e) {
-                    if (window.innerWidth <= 991) {
-                        e.preventDefault();
-                        item.classList.toggle('active');
-                    }
-                });
-            }
-        });
-    });
+<script>
+  const header = document.querySelector('[data-header]') as HTMLElement;
+  const burger = document.querySelector('[data-burger]') as HTMLButtonElement;
+  const mobile = document.querySelector('[data-mobile]') as HTMLElement;
+  const close = document.querySelector('[data-close]') as HTMLButtonElement;
+
+  const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 40);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  const open = () => { mobile.hidden = false; requestAnimationFrame(() => mobile.classList.add('is-open')); burger.setAttribute('aria-expanded', 'true'); document.body.style.overflow = 'hidden'; };
+  const shut = () => { mobile.classList.remove('is-open'); burger.setAttribute('aria-expanded', 'false'); document.body.style.overflow = ''; setTimeout(() => (mobile.hidden = true), 350); };
+  burger?.addEventListener('click', open);
+  close?.addEventListener('click', shut);
+  mobile?.addEventListener('click', (e) => { if (e.target === mobile) shut(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !mobile.hidden) shut(); });
 </script>
 
 <style>
-.btn.ss-btn {
-    background: #3AAFDD;
-    color: #fff;
-    border: 2px solid #3AAFDD;
-    padding: 12px 30px;
-    border-radius: 4px;
-    font-weight: 500;
-    text-transform: uppercase;
-    font-size: 16px !important;
-    transition: all 0.3s ease;
-}
+  .site-header { position: sticky; top: 0; z-index: 100; background: rgb(255 255 255 / 0.86); backdrop-filter: saturate(1.6) blur(16px); -webkit-backdrop-filter: saturate(1.6) blur(16px); border-bottom: 1px solid transparent; transition: box-shadow 0.4s var(--ease), border-color 0.4s; }
+  .site-header.is-scrolled { box-shadow: 0 10px 30px -18px rgb(10 40 78 / 0.35); border-color: var(--line); }
+  .site-header__inner { display: flex; align-items: center; gap: 28px; min-height: var(--header-h); transition: min-height 0.4s var(--ease); }
+  .is-scrolled .site-header__inner { min-height: 78px; }
 
-.btn.ss-btn:hover {
-    background: transparent;
-    color: #3AAFDD;
-    border-color: #3AAFDD;
-}
+  .brand { flex: none; display: block; }
+  .brand :global(.brand__logo) { height: 81px; width: auto; transition: height 0.4s var(--ease); }
+  .is-scrolled .brand :global(.brand__logo) { height: 58px; }
 
-.header-cta ul li i {
-    margin-right: 10px;
-    color: #76D4ED;
-}
+  .nav { margin-left: auto; }
+  .nav__list { display: flex; gap: 2px; list-style: none; margin: 0; padding: 0; }
+  .nav__item { position: relative; }
+  .nav__link { display: inline-flex; align-items: center; gap: 4px; padding: 10px 13px; border-radius: 10px; color: var(--navy); font-weight: 600; font-size: 0.95rem; position: relative; transition: color 0.2s, background 0.2s; }
+  .nav__link::after { content: ''; position: absolute; left: 13px; right: 13px; bottom: 4px; height: 2px; border-radius: 2px; background: var(--blue); transform: scaleX(0); transform-origin: left; transition: transform 0.35s var(--ease); }
+  .nav__link:hover { color: var(--blue); background: var(--ice-50); }
+  .nav__link.is-active { color: var(--blue); }
+  .nav__link.is-active::after { transform: scaleX(1); }
+  .nav__link :global(.nav__chev) { transition: transform 0.3s var(--ease); }
+  .has-sub:hover :global(.nav__chev), .has-sub:focus-within :global(.nav__chev) { transform: rotate(180deg); }
 
-.main-menu ul li:hover > a {
-    color: #02b3e2;
-}
+  .sub { position: absolute; top: calc(100% + 10px); left: 50%; translate: -50% 0; min-width: 280px; background: #fff; border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow-lg); padding: 10px; opacity: 0; visibility: hidden; transform: translateY(8px); transition: opacity 0.25s, transform 0.35s var(--ease), visibility 0.25s; }
+  .sub::before { content: ''; position: absolute; inset: -12px 0 auto; height: 12px; }
+  .sub--wide { min-width: 560px; }
+  .sub ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+  .sub--wide ul { grid-template-columns: 1fr 1fr; }
+  .sub a { display: grid; gap: 2px; padding: 12px 14px; border-radius: 12px; transition: background 0.2s; }
+  .sub a:hover { background: var(--ice-50); }
+  .sub strong { color: var(--navy); font-size: 0.94rem; }
+  .sub span { color: var(--text-soft); font-size: 0.82rem; }
+  .has-sub:hover .sub, .has-sub:focus-within .sub { opacity: 1; visibility: visible; transform: none; }
 
-.main-menu ul li a, 
-.header-cta ul li span, 
-.header-social a {
-    font-size: 17px !important;
-}
+  .header-cta { display: flex; align-items: center; gap: 12px; }
+  .burger { display: none; width: 48px; height: 48px; border-radius: 12px; border: 1.5px solid var(--line); background: #fff; color: var(--navy); place-items: center; }
 
-.second-header-btn .btn {
-    background: #3aafdd;
-    box-shadow: 0px 10px 30px 0px rgba(58, 175, 221, 0.3);
-    font-size: 16px !important;
-    text-transform: uppercase;
-    color: #fff;
-    padding: 20px 30px;
-    position: relative;
-    border-radius: 4px;
-    border: none;
-    transition: all 0.3s ease;
-}
+  .mobile { position: fixed; inset: 0; z-index: 1000; background: rgb(6 26 52 / 0.5); backdrop-filter: blur(4px); opacity: 0; transition: opacity 0.3s; }
+  .mobile.is-open { opacity: 1; }
+  .mobile__panel { position: absolute; inset: 0 0 0 auto; width: min(420px, 100%); background: #fff; padding: 18px 20px 28px; overflow-y: auto; transform: translateX(100%); transition: transform 0.4s var(--ease); display: flex; flex-direction: column; }
+  .mobile.is-open .mobile__panel { transform: none; }
+  .mobile__head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+  .mobile__head :global(.mobile__logo) { height: 60px; width: auto; }
+  .burger--close { display: grid; }
+  .mobile__list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+  .mobile__list > li { border-bottom: 1px solid var(--line); }
+  .mobile__list a, .mobile__list summary { display: flex; justify-content: space-between; align-items: center; padding: 15px 4px; color: var(--navy); font-weight: 700; font-size: 1.05rem; cursor: pointer; list-style: none; }
+  .mobile__list summary::-webkit-details-marker { display: none; }
+  .mobile__list details[open] summary :global(svg) { transform: rotate(180deg); }
+  .mobile__list details ul { list-style: none; padding: 0 0 10px 12px; margin: 0; }
+  .mobile__list details a { font-weight: 500; font-size: 0.98rem; padding: 9px 4px; color: var(--text-soft); }
+  .mobile__cta { display: grid; gap: 10px; margin-top: auto; padding-top: 24px; }
+  .mobile__phone { display: flex; justify-content: center; align-items: center; gap: 8px; font-weight: 700; padding: 8px; color: var(--navy); }
 
-.second-header-btn .btn:hover {
-    background: #2d8cb3;
-    transform: translateY(-2px);
-}
-
-.main-menu ul li a {
-    display: block;
-    color: #00173c;
-    padding: 20px 0;
-    font-weight: 500;
-}
-
-.main-menu ul li a::after {
-    content: "+";
-    margin-left: 10px;
-    color: #1b59a0;
-}
-
-/* Estilos para el submenú */
-.has-submenu {
-    position: relative;
-}
-
-.has-submenu:hover .submenu {
-    display: block;
-}
-
-.submenu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background: #fff;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    border-radius: 5px;
-    min-width: 200px;
-    z-index: 1000;
-    padding: 10px 0;
-    text-align: center;
-}
-
-.submenu li {
-    list-style: none;
-}
-
-.submenu li a {
-    display: block;
-    padding: 10px 20px;
-    color: #00173c;
-    text-decoration: none;
-    font-size: 14px;
-    transition: all 0.3s ease;
-}
-
-.submenu li a:hover {
-    background: #f8f9fa;
-    color: #3aafdd;
-}
-
-/* Estilos para móviles */
-@media (max-width: 991px) {
-    .submenu {
-        position: static;
-        display: none;
-        background: transparent;
-        box-shadow: none;
-        padding-left: 20px;
-    }
-    
-    .has-submenu.active .submenu {
-        display: block;
-    }
-    
-    .submenu li a {
-        padding: 8px 15px;
-        font-size: 14px;
-    }
-}
-
-/* Estilos para el botón móvil */
-.mobile-agendar-btn {
-    background: #3aafdd !important;
-    color: #fff !important;
-    text-align: center;
-    margin: 10px 0;
-    padding: 15px 20px !important;
-    border-radius: 4px;
-    font-weight: 500;
-    text-transform: uppercase;
-    font-size: 16px !important;
-    transition: all 0.3s ease;
-    display: block;
-    width: 100%;
-    box-shadow: 0px 5px 15px 0px rgba(58, 175, 221, 0.3);
-    border: none;
-}
-
-.mobile-agendar-btn:hover {
-    background: #2d8cb3 !important;
-    color: #fff !important;
-    transform: translateY(-2px);
-    text-decoration: none;
-}
-
-/* Botón flotante para móviles */
-.mobile-agendar-floating {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 9999;
-    display: none;
-}
-
-.mobile-agendar-floating .mobile-agendar-btn {
-    background: #3aafdd !important;
-    color: #fff !important;
-    padding: 15px 20px !important;
-    border-radius: 50px;
-    font-weight: 500;
-    text-transform: uppercase;
-    font-size: 14px !important;
-    box-shadow: 0px 5px 15px 0px rgba(58, 175, 221, 0.3);
-    border: none;
-    white-space: nowrap;
-}
-
-.mobile-agendar-floating .mobile-agendar-btn i {
-    margin-right: 8px;
-}
-
-/* Ocultar el botón móvil en desktop */
-@media (min-width: 992px) {
-    .mobile-agendar-btn {
-        display: none !important;
-    }
-    .mobile-agendar-floating {
-        display: none !important;
-    }
-}
-
-@media (max-width: 991px) {
-    .main-menu ul li a,
-    #mobile-menu ul li a,
-    .mobile-menu ul li a {
-        font-size: 16px !important;
-    }
-    
-    /* Mostrar el botón flotante en móviles */
-    .mobile-agendar-floating {
-        display: block !important;
-    }
-    
-    /* Estilos específicos para el botón en el menú móvil */
-    .mobile-agendar-item {
-        margin: 15px 0;
-        padding: 0 15px;
-    }
-    
-    .mobile-agendar-item .mobile-agendar-btn {
-        margin: 0;
-        padding: 15px 20px !important;
-        font-size: 16px !important;
-    }
-}
+  @media (max-width: 1240px) { .nav__link { padding: 10px 9px; font-size: 0.92rem; } .brand :global(.brand__logo) { height: 65px; } }
+  @media (max-width: 1100px) {
+    .nav { display: none; }
+    .burger { display: grid; }
+    .header-cta { margin-left: auto; }
+  }
+  @media (max-width: 560px) {
+    :root { --header-h: 76px; }
+    .header-cta .btn { display: none; }
+    .brand :global(.brand__logo) { height: 52px; }
+    .is-scrolled .brand :global(.brand__logo) { height: 45px; }
+    .is-scrolled .site-header__inner { min-height: 66px; }
+  }
 </style>

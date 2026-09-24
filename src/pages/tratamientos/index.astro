@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import TreatmentCard from '../../components/TreatmentCard.astro';
+import Icon from '../../components/Icon.astro';
+import { TREATMENTS } from '../../data/treatments';
+import { SITE } from '../../data/site';
+
+const orto = TREATMENTS.filter((t) => t.category === 'ortodoncia');
+const esp = TREATMENTS.filter((t) => t.category === 'especialidades');
+const crumbs = [{ name: 'Tratamientos', url: '/tratamientos/' }];
+const schema = [{
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Tratamientos dentales en Ortodoncia Para Todos, Temuco',
+  itemListElement: TREATMENTS.map((t, i) => ({ '@type': 'ListItem', position: i + 1, name: t.name, url: `${SITE.url}/tratamientos/${t.slug}/` })),
+}];
+import bgHero from '../../assets/img/brackets-metalicos.jpg';
+---
+<BaseLayout
+  title="Tratamientos de ortodoncia y dentales en Temuco"
+  description="Brackets metálicos y estéticos, alineadores transparentes, ortodoncia infantil, implantes, endodoncia, rehabilitación oral y odontología general en el centro de Temuco."
+  breadcrumbs={crumbs}
+  schema={schema}
+>
+  <PageHero image={bgHero} imagePosition="center" eyebrow="Tratamientos" title="Tratamientos para cada etapa de tu sonrisa" lead="Especialistas en ortodoncia para niños, adolescentes y adultos, y un equipo completo de especialidades dentales en un solo lugar del centro de Temuco." crumbs={crumbs}>
+    <div class="ph-ctas">
+      <a href={SITE.agendaUrl} target="_blank" rel="noopener" class="btn"><Icon name="calendar" />Agendar evaluación</a>
+      <a href="/aranceles/" class="btn btn--outline">Ver aranceles</a>
+    </div>
+  </PageHero>
+
+  <section class="section" style="padding-top:56px">
+    <div class="container">
+      <div class="heading" data-reveal>
+        <p class="eyebrow">Ortodoncia</p>
+        <h2>Alinea tu sonrisa con la opción que mejor te acomoda</h2>
+      </div>
+      <div class="grid grid-2">
+        {orto.map((t, i) => <TreatmentCard t={t} delay={(i % 2) * 0.08} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--ice">
+    <div class="container">
+      <div class="heading" data-reveal>
+        <p class="eyebrow">Especialidades</p>
+        <h2>Salud dental integral para toda la familia</h2>
+      </div>
+      <div class="grid grid-2">
+        {esp.map((t, i) => <TreatmentCard t={t} delay={(i % 2) * 0.08} />)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .ph-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+</style>

@@ -1,0 +1,34 @@
+---
+import Icon from './Icon.astro';
+interface Props { items: { q: string; a: string }[]; schema?: boolean }
+const { items, schema = true } = Astro.props;
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: items.map((i) => ({ '@type': 'Question', name: i.q, acceptedAnswer: { '@type': 'Answer', text: i.a } })),
+};
+---
+<div class="faq">
+  {items.map((item, i) => (
+    <details class="faq__item" open={i === 0} data-reveal style={`--d:${Math.min(i, 6) * 0.05}s`}>
+      <summary>
+        <span>{item.q}</span>
+        <span class="faq__icon"><Icon name="chevron" size={20} /></span>
+      </summary>
+      <div class="faq__a"><p>{item.a}</p></div>
+    </details>
+  ))}
+</div>
+{schema && <script type="application/ld+json" set:html={JSON.stringify(jsonld)} />}
+
+<style>
+  .faq { display: grid; gap: 12px; }
+  .faq__item { background: #fff; border: 1px solid var(--line); border-radius: 18px; transition: border-color 0.3s, box-shadow 0.3s; }
+  .faq__item[open] { border-color: #bcd5ec; box-shadow: var(--shadow); }
+  summary { list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 20px 24px; cursor: pointer; font-weight: 700; color: var(--navy); font-size: 1.06rem; }
+  summary::-webkit-details-marker { display: none; }
+  .faq__icon { flex: none; width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: var(--ice-100); color: var(--blue); transition: transform 0.35s var(--ease), background 0.3s, color 0.3s; }
+  [open] .faq__icon { transform: rotate(180deg); background: var(--blue); color: #fff; }
+  .faq__a { padding: 0 24px 22px; color: var(--text-soft); }
+  .faq__a p { margin: 0; }
+</style>

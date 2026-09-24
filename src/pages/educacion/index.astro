@@ -1,0 +1,168 @@
+---
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import Icon from '../../components/Icon.astro';
+import { SITE } from '../../data/site';
+
+const posts = (await getCollection('educacion')).sort((a, b) => +b.data.date - +a.data.date || a.data.title.localeCompare(b.data.title));
+const crumbs = [{ name: 'Educación', url: '/educacion/' }];
+
+// Contenido educativo del sitio anterior (se conserva)
+const basics = [
+  { icon: 'tooth', title: 'Cepillado correcto', items: ['Cepilla tus dientes al menos 2 veces al día', 'Usa movimientos suaves y circulares', 'No olvides cepillar la lengua', 'Cambia tu cepillo cada 3 meses'] },
+  { icon: 'sparkle', title: 'Uso del hilo dental', items: ['Usa hilo dental al menos una vez al día', 'Desliza suavemente entre los dientes', 'Forma una "C" alrededor de cada diente', 'No olvides la línea de las encías'] },
+];
+const orto = {
+  when: ['Dientes apiñados o muy separados', 'Problemas de mordida', 'Dientes que no se alinean correctamente', 'Dificultad para masticar o hablar', 'Dolores en la mandíbula'],
+  types: [
+    { name: 'Brackets metálicos', desc: 'Opción más económica', href: '/tratamientos/brackets-metalicos/' },
+    { name: 'Brackets estéticos', desc: 'Más discretos', href: '/tratamientos/brackets-esteticos/' },
+    { name: 'Alineadores transparentes', desc: 'Casi invisibles', href: '/tratamientos/alineadores-transparentes/' },
+    { name: 'Ortodoncia lingual', desc: 'Completamente oculta', href: '/contacto/' },
+  ],
+};
+const emergencies = [
+  { title: 'Dolor de diente', items: ['Enjuaga con agua tibia', 'Usa hilo dental suavemente', 'Aplica compresa fría', 'Llama a tu dentista inmediatamente'] },
+  { title: 'Diente roto o perdido', items: ['Guarda el diente en leche o saliva', 'No toques la raíz del diente', 'Acude al dentista en menos de 1 hora', 'Aplica presión si hay sangrado'] },
+];
+const schema = [{
+  '@context': 'https://schema.org',
+  '@type': 'Blog',
+  name: 'Educación dental — Ortodoncia Para Todos',
+  url: `${SITE.url}/educacion/`,
+  blogPost: posts.map((p) => ({ '@type': 'BlogPosting', headline: p.data.title, url: `${SITE.url}/educacion/${p.id}/`, datePublished: p.data.date.toISOString() })),
+}];
+import bgHero from '../../assets/img/ortodoncista-paciente.jpg';
+---
+<BaseLayout
+  title="Educación dental | Salud bucal y ortodoncia en Temuco"
+  description="Recursos educativos sobre salud dental, ortodoncia y cuidados bucales: cuidados con brackets, sangrado de encías, traumatismo dental, ortodoncia en niños y adultos."
+  breadcrumbs={crumbs}
+  schema={schema}
+>
+  <PageHero image={bgHero} imagePosition="center 30%" eyebrow="Educación dental" title="Aprende a cuidar tu sonrisa" lead="Conoce más sobre salud bucal, ortodoncia y cuidados dentales con guías escritas por nuestro equipo." crumbs={crumbs}>
+    <div class="ph-links">
+      <a href="#articulos" class="btn">Ver artículos</a>
+      <a href="/videos/" class="btn btn--outline"><Icon name="video" />Ver videos</a>
+    </div>
+  </PageHero>
+
+  <section class="section" id="articulos" style="padding-top:56px">
+    <div class="container">
+      <div class="heading" data-reveal>
+        <p class="eyebrow">Artículos</p>
+        <h2>Guías y consejos</h2>
+      </div>
+      <div class="posts">
+        {posts.map((a, i) => (
+          <a href={`/educacion/${a.id}/`} class:list={['post', { 'post--big': i === 0 }]} data-reveal style={`--d:${(i % 3) * 0.06}s`}>
+            <div class="post__img"><Image src={a.data.image} alt={a.data.imageAlt} widths={[400, 640, 900]} sizes={i === 0 ? '(max-width: 900px) 100vw, 640px' : '(max-width: 640px) 100vw, 400px'} /></div>
+            <div class="post__body">
+              <div class="post__meta"><span class="pill">{a.data.category}</span><span><Icon name="clock" size={15} />{a.data.readingMinutes} min</span></div>
+              <h3>{a.data.title}</h3>
+              <p>{a.data.description}</p>
+              <span class="link-arrow">Leer artículo <Icon name="arrow" /></span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--ice">
+    <div class="container">
+      <div class="heading heading--center" data-reveal>
+        <p class="eyebrow">Lo esencial</p>
+        <h2>Cuidados básicos de salud bucal</h2>
+      </div>
+      <div class="grid grid-2">
+        {basics.map((b, i) => (
+          <div class="card" data-reveal style={`--d:${i * 0.08}s`}>
+            <span class="icon-badge"><Icon name={b.icon} /></span>
+            <h3>{b.title}</h3>
+            <ul class="check-list">{b.items.map((x) => <li>{x}</li>)}</ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container ortho">
+      <div data-reveal>
+        <p class="eyebrow">Información sobre ortodoncia</p>
+        <h2>¿Cuándo necesitas ortodoncia?</h2>
+        <ul class="check-list">{orto.when.map((x) => <li>{x}</li>)}</ul>
+      </div>
+      <div data-reveal style="--d:.1s">
+        <h3 class="types-title">Tipos de tratamiento</h3>
+        <ul class="types">
+          {orto.types.map((t) => (
+            <li><a href={t.href}><strong>{t.name}</strong><span>{t.desc}</span><Icon name="arrow" size={18} /></a></li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--navy">
+    <div class="container">
+      <div class="heading heading--center" data-reveal>
+        <p class="eyebrow">Emergencias dentales</p>
+        <h2>Qué hacer ante una urgencia</h2>
+        <p>Mantén la calma y sigue estos pasos mientras te comunicas con nosotros.</p>
+      </div>
+      <div class="grid grid-2">
+        {emergencies.map((e, i) => (
+          <div class="emer" data-reveal style={`--d:${i * 0.08}s`}>
+            <span class="emer__icon"><Icon name="alert" /></span>
+            <h3>{e.title}</h3>
+            <ol>{e.items.map((x) => <li>{x}</li>)}</ol>
+          </div>
+        ))}
+      </div>
+      <div class="emer__cta" data-reveal>
+        <a href={SITE.phones[1].href} class="btn btn--white"><Icon name="phone" />Llamar {SITE.phones[1].label}</a>
+        <a href={SITE.whatsapp.href} target="_blank" rel="noopener" class="btn btn--wa"><Icon name="whatsapp" />WhatsApp</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .ph-links { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+  .posts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+  .post { display: flex; flex-direction: column; background: #fff; border-radius: 24px; overflow: hidden; border: 1px solid var(--line); color: inherit; box-shadow: var(--shadow-sm); transition: transform 0.45s var(--ease), box-shadow 0.45s var(--ease); }
+  .post:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); color: inherit; }
+  .post--big { grid-column: span 2; flex-direction: row; }
+  .post--big .post__img { flex: 1.1; aspect-ratio: auto; }
+  .post--big .post__body { flex: 1; justify-content: center; padding: 36px; }
+  .post--big h3 { font-size: clamp(1.4rem, 2.2vw, 1.9rem); }
+  .post__img { aspect-ratio: 16 / 10; overflow: hidden; }
+  .post__img :global(img) { width: 100%; height: 100%; object-fit: cover; transition: transform 0.9s var(--ease); }
+  .post:hover .post__img :global(img) { transform: scale(1.06); }
+  .post__body { padding: 22px 24px 26px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .post__meta { display: flex; align-items: center; gap: 12px; font-size: 0.82rem; color: var(--gray); font-weight: 600; }
+  .post__meta span:last-child { display: inline-flex; align-items: center; gap: 4px; }
+  .post__body h3 { margin: 4px 0 0; }
+  .post__body p { color: var(--text-soft); font-size: 0.95rem; margin: 0; flex: 1; }
+
+  .ortho { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 5vw, 72px); align-items: center; }
+  .types-title { margin-bottom: 18px; }
+  .types { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+  .types a { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 2px 12px; padding: 18px 22px; border-radius: 18px; border: 1px solid var(--line); background: #fff; color: inherit; transition: border-color 0.25s, transform 0.35s var(--ease), box-shadow 0.3s; }
+  .types a:hover { border-color: var(--blue); transform: translateX(4px); box-shadow: var(--shadow); }
+  .types strong { color: var(--navy); }
+  .types span { grid-column: 1; color: var(--text-soft); font-size: 0.92rem; }
+  .types :global(svg) { grid-row: 1 / 3; grid-column: 2; color: var(--blue); }
+
+  .emer { padding: 32px; border-radius: 24px; background: rgb(255 255 255 / 0.06); border: 1px solid rgb(255 255 255 / 0.12); }
+  .emer__icon { width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center; background: rgb(255 255 255 / 0.1); color: #ffcf70; margin-bottom: 16px; }
+  .emer ol { margin: 0; padding-left: 1.2em; display: grid; gap: 8px; color: #d2e0ee; }
+  .emer li::marker { color: #8ec2f5; font-weight: 800; }
+  .emer__cta { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 36px; }
+  @media (max-width: 1024px) { .posts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 760px) { .posts, .ortho { grid-template-columns: 1fr; } .post--big { grid-column: auto; flex-direction: column; } .post--big .post__img { aspect-ratio: 16 / 10; } .post--big .post__body { padding: 22px 24px 26px; } }
+</style>

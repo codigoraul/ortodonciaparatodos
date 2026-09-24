@@ -1,0 +1,141 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Icon from '../../components/Icon.astro';
+import TreatmentCard from '../../components/TreatmentCard.astro';
+import { SITE } from '../../data/site';
+import { getTreatment } from '../../data/treatments';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('educacion');
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+const { post } = Astro.props as { post: CollectionEntry<'educacion'> };
+const { Content, headings } = await render(post);
+const d = post.data;
+const toc = headings.filter((h) => h.depth === 2);
+const related = d.related.map((s) => getTreatment(s)).filter(Boolean).slice(0, 2);
+const more = (await getCollection('educacion')).filter((p) => p.id !== post.id).slice(0, 3);
+const fmt = (date: Date) => date.toLocaleDateString('es-CL', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+const url = `${SITE.url}/educacion/${post.id}/`;
+const crumbs = [{ name: 'Educación', url: '/educacion/' }, { name: d.title, url: `/educacion/${post.id}/` }];
+const schema = [{
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: d.title,
+  description: d.description,
+  mainEntityOfPage: url,
+  datePublished: d.date.toISOString(),
+  dateModified: (d.updated ?? d.date).toISOString(),
+  inLanguage: 'es-CL',
+  author: { '@type': 'Organization', name: SITE.name, url: SITE.url + '/' },
+  publisher: { '@id': `${SITE.url}/#clinica` },
+}];
+---
+<BaseLayout title={d.seoTitle ?? d.title} description={d.description} image={d.image} type="article" breadcrumbs={crumbs} schema={schema}>
+  <article>
+    <header class="ahead">
+      <div class="container ahead__inner">
+        <nav aria-label="Ruta de navegación" class="crumbs">
+          <a href="/">Inicio</a><span>/</span><a href="/educacion/">Educación</a><span>/</span><span aria-current="page">{d.category}</span>
+        </nav>
+        <span class="pill">{d.category}</span>
+        <h1>{d.title}</h1>
+        <p class="ahead__lead">{d.description}</p>
+        <p class="ahead__meta">
+          <span><Icon name="book" size={16} />Equipo {SITE.name}</span>
+          <span><Icon name="calendar" size={16} />Actualizado {fmt(d.updated ?? d.date)}</span>
+          <span><Icon name="clock" size={16} />{d.readingMinutes} min de lectura</span>
+        </p>
+      </div>
+    </header>
+
+    <div class="container">
+      <div class:list={['acover', { 'acover--portrait': d.image.height > d.image.width }]}>
+        <Image src={d.image} alt={d.imageAlt} widths={[640, 960, 1280]} sizes={d.image.height > d.image.width ? '(max-width: 600px) 100vw, 560px' : '(max-width: 1100px) 100vw, 1100px'} loading="eager" fetchpriority="high" />
+      </div>
+    </div>
+
+    <div class="container abody">
+      <aside class="atoc">
+        {toc.length > 0 && (
+          <div class="atoc__box">
+            <p class="atoc__title">En este artículo</p>
+            <ol>{toc.map((h) => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}</ol>
+          </div>
+        )}
+        <div class="atoc__cta">
+          <p class="hand">¿Tienes dudas?</p>
+          <p>Nuestro equipo te orienta sin compromiso.</p>
+          <a href={SITE.whatsapp.href} target="_blank" rel="noopener" class="btn btn--wa btn--sm btn--block"><Icon name="whatsapp" size={18} />WhatsApp</a>
+          <a href={SITE.agendaUrl} target="_blank" rel="noopener" class="btn btn--sm btn--block"><Icon name="calendar" size={18} />Agendar</a>
+        </div>
+      </aside>
+      <div class="prose">
+        <Content />
+        <p class="disclaimer"><Icon name="info" size={18} />Este contenido es informativo y no reemplaza una evaluación profesional. Si tienes síntomas, consulta con tu dentista.</p>
+      </div>
+    </div>
+  </article>
+
+  {related.length > 0 && (
+    <section class="section section--ice">
+      <div class="container">
+        <div class="heading" data-reveal><p class="eyebrow">Tratamientos relacionados</p><h2>Te podemos ayudar</h2></div>
+        <div class="grid grid-2">{related.map((t, i) => <TreatmentCard t={t!} delay={i * 0.08} />)}</div>
+      </div>
+    </section>
+  )}
+
+  <section class="section">
+    <div class="container">
+      <div class="heading" data-reveal><p class="eyebrow">Sigue leyendo</p><h2>Más artículos</h2></div>
+      <div class="grid grid-3">
+        {more.map((p, i) => (
+          <a href={`/educacion/${p.id}/`} class="more" data-reveal style={`--d:${i * 0.06}s`}>
+            <Image src={p.data.image} alt={p.data.imageAlt} widths={[400, 640]} sizes="400px" />
+            <div><span class="pill">{p.data.category}</span><h3>{p.data.title}</h3></div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .ahead { padding: clamp(40px, 6vw, 72px) 0 40px; background: linear-gradient(180deg, var(--ice-50), #fff); }
+  .ahead__inner { max-width: 900px; text-align: center; }
+  .crumbs { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; font-size: 0.86rem; font-weight: 600; color: var(--gray); margin-bottom: 20px; }
+  .crumbs a { color: var(--text-soft); }
+  .ahead h1 { font-size: clamp(1.68rem, 3.68vw, 2.88rem); margin: 16px 0; }
+  .ahead__lead { font-size: 1.2rem; color: var(--text-soft); max-width: 60ch; margin: 0 auto 20px; }
+  .ahead__meta { display: flex; justify-content: center; flex-wrap: wrap; gap: 20px; font-size: 0.88rem; color: var(--gray); font-weight: 600; }
+  .ahead__meta span { display: inline-flex; align-items: center; gap: 6px; }
+  .acover { max-width: 1100px; margin: 0 auto; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-lg); aspect-ratio: 21 / 9; }
+  .acover :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .acover--portrait { aspect-ratio: auto; max-width: 460px; background: var(--ice-50); }
+  .acover--portrait :global(img) { height: auto; object-fit: contain; }
+  .abody { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: clamp(32px, 5vw, 72px); padding-block: clamp(48px, 6vw, 80px); max-width: 1180px; }
+  .atoc { position: sticky; top: calc(var(--header-h) + 24px); align-self: start; display: grid; gap: 20px; }
+  .atoc__box { padding: 22px; border-radius: 20px; border: 1px solid var(--line); background: var(--ice-50); }
+  .atoc__title { font-weight: 800; color: var(--navy); margin-bottom: 10px; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.08em; }
+  .atoc ol { margin: 0; padding-left: 1.1em; display: grid; gap: 8px; font-size: 0.93rem; }
+  .atoc ol a { color: var(--text-soft); }
+  .atoc ol a:hover { color: var(--blue); }
+  .atoc__cta { padding: 22px; border-radius: 20px; background: var(--navy); color: #c8d6e6; display: grid; gap: 10px; }
+  .atoc__cta .hand { font-size: 1.6rem; color: #bfe0ff; margin: 0; line-height: 1; }
+  .atoc__cta p { margin: 0; font-size: 0.92rem; }
+  .prose :global(h2) { scroll-margin-top: calc(var(--header-h) + 20px); }
+  .prose :global(table) { width: 100%; border-collapse: collapse; margin: 1.5em 0; font-size: 0.98rem; }
+  .prose :global(th), .prose :global(td) { padding: 12px 14px; border-bottom: 1px solid var(--line); text-align: left; }
+  .prose :global(thead th) { background: var(--ice-50); color: var(--navy); }
+  .disclaimer { display: flex; gap: 10px; align-items: flex-start; margin-top: 40px; padding: 16px 18px; border-radius: 14px; background: var(--ice-50); font-size: 0.9rem; color: var(--text-soft); }
+  .disclaimer :global(svg) { flex: none; color: var(--blue); margin-top: 2px; }
+  .more { display: flex; flex-direction: column; border-radius: 22px; overflow: hidden; border: 1px solid var(--line); background: #fff; color: inherit; transition: transform 0.4s var(--ease), box-shadow 0.4s; }
+  .more:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); color: inherit; }
+  .more :global(img) { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+  .more div { padding: 18px 20px 22px; display: grid; gap: 10px; justify-items: start; }
+  .more h3 { margin: 0; font-size: 1.1rem; }
+  @media (max-width: 960px) { .abody { grid-template-columns: 1fr; } .atoc { position: static; order: 2; } .acover:not(.acover--portrait) { aspect-ratio: 16 / 9; } }
+</style>

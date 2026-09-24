@@ -1,0 +1,59 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import FAQ from '../components/FAQ.astro';
+import Icon from '../components/Icon.astro';
+import { FAQS_GENERAL, SITE } from '../data/site';
+import { TREATMENTS } from '../data/treatments';
+
+const crumbs = [{ name: 'Preguntas frecuentes', url: '/preguntas-frecuentes/' }];
+const groups = [
+  { title: 'Generales', items: FAQS_GENERAL },
+  ...TREATMENTS.map((t) => ({ title: t.name, items: t.faqs, href: `/tratamientos/${t.slug}/` })),
+];
+const all = groups.flatMap((g) => g.items);
+import bgHero from '../assets/img/alineadores-transparentes.jpg';
+---
+<BaseLayout
+  title="Preguntas frecuentes sobre ortodoncia en Temuco"
+  description="Respuestas a las preguntas más frecuentes sobre ortodoncia, brackets, precios, previsión, alineadores, ortodoncia infantil, implantes y más en Ortodoncia Para Todos Temuco."
+  breadcrumbs={crumbs}
+>
+  <PageHero image={bgHero} imagePosition="center 30%" eyebrow="Preguntas frecuentes" title="Resolvemos tus dudas" lead="Reunimos las preguntas que más nos hacen nuestros pacientes. Si no encuentras la tuya, escríbenos." crumbs={crumbs}>
+    <div class="ph-ctas"><a href={SITE.whatsapp.href} target="_blank" rel="noopener" class="btn btn--wa"><Icon name="whatsapp" />Preguntar por WhatsApp</a></div>
+  </PageHero>
+
+  <section class="section" style="padding-top:56px">
+    <div class="container faqp">
+      <nav class="faqp__nav" aria-label="Categorías">
+        <ul>{groups.map((g, i) => <li><a href={`#g${i}`}>{g.title}</a></li>)}</ul>
+      </nav>
+      <div class="faqp__groups">
+        {groups.map((g, i) => (
+          <div id={`g${i}`} class="faqp__group">
+            <div class="faqp__head">
+              <h2>{g.title}</h2>
+              {'href' in g && g.href && <a href={g.href} class="link-arrow">Ver tratamiento <Icon name="arrow" /></a>}
+            </div>
+            <FAQ items={g.items} schema={false} />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+  <script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: all.map((i) => ({ '@type': 'Question', name: i.q, acceptedAnswer: { '@type': 'Answer', text: i.a } })) })} />
+</BaseLayout>
+
+<style>
+  .ph-ctas { margin-top: 28px; }
+  .faqp { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: clamp(32px, 5vw, 64px); align-items: start; }
+  .faqp__nav { position: sticky; top: calc(var(--header-h) + 24px); }
+  .faqp__nav ul { list-style: none; margin: 0; padding: 12px; display: grid; gap: 2px; border: 1px solid var(--line); border-radius: 20px; background: var(--ice-50); }
+  .faqp__nav a { display: block; padding: 10px 14px; border-radius: 12px; color: var(--navy); font-weight: 600; font-size: 0.95rem; }
+  .faqp__nav a:hover { background: #fff; color: var(--blue); }
+  .faqp__groups { display: grid; gap: 56px; }
+  .faqp__group { scroll-margin-top: calc(var(--header-h) + 24px); }
+  .faqp__head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-bottom: 18px; flex-wrap: wrap; }
+  .faqp__head h2 { font-size: clamp(1.5rem, 2.4vw, 2rem); margin: 0; }
+  @media (max-width: 900px) { .faqp { grid-template-columns: 1fr; } .faqp__nav { position: static; } .faqp__nav ul { display: flex; flex-wrap: wrap; } }
+</style>

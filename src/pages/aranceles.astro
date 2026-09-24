@@ -1,306 +1,157 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Breadcrumb from '../components/Breadcrumb.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import FAQ from '../components/FAQ.astro';
+import { PRICE_PLANS, SITE, clp } from '../data/site';
+
+const crumbs = [{ name: 'Aranceles', url: '/aranceles/' }];
+const faqs = [
+  { q: '¿El arancel es el mismo para Fonasa e Isapre?', a: 'Sí. Ofrecemos un arancel único y transparente para todos nuestros pacientes, sin importar su previsión de salud: Fonasa, Isapre o particular pagan lo mismo.' },
+  { q: '¿Qué incluye el diagnóstico y planificación?', a: 'Incluye estudio clínico completo, planificación del tratamiento, modelos de estudio, fotos clínicas y cefalometría. Las radiografías no están incluidas y se solicitan aparte.' },
+  { q: '¿Cuánto cuesta en total un tratamiento con brackets metálicos?', a: 'El total depende de cuántos meses dure tu tratamiento. Se compone de diagnóstico ($45.000), instalación ($279.900), un control mensual de $35.000 por cada mes de tratamiento y el retiro y contención ($170.000).' },
+  { q: '¿Qué pasa al terminar el tratamiento?', a: 'Retiramos los brackets, realizamos una higiene e instalamos la contención para mantener los resultados. Los controles de contención tienen un valor mensual de $20.000.' },
+  { q: '¿Cuánto cuestan los alineadores transparentes u otros tratamientos?', a: 'Los alineadores, implantes, endodoncias y rehabilitaciones se presupuestan de forma personalizada después de una evaluación. Escríbenos por WhatsApp para orientarte.' },
+];
+const schema = [{
+  '@context': 'https://schema.org',
+  '@type': 'OfferCatalog',
+  name: 'Aranceles de ortodoncia — Ortodoncia Para Todos, Temuco',
+  itemListElement: PRICE_PLANS.flatMap((p) => p.items.map((it) => ({
+    '@type': 'Offer',
+    name: `${p.name}: ${it.title}`,
+    price: it.price,
+    priceCurrency: 'CLP',
+    seller: { '@id': `${SITE.url}/#clinica` },
+  }))),
+}];
+import bgHero from '../assets/img/slider-1.jpg';
 ---
+<BaseLayout
+  title="Aranceles de ortodoncia en Temuco | Precios de brackets"
+  description="Precios de ortodoncia en Temuco: brackets metálicos $279.900, estéticos $379.000, controles desde $35.000. Arancel único para Fonasa, Isapre y particulares."
+  breadcrumbs={crumbs}
+  schema={schema}
+>
+  <PageHero image={bgHero} imagePosition="right center" eyebrow="Aranceles" title="Planes accesibles y precios transparentes" lead="Ofrecemos un arancel único y transparente para todos nuestros pacientes, sin importar su previsión de salud." crumbs={crumbs}>
+    <ul class="badges">
+      <li><Icon name="shield" size={20} />Fonasa, Isapre y particular</li>
+      <li><Icon name="wallet" size={20} />Sin costos ocultos</li>
+      <li><Icon name="calendar" size={20} />Pago mensual durante el tratamiento</li>
+    </ul>
+  </PageHero>
 
-<Layout title="Aranceles">
+  <section class="section" style="padding-top:56px">
+    <div class="container">
+      <div class="tabs" role="tablist" aria-label="Tipo de brackets" data-reveal>
+        {PRICE_PLANS.map((p, i) => (
+          <button role="tab" id={`tab-${p.id}`} aria-controls={`panel-${p.id}`} aria-selected={i === 0 ? 'true' : 'false'} data-tab={p.id}>{p.name}</button>
+        ))}
+      </div>
 
+      {PRICE_PLANS.map((p, i) => (
+        <div class="panel" id={`panel-${p.id}`} role="tabpanel" aria-labelledby={`tab-${p.id}`} data-panel={p.id} hidden={i !== 0}>
+          <div class="panel__head">
+            <h2>{p.name}</h2>
+            <p>{p.subtitle}</p>
+          </div>
+          <ol class="timeline">
+            {p.items.map((it, j) => (
+              <li class:list={['pcard', { 'pcard--main': j === 1 }]}>
+                <span class="pcard__step">Paso {j + 1}</span>
+                <h3>{it.title}</h3>
+                <p class="pcard__price">{clp(it.price)}{it.unit && <small>{it.unit}</small>}</p>
+                <ul class="check-list">{it.detail.map((d) => <li>{d}</li>)}</ul>
+                {it.note && <p class="pcard__note"><Icon name="info" size={16} />{it.note}</p>}
+              </li>
+            ))}
+          </ol>
+          <div class="panel__foot">
+            <a href={`/tratamientos/brackets-${p.id}/`} class="link-arrow">Conoce más sobre {p.name.toLowerCase()} <Icon name="arrow" /></a>
+            <a href={SITE.agendaUrl} target="_blank" rel="noopener" class="btn"><Icon name="calendar" />Agendar diagnóstico</a>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section section--ice">
+    <div class="container">
+      <div class="heading heading--center" data-reveal>
+        <p class="eyebrow">Comparación</p>
+        <h2>Metálicos vs. estéticos</h2>
+      </div>
+      <div class="table-wrap" data-reveal>
+        <table class="ctable">
+          <thead><tr><th scope="col">Concepto</th>{PRICE_PLANS.map((p) => <th scope="col">{p.name}</th>)}</tr></thead>
+          <tbody>
+            {PRICE_PLANS[0].items.map((it, j) => (
+              <tr><th scope="row">{it.title.replace(' brackets metálicos', '')}</th>{PRICE_PLANS.map((p) => <td>{clp(p.items[j].price)}{p.items[j].unit ? ' ' + p.items[j].unit : ''}</td>)}</tr>
+            ))}
+            <tr><th scope="row">Control mensual de contención</th><td>$20.000</td><td>$20.000</td></tr>
+            <tr><th scope="row">Apariencia</th><td>Metálico, visible</td><td>Color diente, discreto</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="tnote" data-reveal>Valores en pesos chilenos. Diagnóstico no incluye radiografías. Otros tratamientos (alineadores, implantes, endodoncia y rehabilitación) se presupuestan tras la evaluación.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container narrow">
+      <div class="heading heading--center" data-reveal>
+        <p class="eyebrow">Preguntas frecuentes</p>
+        <h2>Dudas sobre aranceles</h2>
+      </div>
+      <FAQ items={faqs} />
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const tabs = document.querySelectorAll<HTMLButtonElement>('[data-tab]');
+  tabs.forEach((t) => t.addEventListener('click', () => {
+    tabs.forEach((x) => x.setAttribute('aria-selected', String(x === t)));
+    document.querySelectorAll<HTMLElement>('[data-panel]').forEach((p) => (p.hidden = p.dataset.panel !== t.dataset.tab));
+  }));
+</script>
 
 <style>
-    .about-content.s-about-content {
-        margin-left: 30px;
-    }
+  .badges { list-style: none; padding: 0; margin: 28px 0 0; display: flex; gap: 12px; flex-wrap: wrap; }
+  .badges li { display: flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 999px; background: #fff; border: 1px solid var(--line); font-weight: 700; font-size: 0.9rem; color: var(--navy); box-shadow: var(--shadow-sm); }
+  .badges :global(svg) { color: var(--blue); }
 
-    @media (max-width: 991px) {
-        .about-content.s-about-content {
-            margin-left: 0;
-            margin-top: 30px;
-        }
-    }
+  .tabs { display: inline-flex; gap: 6px; padding: 6px; border-radius: 16px; background: var(--ice-50); border: 1px solid var(--line); margin-bottom: 36px; }
+  .tabs button { border: 0; background: transparent; padding: 12px 22px; border-radius: 12px; font-weight: 700; color: var(--text-soft); transition: background 0.25s, color 0.25s, box-shadow 0.25s; }
+  .tabs button[aria-selected='true'] { background: #fff; color: var(--navy); box-shadow: var(--shadow-sm); }
 
-    .title-smaller {
-        font-size: 2rem;
-    }
+  .panel__head h2 { margin-bottom: 4px; }
+  .panel__head p { color: var(--text-soft); margin-bottom: 28px; }
+  .timeline { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; }
+  .pcard { position: relative; padding: 28px 24px; border-radius: 24px; background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow-sm); display: flex; flex-direction: column; }
+  .pcard--main { background: linear-gradient(160deg, var(--navy) 0%, var(--navy-800) 100%); border-color: var(--navy); color: #c8d6e6; box-shadow: var(--shadow-lg); }
+  .pcard--main h3, .pcard--main .pcard__price { color: #fff; }
+  .pcard__step { font-size: 0.74rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue); margin-bottom: 10px; }
+  .pcard--main .pcard__step { color: #8ec2f5; }
+  .pcard h3 { font-size: 1.1rem; min-height: 2.5em; }
+  .pcard__price { font-size: 2rem; font-weight: 800; letter-spacing: -0.03em; color: var(--navy); margin: 4px 0 18px; line-height: 1; }
+  .pcard__price small { font-size: 0.9rem; font-weight: 600; color: var(--gray); margin-left: 4px; letter-spacing: 0; }
+  .pcard .check-list { font-size: 0.93rem; gap: 8px; }
+  .pcard--main .check-list li::before { background-color: #2f86e0; }
+  .pcard__note { display: flex; gap: 8px; align-items: flex-start; margin: 18px 0 0; padding-top: 14px; border-top: 1px dashed var(--line); font-size: 0.84rem; color: var(--gray); }
+  .pcard--main .pcard__note { color: #a9bdd3; border-color: rgb(255 255 255 / 0.15); }
+  .pcard__note :global(svg) { flex: none; margin-top: 2px; }
+  .panel__foot { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 32px; }
 
-    .treatment-title {
-        font-size: 1.7rem;
-        color: #1b59a0;
-        font-weight: 600;
-        text-transform: uppercase;
-        margin-bottom: 30px;
-    }
-
-    .pricing-table {
-        background: #fff;
-        padding: 30px;
-        border-radius: 10px;
-        box-shadow: 0 0 20px rgba(0,0,0,0.1);
-        margin-bottom: 30px;
-        position: relative;
-    }
-
-    .pricing-number {
-        position: absolute;
-        top: -20px;
-        left: -20px;
-        background: #1b59a0;
-        color: white;
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 32px;
-        font-weight: bold;
-        box-shadow: 0 0 10px rgba(0,0,0,0.2);
-    }
-
-    .pricing-title {
-        text-align: center;
-        margin-bottom: 30px;
-        margin-top: 20px;
-    }
-
-    .pricing-title h3 {
-        font-size: 1.7rem;
-        font-weight: 600;
-        margin-bottom: 10px;
-    }
-
-    .pricing-title h4 {
-        font-size: 1.3rem;
-        font-weight: 600;
-        color: #414656;
-        margin-bottom: 15px;
-    }
-
-    .pricing-features {
-        list-style: none;
-        padding: 0;
-    }
-
-    .pricing-features li {
-        margin-bottom: 10px;
-        padding-left: 25px;
-        position: relative;
-        font-size: 1.1rem;
-    }
-
-    .pricing-features li:before {
-        content: "✓";
-        color: #4CAF50;
-        position: absolute;
-        left: 0;
-    }
-
-    .pricing-item {
-        margin-bottom: 20px;
-    }
-
-    .pricing-item h4 {
-        font-size: 1.2rem;
-        color: #333;
-        margin-bottom: 10px;
-    }
-
-    .pricing-item .price {
-        font-size: 1.3rem;
-        font-weight: 600;
-        color: #414656;
-        margin-bottom: 15px;
-    }
+  .table-wrap { overflow-x: auto; border-radius: 22px; border: 1px solid var(--line); background: #fff; box-shadow: var(--shadow); max-width: 900px; margin: 0 auto; }
+  .ctable { width: 100%; border-collapse: collapse; min-width: 560px; }
+  .ctable th, .ctable td { padding: 16px 22px; text-align: left; border-bottom: 1px solid var(--line); }
+  .ctable thead th { background: var(--navy); color: #fff; font-size: 0.92rem; }
+  .ctable tbody th { color: var(--navy); font-weight: 600; }
+  .ctable td { font-weight: 700; color: var(--text); }
+  .ctable tr:last-child th, .ctable tr:last-child td { border-bottom: 0; }
+  .tnote { text-align: center; color: var(--gray); font-size: 0.88rem; margin: 20px auto 0; max-width: 70ch; }
+  .narrow { max-width: 900px; }
+  @media (max-width: 1024px) { .timeline { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 560px) { .timeline { grid-template-columns: 1fr; } .tabs { display: flex; } .tabs button { flex: 1; padding: 12px 10px; } }
 </style>
-
-<main>
-    <Breadcrumb title="Aranceles" currentPage="Aranceles" parentPage="Inicio" parentUrl="/" />
-    
-    <!-- pricing-area -->
-    <section class="about-area about-p pt-120  p-relative fix">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-9">
-                    <div class="about-content s-about-content text-center wow fadeInRight animated" data-animation="fadeInRight" data-delay=".4s">
-                        <div class="about-title second-title pb-25">  
-                            <h5>Nuestros Aranceles</h5>
-                            <h2 class="title-smaller">Planes Accesibles</h2>                                   
-                        </div>
-                        <p>En Ortodoncia para Todos creemos que la salud dental debe ser accesible para todos.
-                 Por eso, ofrecemos un arancel único y transparente para todos nuestros pacientes, 
-                 sin importar su previsión de salud.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row mt-50">
-                <div class="col-12">
-                    <div class="section-title text-center mb-50">
-                        <h3 class="treatment-title">BRACKETS METÁLICOS ( ORTODONCIA FIJA CONVENCIONAL )</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row mt-30">
-                <div class="col-lg-6 col-md-6">
-                    <div class="pricing-table">
-                        <div class="pricing-number">1</div>
-                        <div class="pricing-title">
-                            <h3>Diagnóstico y Planificación</h3>
-                            <h4>$45.000</h4>
-                        </div>
-                        <ul class="pricing-features">
-                            <li>Estudio clínico completo</li>
-                            <li>Planificación de tratamiento</li>
-                            <li>Modelos de estudio</li>
-                            <li>Fotos clínicas</li>
-                            <li>Cefalometría</li>
-                            <li>Radiografías no incluidas</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="col-lg-6 col-md-6">
-                    <div class="pricing-table">
-                        <div class="pricing-number">2</div>
-                        <div class="pricing-title">
-                            <h3>Brackets Metálicos</h3>
-                            <h4>$279.900</h4>
-                        </div>
-                        <ul class="pricing-features">
-                            <li>Instalación Ortodoncia Fija</li>
-                            <li>Brackets metálicos de alta calidad</li>
-                            <li>Arcos y ligaduras</li>
-                            <li>Instalación profesional</li>
-                            <li>Materiales incluidos</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="col-lg-6 col-md-6">
-                    <div class="pricing-table">
-                        <div class="pricing-number">3</div>
-                        <div class="pricing-title">
-                            <h3>Mensual durante el tratamiento</h3>
-                            <h4>$35.000</h4>
-                        </div>
-                        <ul class="pricing-features">
-                            <li>Pago mensual fijo</li>
-                            <li>Controles regulares</li>
-                            <li>Ajustes de brackets</li>
-                            <li>Cambio de arcos</li>
-                            <li>Seguimiento continuo</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="col-lg-6 col-md-6">
-                    <div class="pricing-table">
-                        <div class="pricing-number">4</div>
-                        <div class="pricing-title">
-                            <h3>Al término del tratamiento</h3>
-                            <h4>Retiro y Contención: $170.000</h4>
-                        </div>
-                        <ul class="pricing-features">
-                            <li>Retiro de brackets</li>
-                            <li>Higiene profesional</li>
-                            <li>Instalación de contención</li>
-                            <li>Control mensual contención: $20.000</li>
-                            <li>Seguimiento post-tratamiento</li>
-                        </ul>
-                    </div>
-                </div>
-
-               
-            </div>
-        </div>
-    </section>
-    <!-- pricing-area-end -->
-
-    <!-- Brackets Estéticos -->
-    <section class="about-area about-p pt-80 pb-120 p-relative fix">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="section-title text-center mb-50">
-                        <h3 class="treatment-title">BRACKETS ESTÉTICOS</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row mt-30">
-                <div class="col-lg-6 col-md-6">
-                    <div class="pricing-table">
-                        <div class="pricing-number">1</div>
-                        <div class="pricing-title">
-                            <h3>Diagnóstico y planificación</h3>
-                            <h4>$45.000</h4>
-                        </div>
-                        <ul class="pricing-features">
-                            <li>Estudio clínico completo</li>
-                            <li>Planificación de tratamiento</li>
-                            <li>Modelos de estudio</li>
-                            <li>Fotos clínicas</li>
-                            <li>Exámenes radiográficos y cefalométricos</li>
-                            <li>Exámenes no incluidos</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="col-lg-6 col-md-6">
-                    <div class="pricing-table">
-                        <div class="pricing-number">2</div>
-                        <div class="pricing-title">
-                            <h3>Brackets Estéticos</h3>
-                            <h4>$379.000</h4>
-                        </div>
-                        <ul class="pricing-features">
-                            <li>Instalación Ortodoncia Fija</li>
-                            <li>Brackets estéticos de alta calidad</li>
-                            <li>Arcos y ligaduras</li>
-                            <li>Instalación profesional</li>
-                            <li>Materiales incluidos</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="col-lg-6 col-md-6">
-                    <div class="pricing-table">
-                        <div class="pricing-number">3</div>
-                        <div class="pricing-title">
-                            <h3>Mensual durante el tratamiento</h3>
-                            <h4>$40.000</h4>
-                        </div>
-                        <ul class="pricing-features">
-                            <li>Pago mensual fijo</li>
-                            <li>Controles regulares</li>
-                            <li>Ajustes de brackets</li>
-                            <li>Cambio de arcos</li>
-                            <li>Seguimiento continuo</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="col-lg-6 col-md-6">
-                    <div class="pricing-table">
-                        <div class="pricing-number">4</div>
-                        <div class="pricing-title">
-                            <h3>Al término del tratamiento</h3>
-                            <h4>Retiro y Contención: $190.000</h4>
-                        </div>
-                        <ul class="pricing-features">
-                            <li>Retiro de brackets</li>
-                            <li>Higiene profesional</li>
-                            <li>Instalación de contención</li>
-                            <li>Control mensual contención: $20.000</li>
-                            <li>Seguimiento post-tratamiento</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Brackets Estéticos-end -->
-
-  
-</main>
-</Layout> 

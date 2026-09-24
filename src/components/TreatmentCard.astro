@@ -1,0 +1,33 @@
+---
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import type { Treatment } from '../data/treatments';
+interface Props { t: Treatment; delay?: number; variant?: 'side' | 'tall' }
+const { t, delay = 0, variant = 'side' } = Astro.props;
+---
+<a href={`/tratamientos/${t.slug}/`} class:list={['tcard', `tcard--${variant}`]} data-reveal style={`--d:${delay}s`}>
+  <div class="tcard__img">
+    <Image src={t.image} alt={t.imageAlt} widths={[320, 520, 720]} sizes="(max-width: 640px) 100vw, 380px" />
+  </div>
+  <div class="tcard__body">
+    <h3>{t.name}</h3>
+    <p>{t.short}</p>
+    <span class="tcard__go" aria-hidden="true"><Icon name="arrow" size={18} /></span>
+  </div>
+</a>
+
+<style>
+  .tcard { position: relative; display: grid; background: linear-gradient(135deg, #fff 0%, var(--ice-50) 100%); border: 1px solid var(--line); border-radius: 24px; overflow: hidden; color: inherit; box-shadow: var(--shadow-sm); transition: transform 0.45s var(--ease), box-shadow 0.45s var(--ease), border-color 0.3s; }
+  .tcard:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: #bcd5ec; color: inherit; }
+  .tcard--side { grid-template-columns: 42% 1fr; min-height: 196px; }
+  .tcard--tall { grid-template-rows: 220px 1fr; }
+  .tcard__img { position: relative; overflow: hidden; min-height: 180px; }
+  .tcard__img :global(img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.9s var(--ease); }
+  .tcard:hover .tcard__img :global(img) { transform: scale(1.07); }
+  .tcard__body { position: relative; padding: 24px 22px 60px; }
+  .tcard__body h3 { font-size: 1.3rem; margin-bottom: 8px; line-height: 1.15; }
+  .tcard__body p { margin: 0; color: var(--text-soft); font-size: 0.96rem; line-height: 1.5; }
+  .tcard__go { position: absolute; right: 18px; bottom: 18px; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: var(--navy); color: #fff; transition: background 0.3s, transform 0.4s var(--ease); }
+  .tcard:hover .tcard__go { background: var(--blue); transform: rotate(-45deg); }
+  @media (max-width: 420px) { .tcard--side { grid-template-columns: 1fr; grid-template-rows: 190px auto; } }
+</style>

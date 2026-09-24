@@ -1,0 +1,66 @@
+---
+import Icon from './Icon.astro';
+import { fmtDuration, type Video } from '../data/site';
+interface Props { video: Video; delay?: number }
+const { video, delay = 0 } = Astro.props;
+const src = `/videos/${video.file}.mp4`;
+const poster = `/videos/posters/${video.file}.jpg`;
+---
+<article class="vcard" data-reveal style={`--d:${delay}s`}>
+  <div class="vcard__media" data-video={src}>
+    <img src={poster} alt={`Video: ${video.title}`} loading="lazy" decoding="async" width="480" height="848" />
+    <button class="vcard__play" type="button" aria-label={`Reproducir video: ${video.title}`}>
+      <span><Icon name="play" size={26} /></span>
+    </button>
+    <span class="vcard__dur">{fmtDuration(video.secs)}</span>
+    <span class="vcard__topic">{video.topic}</span>
+  </div>
+  <div class="vcard__body">
+    <h3>{video.title}</h3>
+    <p>{video.desc}</p>
+  </div>
+</article>
+
+<script>
+  // Solo un video a la vez: al reproducir uno, se pausan todos los demás
+  document.addEventListener('play', (e) => {
+    document.querySelectorAll('video').forEach((v) => { if (v !== e.target) v.pause(); });
+  }, true);
+
+  // Carga el video solo al hacer clic (rendimiento): reemplaza el póster por <video>
+  document.querySelectorAll<HTMLElement>('[data-video]').forEach((box) => {
+    const btn = box.querySelector('button');
+    btn?.addEventListener('click', () => {
+      const v = document.createElement('video');
+      v.src = box.dataset.video!;
+      v.controls = true;
+      v.autoplay = true;
+      v.playsInline = true;
+      v.setAttribute('data-playing', '');
+      v.poster = box.querySelector('img')!.src;
+      box.innerHTML = '';
+      box.appendChild(v);
+      box.classList.add('is-playing');
+      v.play().catch(() => {});
+    });
+  });
+</script>
+
+<style>
+  .vcard { background: #fff; border: 1px solid var(--line); border-radius: 22px; overflow: hidden; box-shadow: var(--shadow-sm); transition: transform 0.45s var(--ease), box-shadow 0.45s var(--ease); display: flex; flex-direction: column; }
+  .vcard:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+  .vcard__media { position: relative; aspect-ratio: 9 / 13; background: var(--navy); overflow: hidden; }
+  .vcard__media img, .vcard__media :global(video) { width: 100%; height: 100%; object-fit: cover; }
+  .vcard__media :global(video) { object-fit: contain; background: #000; }
+  .vcard__media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgb(6 26 52 / 0.05) 40%, rgb(6 26 52 / 0.55)); pointer-events: none; transition: opacity 0.3s; }
+  .vcard__media.is-playing::after { opacity: 0; }
+  .vcard__play { position: absolute; inset: 0; z-index: 2; border: 0; background: transparent; display: grid; place-items: center; }
+  .vcard__play span { width: 68px; height: 68px; border-radius: 50%; display: grid; place-items: center; color: var(--blue); background: rgb(255 255 255 / 0.92); box-shadow: 0 10px 30px rgb(6 26 52 / 0.35); transition: transform 0.35s var(--ease); padding-left: 4px; }
+  .vcard__play:hover span { transform: scale(1.1); }
+  .vcard__dur, .vcard__topic { position: absolute; z-index: 1; font-size: 0.76rem; font-weight: 700; padding: 5px 10px; border-radius: 999px; }
+  .vcard__dur { right: 12px; bottom: 12px; background: rgb(6 26 52 / 0.75); color: #fff; }
+  .vcard__topic { left: 12px; top: 12px; background: rgb(255 255 255 / 0.92); color: var(--blue-600); }
+  .vcard__body { padding: 18px 20px 22px; }
+  .vcard__body h3 { font-size: 1.05rem; margin-bottom: 6px; }
+  .vcard__body p { margin: 0; color: var(--text-soft); font-size: 0.92rem; line-height: 1.55; }
+</style>

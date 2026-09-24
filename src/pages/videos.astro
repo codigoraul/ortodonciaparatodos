@@ -1,477 +1,105 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import VideoCard from '../components/VideoCard.astro';
+import { VIDEOS, SITE, isoDuration } from '../data/site';
 
-// Metadatos SEO
-const seo = {
-    title: "Videos | Ortodoncia para Todos - Temuco",
-    description: "Videos informativos sobre tratamientos de ortodoncia, consejos dentales y testimonios de pacientes en Ortodoncia para Todos Temuco.",
-    keywords: "videos ortodoncia, testimonios ortodoncia temuco, consejos dentales, tratamientos ortodoncia videos",
-    canonical: "https://ortodonciaparatodos.cl/videos",
-    ogTitle: "Videos | Ortodoncia para Todos - Temuco",
-    ogDescription: "Videos informativos sobre tratamientos de ortodoncia y consejos dentales en Ortodoncia para Todos Temuco.",
-    ogImage: "/img/og-image.jpg",
-    ogUrl: "https://ortodonciaparatodos.cl/videos"
-};
+const crumbs = [{ name: 'Videos', url: '/videos/' }];
+const topics = ['Todos', ...Array.from(new Set(VIDEOS.map((v) => v.topic)))];
+const schema = [{
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Videos educativos de ortodoncia y salud dental',
+  itemListElement: VIDEOS.map((v, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    item: {
+      '@type': 'VideoObject',
+      name: v.title,
+      description: v.desc,
+      thumbnailUrl: `${SITE.url}/videos/posters/${v.file}.jpg`,
+      contentUrl: `${SITE.url}/videos/${v.file}.mp4`,
+      uploadDate: '2025-03-10',
+      duration: isoDuration(v.secs),
+      inLanguage: 'es-CL',
+      publisher: { '@id': `${SITE.url}/#clinica` },
+    },
+  })),
+}];
+import bgHero from '../assets/img/hero-ortodoncia-temuco.jpg';
+import Icon from '../components/Icon.astro';
+const IG_POST = 'https://www.instagram.com/p/DZDP8-rxXML/';
 ---
+<BaseLayout
+  title="Videos de ortodoncia y salud dental | Temuco"
+  description="Videos informativos sobre tratamientos de ortodoncia, implantes, carillas y consejos dentales, explicados por los especialistas de Ortodoncia Para Todos en Temuco."
+  breadcrumbs={crumbs}
+  schema={schema}
+>
+  <PageHero image={bgHero} imagePosition="center 35%" eyebrow="Educación en video" title="Nuestros videos" lead="Nuestros especialistas explican tratamientos, cuidados y dudas frecuentes en videos breves y fáciles de entender." crumbs={crumbs} />
 
-<Layout title={seo.title}>
-    <!-- Meta tags para SEO -->
-    <meta name="description" content={seo.description} />
-    <meta name="keywords" content={seo.keywords} />
-    <link rel="canonical" href={seo.canonical} />
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content={seo.ogUrl} />
-    <meta property="og:title" content={seo.ogTitle} />
-    <meta property="og:description" content={seo.ogDescription} />
-    <meta property="og:image" content={seo.ogImage} />
-    
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content={seo.ogUrl} />
-    <meta property="twitter:title" content={seo.ogTitle} />
-    <meta property="twitter:description" content={seo.ogDescription} />
-    <meta property="twitter:image" content={seo.ogImage} />
+  <section class="section" style="padding-top:56px">
+    <div class="container">
+      <div class="filters" role="group" aria-label="Filtrar videos por tema" data-reveal>
+        {topics.map((t, i) => <button type="button" data-filter={t} aria-pressed={i === 0 ? 'true' : 'false'}>{t}</button>)}
+      </div>
+      <div class="vgrid">
+        {VIDEOS.map((v, i) => <div data-topic={v.topic}><VideoCard video={v} delay={(i % 4) * 0.05} /></div>)}
+      </div>
+    </div>
+  </section>
 
-    <!-- Sección de Videos -->
-    <section class="videos-section pt-120 pb-120">
-        <div class="container-fluid px-lg-5">
-            <div class="row">
-                <div class="col-12 text-center mb-2">
-                    <h1 class="section-title">Nuestros videos</h1>
-                    <p class="section-description">
-                        Descubre nuestros videos de Clinica dental Ortodoncia para Todos Temuco
-                    </p>
-                </div>
-            </div>
+  <section class="section section--ice ig">
+    <div class="container ig__inner">
+      <div class="ig__copy" data-reveal>
+        <p class="eyebrow">Instagram</p>
+        <h2>Síguenos en Instagram</h2>
+        <p>Casos, consejos y novedades de la clínica. Mira nuestra última publicación y síguenos en <strong>@ortodonciaparatodos</strong>.</p>
+        <a href={SITE.social.instagram} target="_blank" rel="noopener" class="btn"><Icon name="instagram" />Seguir en Instagram</a>
+      </div>
+      <div class="ig__embed" data-reveal style="--d:.1s">
+        <blockquote class="instagram-media" data-instgrm-permalink={`${IG_POST}?utm_source=ig_embed&utm_campaign=loading`} data-instgrm-version="14">
+          <a href={IG_POST} target="_blank" rel="noopener">Ver esta publicación en Instagram</a>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
 
-            <!-- Barra de orden -->
-            <div class="row">
-                <div class="col-12 d-flex justify-content-center mt-1 mb-3">
-                    <div class="video-sort" role="group" aria-label="Ordenar videos">
-                        <button type="button" class="sort-btn active" data-sort="random">Aleatorio</button>
-                        <button type="button" class="sort-btn" data-sort="newest">Más recientes</button>
-                        <button type="button" class="sort-btn" data-sort="oldest">Más antiguos</button>
-                    </div>
-                </div>
-            </div>
+<script>
+  // Carga el script de Instagram solo cuando la sección se acerca a la pantalla
+  const ig = document.querySelector('.ig');
+  if (ig) {
+    const load = () => { const sc = document.createElement('script'); sc.async = true; sc.src = 'https://www.instagram.com/embed.js'; document.body.appendChild(sc); };
+    const io = new IntersectionObserver((e) => { if (e[0].isIntersecting) { load(); io.disconnect(); } }, { rootMargin: '400px' });
+    io.observe(ig);
+  }
 
-            <div class="row" id="videosGrid">
-                <!-- Video Card 1 -->
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="video-card">
-                        <video 
-                            preload="metadata"
-                            src="/videos/video1.mp4#t=0.1"
-                            controls
-                            class="w-100"
-                            title="Ortodoncia de ultima generación Ortodoncia Temuco"
-                        ></video>
-                        <div class="video-info">
-                            <h3>Ortodoncia de ultima generación</h3>
-                            <p>Conoce más sobre los tratamientos de ortodoncia y sus beneficios</p>
-                        </div>
-                    </div>
-                </div>
+  const btns = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+  btns.forEach((b) => b.addEventListener('click', () => {
+    btns.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    const f = b.dataset.filter;
+    document.querySelectorAll<HTMLElement>('[data-topic]').forEach((el) => {
+      const hide = f !== 'Todos' && el.dataset.topic !== f;
+      el.style.display = hide ? 'none' : '';
+      if (hide) el.querySelectorAll('video').forEach((v) => v.pause());
+    });
+  }));
+</script>
 
-                <!-- Video Card 2 -->
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="video-card">
-                        <video 
-                            preload="metadata"
-                            src="/videos/video2.mp4#t=0.1"
-                            controls
-                            class="w-100"
-                            title="Consejos para el Cuidado Dental"
-                        ></video>
-                        <div class="video-info">
-                            <h3>Consejos para el Cuidado Dental</h3>
-                            <p>Tips importantes para mantener una buena salud dental</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Video Card 3 - NUEVO VIDEO -->
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="video-card">
-                        <video 
-                            preload="metadata"
-                            src="/videos/Ortodoncia-implantologia-periodoncia.mp4#t=0.1"
-                            controls
-                            class="w-100"
-                            title="Ortodoncia, Implantología y Periodoncia - Ortodoncia Temuco"
-                        ></video>
-                        <div class="video-info">
-                            <h3>Ortodoncia, Implantología y Periodoncia</h3>
-                            <p>Descubre la relación entre estos tres campos fundamentales de la odontología</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Video Card 4 (antes era el 3) -->
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="video-card">
-                        <video 
-                            preload="metadata"
-                            src="/videos/video3.mp4#t=0.1"
-                            controls
-                            class="w-100"
-                            title="A la vanguardia en Ortodoncia"
-                        ></video>
-                        <div class="video-info">
-                            <h3>A la vanguardia en Ortodoncia</h3>
-                            <p>Conoce los ultimos avances en ortodoncia</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Video Card 5 (antes era el 4) -->
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="video-card">
-                        <video 
-                            preload="metadata"
-                            src="/videos/video4.mp4#t=0.1"
-                            controls
-                            class="w-100"
-                            title="Cerámica de una sesión Ortodoncia Temuco"
-                        ></video>
-                        <div class="video-info">
-                            <h3>Cerámica de una sesión</h3>
-                            <p>Fresado, cristalizado y glaseado, arenado, etc.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Video Card 6 (antes era el 5) -->
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="video-card">
-                        <video 
-                            preload="metadata"
-                            src="/videos/video5.mp4#t=0.1"
-                            controls
-                            class="w-100"
-                            title="Tinción en cerámica dental Ortodoncia Temuco"
-                        ></video>
-                        <div class="video-info">
-                            <h3>Tinción en cerámica dental</h3>
-                            <p>Paso clave para una restauración estética natural y armoniosa</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Video Card 6 (antes era el 6) -->
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="video-card">
-                        <video 
-                            preload="metadata"
-                            src="/videos/video6.mp4#t=0.1"
-                            controls
-                            class="w-100"
-                            title="Cuanto duran los implantes Ortodoncia Temuco "
-                        ></video>
-                        <div class="video-info">
-                            <h3>Cuanto duran los implantes </h3>
-                            
-                        </div>
-                    </div>
-                </div>
-                <!-- Video 7 - Plano de barcelona, guia estetica para planificar tratamiento -->
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="video-card">
-                        <video preload="metadata" src="/videos/plano-de-barcelona.mp4#t=0.1" controls class="w-100" title="Plano de barcelona, guia estetica para planificar tratamiento"></video>
-                        <div class="video-info">
-                            <h3>Plano de barcelona</h3>
-                            <p>Guia estetica para planificar tratamiento</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Video 8 - Dolor dental en la noche -->
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="video-card">
-                        <video preload="metadata" src="/videos/dolor-dental-en-la-noche.mp4#t=0.1" controls class="w-100" title="Dolor dental en la noche"></video>
-                        <div class="video-info">
-                            <h3>Dolor dental en la noche</h3>
-                            <p>Conoce más sobre el dolor dental y cómo prevenirlo</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Video 9 - Tratamiento de la enfermedad periodontal --> 
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="video-card">
-                        <video preload="metadata" src="/videos/correccion-dental.mp4#t=0.1" controls class="w-100" title="Tratamiento de la enfermedad periodontal"></video>
-                        <div class="video-info">
-                            <h3>Ultima tecnologia en Carillas cerámicas</h3>
-                            <p>Conoce más sobre la ultima tecnologia en carillas cerámicas</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Video 10 - Respiración bucal en niños -->
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="video-card">
-                        <video preload="metadata" src="/videos/video7.mp4#t=0.1" controls class="w-100" title="Respiración bucal en niños - Ortodoncia Temuco"></video>
-                        <div class="video-info">
-                            <h3>Respiración bucal en niños</h3>
-                            <p>Descubre por qué es importante que los niños respiren por la nariz y no por la boca al dormir</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Video 11 - La caries se puede contagiar -->
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="video-card">
-                        <video preload="metadata" src="/videos/la-caries-se-puede-contagiar.mp4#t=0.1" controls class="w-100" title="La caries se puede contagiar - Ortodoncia Temuco"></video>
-                        <div class="video-info">
-                            <h3>La caries se puede contagiar</h3>
-                            <p>Descubre cómo las bacterias de la caries pueden transmitirse de una persona a otra</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Video 12 - Síndrome del respirador bucal -->
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="video-card">
-                        <video preload="metadata" src="/videos/sindrome-del-respirador-bucal.mp4#t=0.1" controls class="w-100" title="Síndrome del respirador bucal - Ortodoncia Temuco"></video>
-                        <div class="video-info">
-                            <h3>Síndrome del respirador bucal</h3>
-                            <p>Conoce las consecuencias de respirar por la boca y cómo tratarlo</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Video 13 - Paladar estrecho -->
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="video-card">
-                        <video preload="metadata" src="/videos/paladar-estrecho.mp4#t=0.1" controls class="w-100" title="Paladar estrecho - Ortodoncia Temuco"></video>
-                        <div class="video-info">
-                            <h3>Paladar estrecho</h3>
-                            <p>Qué es el paladar estrecho y cómo puede corregirse con ortodoncia</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Video 14 - Los retenedores, hasta cuándo ocupar -->
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="video-card">
-                        <video preload="metadata" src="/videos/retenedores-hasta-cuando-ocupar.mp4#t=0.1" controls class="w-100" title="Los retenedores, hasta cuándo ocupar - Ortodoncia Temuco"></video>
-                        <div class="video-info">
-                            <h3>Los retenedores, ¿hasta cuándo ocupar?</h3>
-                            <p>Aprende por cuánto tiempo debes usar tus retenedores después de la ortodoncia</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Video 15 - La Osteointegración -->
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="video-card">
-                        <video preload="metadata" src="/videos/la-osteointegracion.mp4#t=0.1" controls class="w-100" title="La Osteointegración - Ortodoncia Temuco"></video>
-                        <div class="video-info">
-                            <h3>La Osteointegración</h3>
-                            <p>Cómo el implante dental se une al hueso para lograr un resultado firme y duradero</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Video 16 - La periimplantitis -->
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="video-card">
-                        <video preload="metadata" src="/videos/la-periimplantitis.mp4#t=0.1" controls class="w-100" title="La periimplantitis - Ortodoncia Temuco"></video>
-                        <div class="video-info">
-                            <h3>La periimplantitis</h3>
-                            <p>Conoce esta enfermedad que afecta a los implantes dentales y cómo prevenirla</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-           
-
-            <!-- Sección de Educación -->
-            <div class="row mt-50">
-                <div class="col-12 text-center">
-                    <div class="education-section">
-                        <h3><i class="fas fa-graduation-cap"></i> ¿Quieres aprender más sobre salud dental?</h3>
-                        <p>Descubre nuestra sección de educación con información detallada sobre ortodoncia, cuidados bucales y prevención dental.</p>
-                        <a href="/educacion" class="btn btn-education">Ver Educación Dental</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <style>
-        .videos-section {
-            background-color: #f8f9fa;
-            padding: 60px 0;
-        }
-
-        .section-title {
-            color: #1b5ca4;
-            margin-bottom: 1rem;
-            font-size: 28px !important;
-        }
-
-        .section-description {
-            color: #666;
-            font-size: 1.1rem;
-        }
-
-        .video-card {
-            background: #fff;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
-        }
-
-        .video-card video {
-            width: 100%;
-            display: block;
-            background: #000;
-        }
-
-        .video-info {
-            padding: 20px;
-        }
-
-        .video-info h3 {
-            color: #1b5ca4;
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-        }
-
-        .video-info p {
-            color: #666;
-            font-size: 14px !important;
-            margin-bottom: 0;
-        }
-
-        .w-100 {
-            width: 100%;
-        }
-
-        /* Estilos para la sección de educación */
-        .education-section {
-            background: linear-gradient(135deg, #1b5ca4, #3aafdd);
-            color: white;
-            padding: 40px;
-            border-radius: 15px;
-            margin-top: 30px;
-        }
-
-        .education-section h3 {
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-        }
-
-        .education-section h3 i {
-            margin-right: 10px;
-            font-size: 1.6rem;
-        }
-
-        .education-section p {
-            font-size: 1.1rem;
-            margin-bottom: 25px;
-        }
-
-        .btn-education {
-            background: #fff;
-            color: #1b5ca4;
-            padding: 15px 30px;
-            border-radius: 50px;
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-block;
-            transition: all 0.3s ease;
-            border: 2px solid #fff;
-        }
-
-        .btn-education:hover {
-            background: transparent;
-            color: #fff;
-            transform: translateY(-2px);
-        }
-
-        /* Barra de orden */
-        .video-sort {
-            display: inline-flex;
-            gap: 6px;
-            flex-wrap: wrap;
-            justify-content: center;
-            background: #fff;
-            padding: 5px;
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.08);
-        }
-
-        .sort-btn {
-            border: 1px solid #1b5ca4;
-            background: #fff;
-            color: #1b5ca4;
-            padding: 5px 14px;
-            border-radius: 4px;
-            font-weight: 500;
-            font-size: 14px !important;
-            cursor: pointer;
-            transition: all 0.25s ease;
-        }
-
-        .sort-btn:hover {
-            background: #e9f3fb;
-        }
-
-        .sort-btn.active {
-            background: #1b5ca4;
-            color: #fff;
-        }
-    </style>
-
-    <script>
-        // Pausar los demás videos cuando uno se reproduce
-        const videos = document.querySelectorAll<HTMLVideoElement>('.video-card video');
-        videos.forEach((video) => {
-            video.addEventListener('play', () => {
-                videos.forEach((otro) => {
-                    if (otro !== video && !otro.paused) {
-                        otro.pause();
-                    }
-                });
-            });
-        });
-
-        // Ordenamiento de videos (aleatorio / más recientes / más antiguos)
-        const grid = document.getElementById('videosGrid');
-        if (grid) {
-            const cards = Array.from(grid.children) as HTMLElement[];
-            // Guardar el orden original (= orden en que se agregaron) como referencia de fecha
-            cards.forEach((card, i) => card.dataset.order = String(i));
-
-            const shuffle = (arr: HTMLElement[]) => {
-                const a = arr.slice();
-                for (let i = a.length - 1; i > 0; i--) {
-                    const j = Math.floor(Math.random() * (i + 1));
-                    [a[i], a[j]] = [a[j], a[i]];
-                }
-                return a;
-            };
-
-            const render = (arr: HTMLElement[]) => arr.forEach((card) => grid.appendChild(card));
-
-            const ordenar = (modo: string) => {
-                const orig = Array.from(grid.children) as HTMLElement[];
-                if (modo === 'random') {
-                    render(shuffle(orig));
-                } else if (modo === 'newest') {
-                    render(orig.sort((a, b) => Number(b.dataset.order) - Number(a.dataset.order)));
-                } else {
-                    render(orig.sort((a, b) => Number(a.dataset.order) - Number(b.dataset.order)));
-                }
-            };
-
-            const botones = document.querySelectorAll<HTMLButtonElement>('.sort-btn');
-            botones.forEach((btn) => {
-                btn.addEventListener('click', () => {
-                    botones.forEach((b) => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    ordenar(btn.dataset.sort || 'oldest');
-                });
-            });
-
-            // Orden aleatorio por defecto al cargar
-            ordenar('random');
-        }
-    </script>
-</Layout> 
+<style>
+  .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+  .filters button { padding: 10px 18px; border-radius: 999px; border: 1.5px solid var(--line); background: #fff; font-weight: 700; font-size: 0.92rem; color: var(--text-soft); transition: 0.25s; }
+  .filters button:hover { border-color: var(--blue); color: var(--blue); }
+  .filters button[aria-pressed='true'] { background: var(--navy); border-color: var(--navy); color: #fff; }
+  .vgrid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
+  .vgrid > div { display: flex; }
+  .vgrid > div > :global(*) { width: 100%; }
+  .ig__inner { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 5vw, 72px); align-items: center; }
+  .ig__copy p:not(.eyebrow) { color: var(--text-soft); font-size: 1.08rem; margin-bottom: 24px; }
+  .ig__embed { display: flex; justify-content: center; }
+  .ig__embed :global(.instagram-media) { margin: 0 auto !important; max-width: 480px !important; width: 100% !important; border-radius: 18px !important; box-shadow: var(--shadow-lg) !important; }
+  @media (max-width: 860px) { .ig__inner { grid-template-columns: 1fr; } }
+  @media (max-width: 1024px) { .vgrid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (max-width: 760px) { .vgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; } }
+</style>

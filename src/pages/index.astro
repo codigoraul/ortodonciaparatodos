@@ -1,211 +1,338 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Slider from '../components/Slider.astro';
-import Equipo from '../components/Equipo.astro';
-import Formulario from '../components/Formulario.astro';
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/home/Hero.astro';
+import Icon from '../components/Icon.astro';
+import TreatmentCard from '../components/TreatmentCard.astro';
+import TeamGrid from '../components/TeamGrid.astro';
+import VideoCard from '../components/VideoCard.astro';
+import FAQ from '../components/FAQ.astro';
+import { SITE, PRICE_PLANS, VIDEOS, FAQS_GENERAL, clp } from '../data/site';
+import { TREATMENTS, getTreatment } from '../data/treatments';
+import clinica from '../assets/img/clinica-home.webp';
+import ortodoncista from '../assets/img/ortodoncista-paciente.jpg';
 
-// Metadatos SEO
-const seo = {
-    title: "Ortodoncia Temuco | Clínica Dental Ortodoncia para Todos",
-    description: "Clínica dental especializada en ortodoncia en Temuco. Ofrecemos tratamientos de ortodoncia y atención dental general con los mejores profesionales. ¡Agenda tu cita hoy!",
-    keywords: "ortodoncia temuco, clinica dental temuco, ortodoncia para todos, atencion dental general temuco, brackets temuco, invisalign temuco, dentista temuco",
-    canonical: "https://ortodonciaparatodos.cl",
-    ogTitle: "Ortodoncia Temuco | Clínica Dental Ortodoncia para Todos",
-    ogDescription: "Clínica dental especializada en ortodoncia en Temuco. Tratamientos de ortodoncia y atención dental general con los mejores profesionales.",
-    ogImage: "/img/og-image.jpg",
-    ogUrl: "https://ortodonciaparatodos.cl"
-};
+const featured = ['brackets-metalicos', 'alineadores-transparentes', 'ortodoncia-infantil'].map((s) => getTreatment(s)!);
+const others = TREATMENTS.filter((t) => !featured.includes(t));
+const articles = (await getCollection('educacion')).filter((a) => a.data.featured).sort((a, b) => +b.data.date - +a.data.date).slice(0, 3);
+const homeVideos = ['video1', 'retenedores-hasta-cuando-ocupar', 'paladar-estrecho', 'video6'].map((f) => VIDEOS.find((v) => v.file === f)!);
+
+const why = [
+  { icon: 'wallet', title: 'Arancel único', text: 'No hacemos diferencias según previsión: el mismo precio para Fonasa, Isapre y particulares.' },
+  { icon: 'award', title: `${SITE.yearsExperience} años de experiencia`, text: 'Casi dos décadas acompañando sonrisas en Temuco y La Araucanía.' },
+  { icon: 'stethoscope', title: 'Especialistas certificados', text: 'Ortodoncistas con amplia experiencia y formación internacional.' },
+  { icon: 'tech', title: 'Ortodoncia moderna', text: 'Últimas tecnologías y técnicas para tratamientos más eficientes y cómodos.' },
+  { icon: 'building', title: 'Ubicación central', text: 'Piso 20 del Edificio Capital, en pleno centro de Temuco, con fácil acceso.' },
+  { icon: 'users', title: 'Todo en un lugar', text: 'Ortodoncia, implantes, endodoncia, rehabilitación y odontología general.' },
+];
+
+const steps = [
+  { n: '01', title: 'Agenda tu evaluación', text: 'Reserva en línea 24/7, por WhatsApp o teléfono.' },
+  { n: '02', title: 'Diagnóstico completo', text: 'Estudio clínico, fotos, modelos y cefalometría por $45.000.' },
+  { n: '03', title: 'Tu plan y presupuesto', text: 'Te explicamos opciones, plazos y valores con total claridad.' },
+  { n: '04', title: 'Comienza tu sonrisa', text: 'Instalación y controles mensuales con tu especialista.' },
+];
+
+const pageSchema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Ortodoncia en Temuco | Ortodoncia Para Todos',
+    url: SITE.url + '/',
+    about: { '@id': `${SITE.url}/#clinica` },
+    inLanguage: 'es-CL',
+  },
+];
 ---
+<BaseLayout
+  title="Ortodoncia en Temuco desde $279.900 | Ortodoncia Para Todos"
+  description="Clínica de ortodoncia en Temuco con 18 años de experiencia. Brackets desde $279.900, alineadores y ortodoncia infantil. Arancel único Fonasa, Isapre y particular."
+  schema={pageSchema}
+>
+  <Hero />
 
-<Layout title={seo.title}>
-	<!-- Meta tags para SEO -->
-	<meta name="description" content={seo.description} />
-	<meta name="keywords" content={seo.keywords} />
-	<link rel="canonical" href={seo.canonical} />
-	
-	<!-- Open Graph / Facebook -->
-	<meta property="og:type" content="website" />
-	<meta property="og:url" content={seo.ogUrl} />
-	<meta property="og:title" content={seo.ogTitle} />
-	<meta property="og:description" content={seo.ogDescription} />
-	<meta property="og:image" content={seo.ogImage} />
-	
-	<!-- Twitter -->
-	<meta property="twitter:card" content="summary_large_image" />
-	<meta property="twitter:url" content={seo.ogUrl} />
-	<meta property="twitter:title" content={seo.ogTitle} />
-	<meta property="twitter:description" content={seo.ogDescription} />
-	<meta property="twitter:image" content={seo.ogImage} />
+  <!-- Tratamientos destacados (se superponen al hero, como en la muestra) -->
+  <section class="tstrip" aria-label="Tratamientos destacados">
+    <div class="container">
+      <div class="grid grid-3">
+        {featured.map((t, i) => <TreatmentCard t={t} delay={i * 0.08} />)}
+      </div>
+    </div>
+  </section>
 
-	<Slider />
-	<!-- about-area -->
-	<section class="about-area about-p pt-120 pb-120 p-relative fix">
-		<div class="container">
-			<div class="row justify-content-center align-items-center">
-				<div class="col-lg-6 col-md-12 col-sm-12">
-					<div class="s-about-img p-relative wow fadeInLeft animated" data-animation="fadeInLeft" data-delay=".4s">
-						<img 
-							src="./img/nosotros/clinica-dental-temuco.png" 
-							alt="Clínica Dental Temuco - Especialistas en Ortodoncia"
-							class="img-fluid"
-						/> 
-						<div class="about-text second-about">
-							<span>18</span>
-							<p>Años de Experiencia</p>
-						</div>  
-					</div>
-				</div>
-				<div class="col-lg-6 col-md-12 col-sm-12">
-					<div class="about-content s-about-content wow fadeInRight animated" data-animation="fadeInRight" data-delay=".4s">
-						<div class="about-title second-title pb-25">  
-							<h1 class="slide-right">Ortodoncia Temuco</h1> 
-							<h5 class="slide-right">Bienvenidos a Ortodoncia para todos</h5>
-							                                  
-						</div>
-						<p class="slide-right">Ortodoncia para Todos es una clínica dental ubicada en Temuco, especializada en 
-							tratamientos de ortodoncia para pacientes de todas las edades. 
-							Ofrecemos una variedad de servicios dentales incluyendo ortodoncia, 
-							atención dental general y tratamientos estéticos. Nuestra clínica se destaca 
-							por su equipo profesional y su compromiso con la atención personalizada, 
-							utilizando tecnología de vanguardia para asegurar resultados óptimos en 
-							cada tratamiento dental.</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- about-area-end -->
-	<Equipo />
+  <!-- Bienvenida / por qué elegirnos -->
+  <section class="section about">
+    <div class="container about__grid">
+      <div class="about__media" data-reveal>
+        <div class="about__img about__img--main">
+          <Image src={ortodoncista} alt="Ortodoncista junto a paciente adolescente con brackets en la clínica" widths={[480, 720, 960]} sizes="(max-width: 900px) 90vw, 520px" />
+        </div>
+        <div class="about__img about__img--small">
+          <Image src={clinica} alt="Box de atención y sala de espera de la clínica en el Edificio Capital, Temuco" width={600} />
+        </div>
+        <div class="about__stat">
+          <strong>+{SITE.yearsExperience}</strong>
+          <span>años creando<br />sonrisas en Temuco</span>
+        </div>
+      </div>
+      <div class="about__copy" data-reveal style="--d:.1s">
+        <p class="eyebrow">Bienvenidos a Ortodoncia Para Todos</p>
+        <h2>Ortodoncia en Temuco, <span class="text-blue">especialistas en sonrisas</span></h2>
+        <p class="about__lead">Somos una clínica dental ubicada en el centro de Temuco, especializada en tratamientos de ortodoncia para pacientes de todas las edades. Ofrecemos ortodoncia, atención dental general y tratamientos estéticos, con un equipo profesional comprometido con la atención personalizada.</p>
+        <p>Nuestra misión es simple: <strong>hacer que la ortodoncia sea accesible para todos, sin comprometer la calidad del tratamiento.</strong> Por eso publicamos nuestros precios y mantenemos un arancel único, sin importar tu previsión.</p>
+        <div class="about__ctas">
+          <a href="/nosotros/" class="btn btn--outline">Conoce la clínica</a>
+          <a href="/aranceles/" class="link-arrow">Ver aranceles <Icon name="arrow" /></a>
+        </div>
+      </div>
+    </div>
 
-	<!-- Sección de Contacto -->
-	<section class="contact-section">
-		<div class="container">
-			<div class="row">
-				<!-- Columna Izquierda - Formulario -->
-				<div class="col-lg-6">
-					<Formulario />
-				</div>
+    <div class="container">
+      <div class="why grid grid-3">
+        {why.map((w, i) => (
+          <div class="why__item" data-reveal style={`--d:${(i % 3) * 0.07}s`}>
+            <span class="icon-badge"><Icon name={w.icon} /></span>
+            <div><h3>{w.title}</h3><p>{w.text}</p></div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
 
-				<!-- Columna Derecha - Información de Contacto -->
-				<div class="col-lg-6">
-					<div class="contact-info">
-						<h2>O llámanos ahora</h2>
-						<div class="phone-number">
-							<i class="fas fa-phone"></i>
-							<a href="tel:452756565">452-756565</a> <a href="tel:+56954063149">+56954063149</a> 
-						</div>
-						<p class="contact-text">
-							Llámenos para hacer consulta o reservar pronto una hora de revisión en Ortodoncia para todos.
-						</p>
-						<div class="map-link">
-							<a href="https://maps.app.goo.gl/qRhLm2oXssdMhXHz8" class="map-btn" target="_blank" rel="noopener">
-								<svg class="map-icon" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#00afdd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-									<circle cx="12" cy="10" r="3"/>
-									<path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
-								</svg>
-								<span>Ver en el mapa</span>
-							</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
+  <!-- Precios -->
+  <section class="section section--navy pricing">
+    <div class="pricing__deco" aria-hidden="true"></div>
+    <div class="container">
+      <div class="heading heading--center" data-reveal>
+        <p class="eyebrow">Aranceles transparentes</p>
+        <h2>Mismo arancel para todas las personas</h2>
+        <p>No hacemos diferencias según previsión. Conoce el valor de tu tratamiento desde el primer día.</p>
+      </div>
+      <div class="pricing__grid">
+        {PRICE_PLANS.map((p, i) => {
+          const install = p.items[1];
+          const monthly = p.items[2];
+          return (
+            <article class:list={['plan', { 'plan--hl': p.highlight }]} data-reveal style={`--d:${i * 0.1}s`}>
+              {p.highlight && <span class="plan__tag">Más discreto</span>}
+              <h3>{p.name}</h3>
+              <p class="plan__sub">{p.subtitle}</p>
+              <p class="plan__price"><small>Instalación</small>{clp(install.price)}</p>
+              <ul class="plan__rows">
+                <li><span>Diagnóstico y planificación</span><strong>{clp(p.items[0].price)}</strong></li>
+                <li><span>Control mensual</span><strong>{clp(monthly.price)}</strong></li>
+                <li><span>Retiro y contención</span><strong>{clp(p.items[3].price)}</strong></li>
+              </ul>
+              <a href={`/tratamientos/brackets-${p.id}/`} class:list={['btn btn--block', p.highlight ? '' : 'btn--ghost-white']}>Ver tratamiento</a>
+            </article>
+          );
+        })}
+      </div>
+      <p class="pricing__note" data-reveal><Icon name="info" size={18} /> Diagnóstico no incluye radiografías. <a href="/aranceles/">Ver detalle completo de aranceles</a></p>
+    </div>
+  </section>
 
-	<style>
-		.contact-section {
-			padding: 80px 0;
-			background-color: #f8f9fa;
-		}
+  <!-- Todos los tratamientos -->
+  <section class="section section--ice">
+    <div class="container">
+      <div class="heading-row" data-reveal>
+        <div class="heading">
+          <p class="eyebrow">Tratamientos</p>
+          <h2>Una clínica completa para toda tu familia</h2>
+        </div>
+        <a href="/tratamientos/" class="btn btn--outline">Ver todos los tratamientos</a>
+      </div>
+      <div class="grid minis">
+        {others.map((t, i) => (
+          <a href={`/tratamientos/${t.slug}/`} class="mini card" data-reveal style={`--d:${(i % 4) * 0.06}s`}>
+            <span class="icon-badge"><Icon name={t.icon} /></span>
+            <h3>{t.name}</h3>
+            <p>{t.short}</p>
+            <span class="link-arrow">Conocer más <Icon name="arrow" /></span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
 
-		.contact-info {
-			padding: 30px;
-			height: 100%;
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-		}
+  <!-- Proceso -->
+  <section class="section">
+    <div class="container">
+      <div class="heading heading--center" data-reveal>
+        <p class="eyebrow">Cómo funciona</p>
+        <h2>Tu nueva sonrisa en 4 pasos</h2>
+      </div>
+      <ol class="steps">
+        {steps.map((s, i) => (
+          <li data-reveal style={`--d:${i * 0.08}s`}>
+            <span class="steps__n">{s.n}</span>
+            <h3>{s.title}</h3>
+            <p>{s.text}</p>
+          </li>
+        ))}
+      </ol>
+      <div class="center" data-reveal>
+        <a href={SITE.agendaUrl} target="_blank" rel="noopener" class="btn"><Icon name="calendar" />Agenda tu evaluación</a>
+      </div>
+    </div>
+  </section>
 
-		.contact-info h2 {
-			color: #333;
-			margin-bottom: 20px;
-		}
+  <!-- Equipo -->
+  <section class="section section--ice">
+    <div class="container">
+      <div class="heading-row" data-reveal>
+        <div class="heading">
+          <p class="eyebrow">Nuestro equipo</p>
+          <h2>Expertos en ortodoncia y salud dental</h2>
+        </div>
+        <a href="/especialistas/" class="btn btn--outline">Ver especialistas</a>
+      </div>
+      <TeamGrid showStaff={false} />
+    </div>
+  </section>
 
-		.phone-number {
-			font-size: 24px;
-			margin-bottom: 20px;
-		}
+  <!-- Videos -->
+  <section class="section">
+    <div class="container">
+      <div class="heading-row" data-reveal>
+        <div class="heading">
+          <p class="eyebrow">Videos educativos</p>
+          <h2>Aprende con nuestros especialistas</h2>
+        </div>
+        <a href="/videos/" class="btn btn--outline">Ver los {VIDEOS.length} videos</a>
+      </div>
+      <div class="grid grid-4">
+        {homeVideos.map((v, i) => <VideoCard video={v} delay={i * 0.06} />)}
+      </div>
+    </div>
+  </section>
 
-		.phone-number i {
-			color: #00afdd;
-			margin-right: 10px;
-		}
+  <!-- Educación -->
+  <section class="section section--ice">
+    <div class="container">
+      <div class="heading-row" data-reveal>
+        <div class="heading">
+          <p class="eyebrow">Educación dental</p>
+          <h2>Guías para cuidar tu sonrisa</h2>
+        </div>
+        <a href="/educacion/" class="btn btn--outline">Ver todos los artículos</a>
+      </div>
+      <div class="grid grid-3">
+        {articles.map((a, i) => (
+          <a href={`/educacion/${a.id}/`} class="post" data-reveal style={`--d:${i * 0.08}s`}>
+            <div class="post__img"><Image src={a.data.image} alt={a.data.imageAlt} widths={[400, 640]} sizes="(max-width: 640px) 100vw, 400px" /></div>
+            <div class="post__body">
+              <span class="pill">{a.data.category}</span>
+              <h3>{a.data.title}</h3>
+              <p>{a.data.description}</p>
+              <span class="link-arrow">Leer artículo <Icon name="arrow" /></span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
 
-		.phone-number a {
-			color: #333;
-			text-decoration: none;
-			font-weight: bold;
-		}
+  <!-- FAQ -->
+  <section class="section">
+    <div class="container faq-wrap">
+      <div class="heading" data-reveal>
+        <p class="eyebrow">Preguntas frecuentes</p>
+        <h2>Resolvemos tus dudas</h2>
+        <p>Si no encuentras tu respuesta, escríbenos por WhatsApp y te respondemos a la brevedad.</p>
+        <a href={SITE.whatsapp.href} target="_blank" rel="noopener" class="btn btn--wa" style="margin-top:24px"><Icon name="whatsapp" />Consultar por WhatsApp</a>
+      </div>
+      <FAQ items={FAQS_GENERAL.slice(0, 6)} />
+    </div>
+  </section>
 
-		.contact-text {
-			margin-bottom: 30px;
-			color: #666;
-			line-height: 1.6;
-		}
+</BaseLayout>
 
-		.map-link {
-			margin-top: 20px;
-		}
+<style>
+  .tstrip { position: relative; z-index: 5; margin-top: clamp(-120px, -9vw, -80px); }
 
-		.btn-outline-primary {
-			border-color: #3660d9;
-			color: #fff;
-			background-color: #3660d9;
-			padding: 8px 20px;
-			font-size: 14px;
-		}
+  .about__grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(40px, 6vw, 88px); align-items: center; margin-bottom: clamp(56px, 7vw, 96px); }
+  .about__media { position: relative; padding: 0 12% 14% 0; }
+  .about__img { border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-lg); }
+  .about__img :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .about__img--main { aspect-ratio: 4 / 3.6; }
+  .about__img--small { position: absolute; right: 0; bottom: 0; width: 52%; aspect-ratio: 3 / 2; border: 6px solid #fff; }
+  .about__stat { position: absolute; left: -18px; bottom: 22%; background: var(--blue); color: #fff; border-radius: 20px; padding: 16px 20px; box-shadow: var(--shadow-lg); display: flex; align-items: center; gap: 12px; }
+  .about__stat strong { font-size: 2.2rem; letter-spacing: -0.04em; line-height: 1; }
+  .about__stat span { font-size: 0.82rem; line-height: 1.3; color: #dcebfb; font-weight: 600; }
+  .about__lead { font-size: 1.15rem; color: #3a4b5e; }
+  .about__copy > p:not(.eyebrow) { color: var(--text-soft); }
+  .about__ctas { display: flex; align-items: center; gap: 24px; margin-top: 30px; flex-wrap: wrap; }
 
-		.btn-outline-primary:hover {
-			background-color: #20386A;
-			color: #fff;
-			border-color: #20386A;
-		}
+  .why__item { display: flex; gap: 18px; padding: 26px; border-radius: 22px; background: var(--ice-50); border: 1px solid transparent; transition: background 0.3s, border-color 0.3s, transform 0.4s var(--ease); }
+  .why__item:hover { background: #fff; border-color: var(--line); transform: translateY(-3px); box-shadow: var(--shadow); }
+  .why__item .icon-badge { margin: 0; background: #fff; }
+  .why__item h3 { font-size: 1.08rem; margin-bottom: 6px; }
+  .why__item p { margin: 0; color: var(--text-soft); font-size: 0.95rem; }
 
-		.phone-number i:hover {
-			color: #007491;
-		}
+  .pricing { overflow: hidden; }
+  .pricing__deco { position: absolute; inset: 0; background: radial-gradient(700px 400px at 85% 10%, rgb(15 100 193 / 0.45), transparent 70%), radial-gradient(500px 300px at 10% 100%, rgb(15 100 193 / 0.25), transparent 70%); }
+  .pricing .container { position: relative; }
+  .pricing__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 420px)); justify-content: center; gap: 28px; }
+  .plan { position: relative; padding: 34px; border-radius: var(--radius-lg); background: rgb(255 255 255 / 0.05); border: 1px solid rgb(255 255 255 / 0.12); backdrop-filter: blur(6px); transition: transform 0.45s var(--ease); }
+  .plan:hover { transform: translateY(-6px); }
+  .plan--hl { background: linear-gradient(160deg, #fff 0%, var(--ice-50) 100%); border-color: #fff; box-shadow: 0 30px 60px -20px rgb(0 0 0 / 0.45); }
+  .plan h3 { font-size: 1.5rem; color: #fff; margin-bottom: 4px; }
+  .plan--hl h3 { color: var(--navy); }
+  .plan__sub { color: #9fb6cf; margin-bottom: 22px; font-size: 0.95rem; }
+  .plan--hl .plan__sub { color: var(--text-soft); }
+  .plan__tag { position: absolute; top: 22px; right: 22px; background: var(--blue); color: #fff; font-size: 0.75rem; font-weight: 800; padding: 6px 12px; border-radius: 999px; letter-spacing: 0.04em; text-transform: uppercase; }
+  .plan__price { font-size: clamp(2.4rem, 4vw, 3.2rem); font-weight: 800; letter-spacing: -0.04em; color: #fff; line-height: 1; margin-bottom: 24px; }
+  .plan--hl .plan__price { color: var(--navy); }
+  .plan__price small { display: block; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: #8ec2f5; margin-bottom: 8px; font-weight: 700; }
+  .plan--hl .plan__price small { color: var(--blue); }
+  .plan__rows { list-style: none; padding: 0; margin: 0 0 28px; display: grid; gap: 0; }
+  .plan__rows li { display: flex; justify-content: space-between; gap: 12px; padding: 13px 0; border-top: 1px dashed rgb(255 255 255 / 0.16); font-size: 0.95rem; }
+  .plan--hl .plan__rows li { border-color: var(--line); color: var(--text-soft); }
+  .plan__rows strong { color: #fff; }
+  .plan--hl .plan__rows strong { color: var(--navy); }
+  .pricing__note { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; margin: 32px 0 0; font-size: 0.92rem; color: #b5c7db; }
+  .pricing__note a { color: #fff; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
 
-		@media (max-width: 991px) {
-			.contact-info {
-				margin-top: 40px;
-				text-align: center;
-			}
-		}
+  .heading-row { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; margin-bottom: clamp(36px, 5vw, 56px); flex-wrap: wrap; }
+  .heading-row .heading { margin-bottom: 0; }
+  .minis { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  @media (max-width: 1180px) { .minis { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (max-width: 760px) { .minis { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 480px) { .minis { grid-template-columns: 1fr; } }
+  .mini { display: flex; flex-direction: column; color: inherit; }
+  .mini:hover { color: inherit; }
+  .mini h3 { margin-bottom: 8px; }
+  .mini p { color: var(--text-soft); font-size: 0.95rem; flex: 1; }
 
-		.feature-item {
-			background: #fff;
-			padding: 30px;
-			border-radius: 10px;
-			transition: all 0.3s ease;
-			box-shadow: 0 0 20px rgba(0,0,0,0.1);
-			color: #1b5ca4;
-		}
+  .steps { list-style: none; margin: 0 0 48px; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; counter-reset: s; position: relative; }
+  .steps::before { content: ''; position: absolute; top: 36px; left: 10%; right: 10%; height: 2px; background: repeating-linear-gradient(90deg, var(--ice) 0 10px, transparent 10px 18px); }
+  .steps li { position: relative; text-align: center; padding: 0 8px; }
+  .steps__n { position: relative; display: grid; place-items: center; width: 72px; height: 72px; margin: 0 auto 20px; border-radius: 22px; background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow); font-weight: 800; font-size: 1.3rem; color: var(--blue); transition: transform 0.4s var(--ease), background 0.3s, color 0.3s; }
+  .steps li:hover .steps__n { transform: translateY(-4px) rotate(-4deg); background: var(--blue); color: #fff; }
+  .steps p { color: var(--text-soft); font-size: 0.96rem; }
+  .center { text-align: center; }
 
-		.feature-item i,
-		.feature-item h3 {
-			color: #1b5ca4;
-		}
+  .post { display: flex; flex-direction: column; background: #fff; border-radius: 24px; overflow: hidden; border: 1px solid var(--line); color: inherit; box-shadow: var(--shadow-sm); transition: transform 0.45s var(--ease), box-shadow 0.45s var(--ease); }
+  .post:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); color: inherit; }
+  .post__img { aspect-ratio: 16 / 10; overflow: hidden; }
+  .post__img :global(img) { width: 100%; height: 100%; object-fit: cover; transition: transform 0.9s var(--ease); }
+  .post:hover .post__img :global(img) { transform: scale(1.06); }
+  .post__body { padding: 22px 24px 26px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .post__body h3 { margin: 4px 0 0; }
+  .post__body p { color: var(--text-soft); font-size: 0.95rem; margin: 0; flex: 1; }
 
-		.footer-social :global(.fab),
-		.footer-social :global(.fa-facebook-f),
-		.footer-social :global(.fa-instagram) {
-			color: #1b59a0 !important;
-		}
+  .faq-wrap { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: clamp(32px, 5vw, 72px); align-items: start; }
+  .faq-wrap .heading { position: sticky; top: calc(var(--header-h) + 24px); }
 
-		.social-icons-title {
-			color: #1b59a0;
-		}
-	</style>
-</Layout>
+  @media (max-width: 1024px) { .tstrip .grid-3 { grid-template-columns: 1fr; max-width: 640px; margin-inline: auto; } }
+  @media (max-width: 900px) {
+    .about__grid, .faq-wrap { grid-template-columns: 1fr; }
+    .faq-wrap .heading { position: static; }
+    .steps { grid-template-columns: 1fr 1fr; row-gap: 40px; }
+    .steps::before { display: none; }
+    .pricing__grid { grid-template-columns: minmax(0, 480px); }
+  }
+  @media (max-width: 520px) { .steps { grid-template-columns: 1fr; } .about__stat { left: 0; } .plan__tag { position: static; display: inline-block; margin-bottom: 14px; } .plan { padding: 26px; } }
+</style>

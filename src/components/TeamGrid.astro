@@ -1,0 +1,65 @@
+---
+import { Image } from 'astro:assets';
+import { SPECIALISTS, STAFF } from '../data/site';
+interface Props { showStaff?: boolean; filter?: string; heading?: string }
+const { showStaff = true, filter, heading } = Astro.props;
+const docs = filter ? SPECIALISTS.filter((s) => s.tags.includes(filter)) : SPECIALISTS;
+---
+{heading && <h2 class="team-title">{heading}</h2>}
+<ul class="team">
+  {docs.map((p, i) => (
+    <li class="doc" data-reveal style={`--d:${(i % 4) * 0.07}s`}>
+      <div class="doc__photo">
+        <Image src={p.photo} alt={`${p.name}, ${p.role} en Ortodoncia Para Todos Temuco`} widths={[300, 480]} sizes="(max-width: 640px) 50vw, 300px" />
+      </div>
+      <div class="doc__body">
+        <span class="pill">{p.role}</span>
+        <h3>{p.name}</h3>
+        <p>{p.note}</p>
+      </div>
+    </li>
+  ))}
+</ul>
+
+{showStaff && (
+  <div class="staff-wrap">
+    <h2 class="team-title">Equipo de atención</h2>
+    <ul class="staff">
+      {STAFF.map((p, i) => (
+        <li data-reveal style={`--d:${i * 0.05}s`}>
+          <div class="staff__photo"><Image src={p.photo} alt={`${p.name}, ${p.role}`} widths={[240, 400]} sizes="(max-width: 520px) 50vw, 300px" /></div>
+          <div class="staff__body">
+            <strong>{p.name}</strong>
+            <span>{p.role}</span>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+)}
+
+<style>
+  .team { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
+  .doc { position: relative; border-radius: 24px; overflow: hidden; background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow-sm); transition: transform 0.45s var(--ease), box-shadow 0.45s var(--ease); }
+  .doc:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+  .doc__photo { aspect-ratio: 1 / 1; overflow: hidden; background: linear-gradient(160deg, var(--ice), #fff); }
+  .doc__photo :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: top center; transition: transform 0.8s var(--ease); }
+  .doc:hover .doc__photo :global(img) { transform: scale(1.05); }
+  .doc__body { padding: 18px 20px 22px; }
+  .doc__body h3 { margin: 10px 0 4px; font-size: 1.12rem; }
+  .doc__body p { margin: 0; color: var(--text-soft); font-size: 0.92rem; }
+
+  .staff-wrap { margin-top: 72px; }
+  .team-title { text-align: center; margin: 0; padding: 28px 0 48px; font-size: clamp(1.6rem, 2.6vw, 2.1rem); letter-spacing: -0.025em; }
+  .staff { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px; }
+  .staff li { background: #fff; border: 1px solid var(--line); border-radius: 20px; overflow: hidden; box-shadow: var(--shadow-sm); transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease); }
+  .staff li:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+  .staff__photo { aspect-ratio: 1 / 1; overflow: hidden; background: var(--ice-50); }
+  .staff__photo :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+  .staff__body { padding: 14px 14px 16px; text-align: center; }
+  .staff strong { display: block; color: var(--navy); font-size: 1.05rem; line-height: 1.25; }
+  .staff span { color: var(--text-soft); font-size: 0.86rem; }
+  @media (max-width: 1024px) { .team { grid-template-columns: repeat(3, minmax(0, 1fr)); } .staff { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (max-width: 760px) { .team { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; } .doc__body { padding: 14px; } .doc__body h3 { font-size: 1rem; } }
+  @media (max-width: 520px) { .staff { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; } }
+</style>

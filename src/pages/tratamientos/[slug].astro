@@ -1,0 +1,205 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import Icon from '../../components/Icon.astro';
+import FAQ from '../../components/FAQ.astro';
+import TeamGrid from '../../components/TeamGrid.astro';
+import VideoCard from '../../components/VideoCard.astro';
+import TreatmentCard from '../../components/TreatmentCard.astro';
+import { TREATMENTS, type Treatment } from '../../data/treatments';
+import { SITE, VIDEOS } from '../../data/site';
+
+export function getStaticPaths() {
+  return TREATMENTS.map((t) => ({ params: { slug: t.slug }, props: { t } }));
+}
+const { t } = Astro.props as { t: Treatment };
+
+const whatIs: Record<string, string> = {
+  'brackets-metalicos': '¿Qué son los brackets metálicos?',
+  'brackets-esteticos': '¿Qué son los brackets estéticos?',
+  'alineadores-transparentes': '¿Qué son los alineadores transparentes?',
+  'ortodoncia-infantil': '¿Qué es la ortodoncia infantil?',
+  'implantes-dentales': '¿Qué es un implante dental?',
+  endodoncia: '¿Qué es una endodoncia?',
+  'rehabilitacion-oral': '¿Qué es la rehabilitación oral?',
+  'odontologia-general': '¿Qué incluye la odontología general?',
+};
+const videos = VIDEOS.filter((v) => v.related?.includes(t.slug)).slice(0, 4);
+const articles = (await getCollection('educacion')).filter((a) => a.data.related.includes(t.slug)).slice(0, 3);
+const others = TREATMENTS.filter((o) => o.category === t.category && o.slug !== t.slug).slice(0, 2);
+const crumbs = [{ name: 'Tratamientos', url: '/tratamientos/' }, { name: t.name, url: `/tratamientos/${t.slug}/` }];
+
+const schema = [{
+  '@context': 'https://schema.org',
+  '@type': 'MedicalProcedure',
+  name: t.h1,
+  description: t.seoDescription,
+  url: `${SITE.url}/tratamientos/${t.slug}/`,
+  procedureType: 'https://schema.org/NoninvasiveProcedure',
+  howPerformed: t.steps.map((s) => `${s.title}: ${s.text}`).join(' '),
+  provider: { '@id': `${SITE.url}/#clinica` },
+  ...(t.priceFrom ? {
+    offers: t.priceFrom.map((p) => ({ '@type': 'Offer', name: p.label, price: p.value.replace(/\D/g, ''), priceCurrency: 'CLP', seller: { '@id': `${SITE.url}/#clinica` } })),
+  } : {}),
+}];
+---
+<BaseLayout title={t.seoTitle} description={t.seoDescription} image={t.image} breadcrumbs={crumbs} schema={schema}>
+  <PageHero eyebrow={t.category === 'ortodoncia' ? 'Ortodoncia' : 'Especialidades'} title={t.h1} lead={t.lead} crumbs={crumbs} image={t.image} imageAlt={t.imageAlt} imagePosition={t.slug === 'rehabilitacion-oral' || t.slug === 'implantes-dentales' ? '85% center' : 'center'}>
+    <div class="ph-ctas">
+      <a href={SITE.agendaUrl} target="_blank" rel="noopener" class="btn"><Icon name="calendar" />Agendar evaluación</a>
+      <a href={SITE.whatsapp.href} target="_blank" rel="noopener" class="btn btn--outline"><Icon name="whatsapp" />Consultar</a>
+    </div>
+  </PageHero>
+
+  <section class="section" style="padding-top:56px">
+    <div class="container tx">
+      <div class="tx__main">
+        <div class="prose" data-reveal>
+          <h2>{whatIs[t.slug] ?? `Sobre ${t.name.toLowerCase()}`}</h2>
+          {t.intro.map((p) => <p>{p}</p>)}
+        </div>
+
+        <h2 class="tx__h2" data-reveal>Beneficios</h2>
+        <div class="grid grid-2 benefits">
+          {t.benefits.map((b, i) => (
+            <div class="card" data-reveal style={`--d:${(i % 2) * 0.06}s`}>
+              <span class="icon-badge"><Icon name="check" /></span>
+              <h3>{b.title}</h3>
+              <p>{b.text}</p>
+            </div>
+          ))}
+        </div>
+
+        <h2 class="tx__h2" data-reveal>¿Cómo es el tratamiento?</h2>
+        <ol class="tsteps">
+          {t.steps.map((s, i) => (
+            <li data-reveal style={`--d:${i * 0.06}s`}>
+              <span>{String(i + 1).padStart(2, '0')}</span>
+              <div><h3>{s.title}</h3><p>{s.text}</p></div>
+            </li>
+          ))}
+        </ol>
+      </div>
+
+      <aside class="tx__aside">
+        <div class="side-card" data-reveal>
+          <h2>¿Para quién es?</h2>
+          <ul class="check-list">{t.forWho.map((f) => <li>{f}</li>)}</ul>
+        </div>
+
+        {t.priceFrom ? (
+          <div class="side-card side-card--price" data-reveal>
+            <p class="eyebrow">Aranceles</p>
+            <h2>Valores {t.name.toLowerCase()}</h2>
+            <ul class="prices">
+              {t.priceFrom.map((p) => <li><span>{p.label}</span><strong>{p.value}</strong></li>)}
+            </ul>
+            <p class="small">Mismo arancel para Fonasa, Isapre y particulares. Diagnóstico no incluye radiografías.</p>
+            <a href="/aranceles/" class="link-arrow">Ver todos los aranceles <Icon name="arrow" /></a>
+          </div>
+        ) : (
+          <div class="side-card side-card--price" data-reveal>
+            <p class="eyebrow">Presupuesto</p>
+            <h2>Valor según tu caso</h2>
+            <p class="small">Este tratamiento se presupuesta de forma personalizada tras la evaluación clínica. Arancel único para todos los pacientes.</p>
+            <a href={SITE.whatsapp.href} target="_blank" rel="noopener" class="btn btn--wa btn--block"><Icon name="whatsapp" />Solicitar presupuesto</a>
+          </div>
+        )}
+
+        <div class="side-card side-card--cta" data-reveal>
+          <p class="hand">Tu sonrisa, nuestro propósito</p>
+          <h2>Agenda tu evaluación</h2>
+          <p>Reserva en línea las 24 horas o llámanos.</p>
+          <a href={SITE.agendaUrl} target="_blank" rel="noopener" class="btn btn--white btn--block"><Icon name="calendar" />Agendar en línea</a>
+          <a href={SITE.phones[0].href} class="side-phone"><Icon name="phone" size={18} />{SITE.phones[0].label}</a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  {videos.length > 0 && (
+    <section class="section section--ice">
+      <div class="container">
+        <div class="heading" data-reveal>
+          <p class="eyebrow">Videos</p>
+          <h2>Aprende más sobre {t.name.toLowerCase()}</h2>
+        </div>
+        <div class="grid grid-4">{videos.map((v, i) => <VideoCard video={v} delay={i * 0.06} />)}</div>
+      </div>
+    </section>
+  )}
+
+  <section class="section">
+    <div class="container">
+      <div class="heading" data-reveal>
+        <p class="eyebrow">Especialistas</p>
+        <h2>Quiénes te atenderán</h2>
+      </div>
+      <TeamGrid showStaff={false} filter={t.specialistTag} />
+    </div>
+  </section>
+
+  <section class="section section--ice">
+    <div class="container faq-2">
+      <div class="heading" data-reveal>
+        <p class="eyebrow">Preguntas frecuentes</p>
+        <h2>Dudas sobre {t.name.toLowerCase()}</h2>
+        {articles.length > 0 && (
+          <div class="rel-articles">
+            <p><strong>Artículos relacionados</strong></p>
+            <ul>{articles.map((a) => <li><a href={`/educacion/${a.id}/`} class="link-arrow">{a.data.title} <Icon name="arrow" /></a></li>)}</ul>
+          </div>
+        )}
+      </div>
+      <FAQ items={t.faqs} />
+    </div>
+  </section>
+
+  {others.length > 0 && (
+    <section class="section">
+      <div class="container">
+        <div class="heading" data-reveal>
+          <p class="eyebrow">También te puede interesar</p>
+          <h2>Otros tratamientos</h2>
+        </div>
+        <div class="grid grid-2">{others.map((o, i) => <TreatmentCard t={o} delay={i * 0.08} />)}</div>
+      </div>
+    </section>
+  )}
+</BaseLayout>
+
+<style>
+  .ph-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+  .tx { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: clamp(32px, 5vw, 64px); align-items: start; }
+  .tx__h2 { font-size: clamp(1.5rem, 2.4vw, 1.9rem); margin: 56px 0 24px; }
+  .benefits .card h3 { margin-bottom: 6px; }
+  .benefits .card p { margin: 0; color: var(--text-soft); font-size: 0.97rem; }
+  .benefits .icon-badge { width: 44px; height: 44px; border-radius: 12px; margin-bottom: 14px; }
+  .benefits .icon-badge :global(svg) { width: 22px; height: 22px; }
+
+  .tsteps { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+  .tsteps li { display: flex; gap: 20px; align-items: flex-start; padding: 22px 24px; border-radius: 20px; border: 1px solid var(--line); background: #fff; }
+  .tsteps span { flex: none; width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center; background: var(--navy); color: #fff; font-weight: 800; }
+  .tsteps h3 { margin-bottom: 4px; }
+  .tsteps p { margin: 0; color: var(--text-soft); }
+
+  .tx__aside { display: grid; gap: 20px; position: sticky; top: calc(var(--header-h) + 20px); }
+  .side-card { padding: 28px; border-radius: 24px; background: var(--ice-50); border: 1px solid var(--line); }
+  .side-card h2 { font-size: 1.35rem; margin-bottom: 18px; }
+  .side-card--price { background: #fff; box-shadow: var(--shadow); }
+  .prices { list-style: none; margin: 0 0 16px; padding: 0; }
+  .prices li { display: flex; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px dashed var(--line); font-size: 0.96rem; color: var(--text-soft); }
+  .prices strong { color: var(--navy); font-size: 1.05rem; white-space: nowrap; }
+  .small { font-size: 0.86rem; color: var(--gray); }
+  .side-card--cta { background: linear-gradient(145deg, var(--blue), var(--navy)); border: 0; color: #d6e6f7; }
+  .side-card--cta h2 { color: #fff; margin-bottom: 6px; }
+  .side-card--cta .hand { font-size: 1.5rem; color: #bfe0ff; margin: 0 0 4px; line-height: 1; }
+  .side-phone { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 12px; color: #fff; font-weight: 700; }
+  .side-phone:hover { color: var(--ice); }
+
+  .faq-2 { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: clamp(32px, 5vw, 72px); align-items: start; }
+  .rel-articles { margin-top: 24px; }
+  .rel-articles ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+  @media (max-width: 1024px) { .tx, .faq-2 { grid-template-columns: 1fr; } .tx__aside { position: static; } }
+</style>

@@ -1,0 +1,34 @@
+---
+import Icon from './Icon.astro';
+import { SITE } from '../data/site';
+---
+<div class="fab">
+  <a href={SITE.whatsapp.href} target="_blank" rel="noopener" class="fab__wa" aria-label="Escríbenos por WhatsApp">
+    <Icon name="whatsapp" size={30} />
+    <span class="fab__tip">¿Dudas? Escríbenos</span>
+  </a>
+</div>
+<nav class="mbar" aria-label="Acciones rápidas">
+  <a href={SITE.phones[0].href}><Icon name="phone" size={20} />Llamar</a>
+  <a href={SITE.agendaUrl} target="_blank" rel="noopener" class="mbar__main"><Icon name="calendar" size={20} />Agendar cita</a>
+  <a href={SITE.whatsapp.href} target="_blank" rel="noopener"><Icon name="whatsapp" size={20} />WhatsApp</a>
+</nav>
+
+<style>
+  .fab { position: fixed; right: 22px; bottom: 22px; z-index: 90; }
+  .fab__wa { position: relative; width: 62px; height: 62px; border-radius: 50%; display: grid; place-items: center; background: var(--wa); color: #fff; box-shadow: 0 14px 30px -8px rgb(37 211 102 / 0.65); transition: transform 0.35s var(--ease); }
+  .fab__wa::before { content: ''; position: absolute; inset: 0; border-radius: 50%; background: var(--wa); z-index: -1; animation: pulse 2.4s ease-out infinite; }
+  .fab__wa:hover { color: #fff; transform: scale(1.06); }
+  .fab__tip { position: absolute; right: 74px; white-space: nowrap; background: #fff; color: var(--navy); font-weight: 700; font-size: 0.86rem; padding: 8px 14px; border-radius: 12px; box-shadow: var(--shadow); opacity: 0; transform: translateX(8px); transition: 0.3s var(--ease); pointer-events: none; }
+  .fab__wa:hover .fab__tip { opacity: 1; transform: none; }
+  @keyframes pulse { 0% { transform: scale(1); opacity: 0.55; } 100% { transform: scale(1.55); opacity: 0; } }
+
+  .mbar { display: none; }
+  @media (max-width: 760px) {
+    .fab { display: none; }
+    .mbar { position: fixed; left: 10px; right: 10px; bottom: 10px; z-index: 90; display: grid; grid-template-columns: 1fr 1.4fr 1fr; gap: 6px; padding: 6px; border-radius: 18px; background: rgb(255 255 255 / 0.92); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 10px 30px -8px rgb(10 40 78 / 0.35); border: 1px solid var(--line); }
+    .mbar a { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 4px; border-radius: 13px; font-size: 0.74rem; font-weight: 700; color: var(--navy); }
+    .mbar a:last-child :global(svg) { color: #1ea952; }
+    .mbar__main { background: var(--blue); color: #fff !important; }
+  }
+</style>

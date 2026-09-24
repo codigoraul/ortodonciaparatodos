@@ -1,85 +1,87 @@
 ---
-import Header from '../components/Header.astro';
-import Layout from '../layouts/Layout.astro';
-import Slider from '../components/Slider.astro';
-import Breadcrumb from '../components/Breadcrumb.astro';
-import Equipo from '../components/Equipo.astro';
 import { Image } from 'astro:assets';
-import fotoEquipo from '../assets/img/ortodonciaparatodos.jpg';
----
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import TeamGrid from '../components/TeamGrid.astro';
+import { SITE } from '../data/site';
+import clinicaBox from '../assets/img/clinica-home.webp';
+import sala from '../assets/img/slider-3.jpg';
 
-<Layout title="Nosotros">
+const crumbs = [{ name: 'Nosotros', url: '/nosotros/' }];
+const values = [
+  { icon: 'wallet', title: 'Accesibilidad', text: 'Ortodoncia de calidad a precios accesibles y con arancel único para todos.' },
+  { icon: 'heart', title: 'Cercanía', text: 'Atención personalizada: te explicamos cada paso y resolvemos tus dudas.' },
+  { icon: 'award', title: 'Excelencia', text: 'Especialistas con formación nacional e internacional y tecnología de vanguardia.' },
+  { icon: 'shield', title: 'Transparencia', text: 'Precios publicados y planes claros desde la primera consulta.' },
+];
+---
+<BaseLayout
+  title="Nosotros | Clínica de ortodoncia en el centro de Temuco"
+  description="Clínica dental en el Edificio Capital de Temuco con 18 años de experiencia. Nuestra misión: ortodoncia accesible para todos, sin comprometer la calidad."
+  breadcrumbs={crumbs}
+>
+  <PageHero eyebrow="Sobre nosotros" title="Ortodoncia accesible para todos, sin comprometer la calidad" lead="Somos una clínica dental ubicada en el corazón de Temuco, dedicada a proporcionar tratamientos de ortodoncia de alta calidad a precios accesibles." crumbs={crumbs} />
+
+  <section class="section" style="padding-top:56px">
+    <div class="container story">
+      <div class="story__copy" data-reveal>
+        <p class="eyebrow">Nuestra historia</p>
+        <h2>{SITE.yearsExperience} años creando sonrisas en La Araucanía</h2>
+        <p>Ortodoncia Para Todos es una clínica dental ubicada en el centro de Temuco, dedicada a proporcionar tratamientos de ortodoncia de alta calidad a precios accesibles. Nuestro equipo de profesionales altamente capacitados está comprometido con la excelencia en el cuidado dental y la satisfacción del paciente.</p>
+        <p>Nos especializamos en una variedad de tratamientos de ortodoncia, incluyendo brackets metálicos, brackets estéticos, alineadores transparentes y tratamientos para niños y adultos, además de implantología, endodoncia, rehabilitación oral y odontología general.</p>
+        <blockquote class="mission">
+          <Icon name="quote" size={34} />
+          <p>Nuestra misión es hacer que la ortodoncia sea accesible para todos, sin comprometer la calidad del tratamiento.</p>
+        </blockquote>
+      </div>
+      <div class="story__media" data-reveal style="--d:.1s">
+        <div class="ph ph--a"><Image src={clinicaBox} alt="Box de atención dental y sala de espera en el Edificio Capital, Temuco" width={600} /></div>
+        <div class="ph ph--b"><Image src={sala} alt="Sala de espera luminosa de la clínica" widths={[480, 800]} sizes="360px" style="object-position: 20% center" /></div>
+        <div class="loc"><Icon name="building" size={22} /><div><strong>Piso 20, Edificio Capital</strong><span>Vista panorámica de Temuco</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--ice">
+    <div class="container">
+      <div class="heading heading--center" data-reveal>
+        <p class="eyebrow">Nuestros valores</p>
+        <h2>Lo que nos define</h2>
+      </div>
+      <div class="grid grid-4">
+        {values.map((v, i) => (
+          <div class="card" data-reveal style={`--d:${i * 0.07}s`}>
+            <span class="icon-badge"><Icon name={v.icon} /></span>
+            <h3>{v.title}</h3>
+            <p style="margin:0;color:var(--text-soft)">{v.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <TeamGrid heading="Nuestro equipo de profesionales" />
+    </div>
+  </section>
+</BaseLayout>
 
 <style>
-    .s-about-img {
-        position: relative;
-        overflow: hidden;
-        border-radius: 10px;
-    }
-    .s-about-img img {
-        width: 100%;
-        height: auto;
-        object-fit: cover;
-        border-radius: 10px;
-    }
-    @media (max-width: 768px) {
-        .s-about-img {
-            margin-bottom: 30px;
-        }
-        .s-about-img img {
-            max-height: 300px;
-            object-fit: cover;
-        }
-    }
+  .story { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: clamp(40px, 6vw, 88px); align-items: center; }
+  .story__copy > p { color: var(--text-soft); font-size: 1.06rem; }
+  .mission { margin: 28px 0 0; padding: 28px 30px; border-radius: 24px; background: linear-gradient(135deg, var(--navy), var(--navy-800)); color: #fff; position: relative; }
+  .mission :global(svg) { color: #5ea4ec; margin-bottom: 8px; }
+  .mission p { margin: 0; font-size: 1.22rem; font-weight: 700; line-height: 1.45; letter-spacing: -0.01em; }
+  .story__media { position: relative; padding-bottom: 18%; }
+  .ph { border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-lg); }
+  .ph :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .ph--a { aspect-ratio: 3 / 2; width: 88%; }
+  .ph--b { position: absolute; right: 0; bottom: 0; width: 56%; aspect-ratio: 4 / 3; border: 6px solid #fff; }
+  .loc { position: absolute; left: 4%; bottom: 4%; display: flex; gap: 12px; align-items: center; background: #fff; padding: 14px 18px; border-radius: 18px; box-shadow: var(--shadow-lg); }
+  .loc :global(svg) { color: var(--blue); }
+  .loc strong { display: block; color: var(--navy); font-size: 0.95rem; }
+  .loc span { font-size: 0.82rem; color: var(--text-soft); }
+  @media (max-width: 900px) { .story { grid-template-columns: 1fr; } }
 </style>
-
-<main>
-            
-    <Breadcrumb title="Nosotros" currentPage="Nosotros" parentPage="Inicio" parentUrl="/" />
-     <!-- about-area -->
-    <section class="about-area about-p pt-120 pb-120 p-relative fix">
-        <div class="container">
-            <div class="row justify-content-center align-items-center">
-                 <div class="col-lg-6 col-md-12 col-sm-12">
-                    <div class="s-about-img p-relative wow fadeInLeft animated" data-animation="fadeInLeft" data-delay=".4s">
-                        <Image 
-                            src={fotoEquipo} 
-                            alt="Clínica Ortodoncia para todos"
-                            width={600}
-                            height={400}
-                            class="img-fluid"
-                            style="object-fit: cover; width: 100%; height: auto;"
-                        />   
-                    
-                    </div>
-                  
-                </div>
-                
-            <div class="col-lg-6 col-md-12 col-sm-12">
-                    <div class="about-content s-about-content  wow fadeInRight  animated" data-animation="fadeInRight" data-delay=".4s">
-                        <div class="about-title second-title pb-25">  
-                            <h5>Sobre Nosotros</h5>
-                            <h2>Ortodoncia para Todos</h2>                                   
-                        </div>
-                           <p>Ortodoncia para Todos es una clínica dental ubicada en el corazón de la ciudad, dedicada a proporcionar tratamientos de ortodoncia de alta calidad a precios accesibles. Nuestro equipo de profesionales altamente capacitados está comprometido con la excelencia en el cuidado dental y la satisfacción del paciente.</p>
-                           <p>Nos especializamos en una variedad de tratamientos de ortodoncia, incluyendo brackets metálicos, brackets estéticos, alineadores transparentes y tratamientos para niños y adultos. Nuestra misión es hacer que la ortodoncia sea accesible para todos, sin comprometer la calidad del tratamiento.</p>
-                        
-                    </div>
-                </div>
-             
-            </div>
-        </div>
-    </section>
-    <!-- about-area-end -->
-    <!-- our-team-area -->
-    <Equipo />
-    <!-- our-team-area-end -->
- 
-   
-</main>
-<!-- main-area-end -->
-
-
-
-
-</Layout>

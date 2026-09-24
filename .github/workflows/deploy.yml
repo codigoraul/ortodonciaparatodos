@@ -1,35 +1,53 @@
-name: Deploy to cPanel
+name: Deploy a cPanel
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
+  workflow_dispatch:
+
+# Vista previa: se publica en ortodonciaparatodos.cl/prueba
+# Para pasar a producción: dejar BASE_PATH vacío y SUBDIR vacío.
+env:
+  BASE_PATH: /prueba
+  SUBDIR: prueba
+
+concurrency:
+  group: deploy
+  cancel-in-progress: true
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
 
-      - name: Install dependencies
-        run: npm install
+      - name: Instalar dependencias
+        run: npm ci
 
-      - name: Build Astro site
+      - name: Build Astro
         run: npm run build
 
-      - name: Deploy to cPanel via FTP
+      - name: Calcular carpeta destino
+        id: dest
+        env:
+          FTP_DIR: ${{ secrets.FTP_SERVER_DIR }}
+        run: |
+          DIR="${FTP_DIR%/}"
+          [ -n "$SUBDIR" ] && DIR="$DIR/$SUBDIR"
+          echo "dir=$DIR/" >> "$GITHUB_OUTPUT"
+
+      - name: Subir por FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./dist/
-          server-dir: ${{ secrets.FTP_SERVER_DIR }}
+          server-dir: ${{ steps.dest.outputs.dir }}

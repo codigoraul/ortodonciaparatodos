@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import TeamGrid from '../components/TeamGrid.astro';
+import Icon from '../components/Icon.astro';
+import { SITE, SPECIALISTS } from '../data/site';
+
+const crumbs = [{ name: 'Especialistas', url: '/especialistas/' }];
+const schema = [{
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Especialistas de Ortodoncia Para Todos',
+  itemListElement: SPECIALISTS.map((s, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    item: { '@type': 'Person', name: s.name, jobTitle: s.role, worksFor: { '@id': `${SITE.url}/#clinica` } },
+  })),
+}];
+import bgHero from '../assets/img/slider-2.jpg';
+---
+<BaseLayout
+  title="Especialistas en ortodoncia en Temuco | Nuestro equipo"
+  description="Conoce a los ortodoncistas y especialistas de Ortodoncia Para Todos en Temuco: ortodoncia, implantología, endodoncia, rehabilitación oral y odontología general."
+  breadcrumbs={crumbs}
+  schema={schema}
+>
+  <PageHero image={bgHero} imagePosition="right center" eyebrow="Especialistas" title="Un equipo experto para cada tratamiento" lead="Ortodoncistas, implantólogos, endodoncista y especialista en rehabilitación oral trabajando juntos por tu sonrisa." crumbs={crumbs}>
+    <div class="ph-ctas">
+      <a href={SITE.agendaUrl} target="_blank" rel="noopener" class="btn"><Icon name="calendar" />Agendar con un especialista</a>
+    </div>
+  </PageHero>
+  <section class="section" style="padding-top:56px">
+    <div class="container">
+      <TeamGrid heading="Nuestro equipo de profesionales" />
+    </div>
+  </section>
+</BaseLayout>
+<style>
+  .ph-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+</style>

@@ -1,0 +1,131 @@
+---
+import Icon from './Icon.astro';
+import { SITE } from '../data/site';
+interface Props { title?: string; showMap?: boolean }
+const { title = 'Agenda tu evaluación', showMap = true } = Astro.props;
+---
+<div class="cblock">
+  <div class="cblock__info" data-reveal>
+    <p class="eyebrow">Contacto</p>
+    <h2>{title}</h2>
+    <p class="cblock__lead">Déjanos tus datos y te contactamos para coordinar tu hora, o agenda directamente en línea.</p>
+
+    <ul class="cblock__list">
+      <li>
+        <span class="icon-badge"><Icon name="pin" /></span>
+        <div><strong>Dirección</strong><a href={SITE.mapsUrl} target="_blank" rel="noopener">{SITE.addressFull}</a></div>
+      </li>
+      <li>
+        <span class="icon-badge"><Icon name="phone" /></span>
+        <div><strong>Teléfonos</strong><span><a href={SITE.phones[0].href}>{SITE.phones[0].label}</a> · <a href={SITE.phones[1].href}>{SITE.phones[1].label}</a></span></div>
+      </li>
+      <li>
+        <span class="icon-badge"><Icon name="whatsapp" /></span>
+        <div><strong>WhatsApp</strong><a href={SITE.whatsapp.href} target="_blank" rel="noopener">{SITE.whatsapp.label}</a></div>
+      </li>
+      <li>
+        <span class="icon-badge"><Icon name="mail" /></span>
+        <div><strong>Correo</strong><a href={`mailto:${SITE.email}`}>{SITE.email}</a></div>
+      </li>
+    </ul>
+    <a href={SITE.agendaUrl} target="_blank" rel="noopener" class="btn"><Icon name="calendar" />Agendar en línea 24/7</a>
+  </div>
+
+  <form class="cform" id="contact-form" data-reveal style="--d:.1s" novalidate>
+    <h3>Envíanos un mensaje</h3>
+    <div class="cform__row">
+      <div class="field"><label for="user_name">Nombre completo</label><input id="user_name" name="user_name" type="text" autocomplete="name" required placeholder="Tu nombre" /></div>
+      <div class="field"><label for="user_phone">Teléfono</label><input id="user_phone" name="user_phone" type="tel" autocomplete="tel" required placeholder="+56 9 ..." /></div>
+    </div>
+    <div class="field"><label for="user_email">Correo electrónico</label><input id="user_email" name="user_email" type="email" autocomplete="email" required placeholder="tu@correo.cl" /></div>
+    <div class="field">
+      <label for="treatment">¿Qué tratamiento te interesa?</label>
+      <select id="treatment" name="treatment">
+        <option>Evaluación de ortodoncia</option>
+        <option>Brackets metálicos</option>
+        <option>Brackets estéticos</option>
+        <option>Alineadores transparentes</option>
+        <option>Ortodoncia infantil</option>
+        <option>Implantes dentales</option>
+        <option>Endodoncia</option>
+        <option>Rehabilitación oral</option>
+        <option>Odontología general</option>
+        <option>Otro</option>
+      </select>
+    </div>
+    <div class="field"><label for="message">Mensaje</label><textarea id="message" name="message" required placeholder="Cuéntanos brevemente tu consulta"></textarea></div>
+    <button type="submit" class="btn btn--block" data-submit>Enviar mensaje <Icon name="arrow" /></button>
+    <p class="cform__msg cform__msg--ok" id="success-message" role="status" hidden>¡Mensaje enviado con éxito! Nos pondremos en contacto contigo pronto.</p>
+    <p class="cform__msg cform__msg--err" id="error-message" role="alert" hidden>Hubo un error al enviar el mensaje. Por favor, intenta nuevamente o escríbenos por WhatsApp.</p>
+    <p class="cform__legal">Tus datos se usan solo para responder tu consulta.</p>
+  </form>
+</div>
+
+{showMap && (
+  <div class="cmap" data-reveal>
+    <iframe title="Mapa: Ortodoncia Para Todos en Edificio Capital, Temuco" src={SITE.mapsEmbed} loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+    <a href={SITE.mapsUrl} target="_blank" rel="noopener" class="cmap__btn btn btn--white btn--sm"><Icon name="navigation" size={18} />Cómo llegar</a>
+  </div>
+)}
+
+<script>
+  import emailjs from '@emailjs/browser';
+  import { SITE } from '../data/site';
+
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  if (form) {
+    emailjs.init({ publicKey: SITE.emailjs.publicKey });
+    const ok = document.getElementById('success-message')!;
+    const err = document.getElementById('error-message')!;
+    const btn = form.querySelector('[data-submit]') as HTMLButtonElement;
+    const val = (id: string) => (document.getElementById(id) as HTMLInputElement)?.value.trim();
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      ok.hidden = true; err.hidden = true;
+      if (!form.checkValidity()) { form.reportValidity(); return; }
+      btn.disabled = true; btn.dataset.label = btn.innerHTML; btn.textContent = 'Enviando…';
+      const params = {
+        name: val('user_name'),
+        email: val('user_email'),
+        phone: val('user_phone'),
+        message: `[${val('treatment')}] ${val('message')}`,
+        time: new Date().toLocaleString('es-CL', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
+      };
+      try {
+        await emailjs.send(SITE.emailjs.serviceId, SITE.emailjs.templateId, params);
+        ok.hidden = false; form.reset();
+      } catch (e) {
+        console.error(e); err.hidden = false;
+      } finally {
+        btn.disabled = false; btn.innerHTML = btn.dataset.label || 'Enviar mensaje';
+      }
+    });
+  }
+</script>
+
+<style>
+  .cblock { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: clamp(32px, 5vw, 72px); align-items: start; }
+  .cblock__lead { color: var(--text-soft); font-size: 1.1rem; }
+  .cblock__list { list-style: none; margin: 28px 0 32px; padding: 0; display: grid; gap: 18px; }
+  .cblock__list li { display: flex; gap: 16px; align-items: center; }
+  .cblock__list .icon-badge { margin: 0; width: 52px; height: 52px; }
+  .cblock__list strong { display: block; color: var(--navy); font-size: 0.86rem; text-transform: uppercase; letter-spacing: 0.08em; }
+  .cblock__list a { color: var(--text); font-weight: 600; }
+  .cblock__list a:hover { color: var(--blue); }
+
+  .cform { background: #fff; border: 1px solid var(--line); border-radius: var(--radius-lg); padding: clamp(24px, 3.5vw, 44px); box-shadow: var(--shadow-lg); display: grid; gap: 16px; position: relative; }
+  .cform::before { content: ''; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; background: linear-gradient(135deg, var(--blue), transparent 40%); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
+  .cform h3 { font-size: 1.4rem; margin: 0 0 4px; }
+  .cform__row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .cform__msg { margin: 0; padding: 12px 16px; border-radius: 12px; font-weight: 600; font-size: 0.95rem; }
+  .cform__msg--ok { background: #e6f6ee; color: var(--success); }
+  .cform__msg--err { background: #fdecec; color: #b42318; }
+  .cform__legal { margin: 0; font-size: 0.8rem; color: var(--gray); text-align: center; }
+
+  .cmap { position: relative; margin-top: 56px; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow); border: 1px solid var(--line); }
+  .cmap iframe { display: block; width: 100%; height: 420px; border: 0; filter: saturate(0.9); }
+  .cmap__btn { position: absolute; left: 20px; bottom: 20px; box-shadow: var(--shadow); }
+  @media (max-width: 900px) { .cblock { grid-template-columns: 1fr; } }
+  @media (max-width: 520px) { .cform__row { grid-template-columns: 1fr; } .cmap iframe { height: 320px; } }
+</style>
