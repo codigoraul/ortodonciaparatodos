@@ -41,8 +41,14 @@ export const SITE = {
 export type NavItem = { label: string; href: string; children?: { label: string; href: string; desc?: string }[] };
 
 export const NAV: NavItem[] = [
-  { label: 'Inicio', href: '/' },
-  { label: 'Nosotros', href: '/nosotros/' },
+  {
+    label: 'Nosotros',
+    href: '/nosotros/',
+    children: [
+      { label: 'Nuestra clínica', href: '/nosotros/', desc: 'Quiénes somos y cómo trabajamos' },
+      { label: 'Especialistas', href: '/especialistas/', desc: 'Conoce a nuestro equipo clínico' },
+    ],
+  },
   {
     label: 'Tratamientos',
     href: '/tratamientos/',
@@ -58,17 +64,16 @@ export const NAV: NavItem[] = [
     ],
   },
   { label: 'Aranceles', href: '/aranceles/' },
-  { label: 'Especialistas', href: '/especialistas/' },
   {
-    label: 'Educación',
-    href: '/educacion/',
+    label: 'Contacto',
+    href: '/contacto/',
     children: [
-      { label: 'Artículos y guías', href: '/educacion/', desc: 'Salud bucal y ortodoncia' },
+      { label: 'Contáctanos', href: '/contacto/', desc: 'Dirección, teléfonos y formulario' },
+      { label: 'Educación dental', href: '/educacion/', desc: 'Artículos y guías de salud bucal' },
       { label: 'Videos', href: '/videos/', desc: '17 videos educativos' },
       { label: 'Preguntas frecuentes', href: '/preguntas-frecuentes/', desc: 'Resolvemos tus dudas' },
     ],
   },
-  { label: 'Contacto', href: '/contacto/' },
 ];
 
 /* ---------------- Equipo ---------------- */

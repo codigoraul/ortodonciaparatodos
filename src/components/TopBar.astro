@@ -5,8 +5,7 @@ import { SITE } from '../data/site';
 <div class="topbar">
   <div class="container topbar__inner">
     <ul class="topbar__info">
-      <li><a href={SITE.mapsUrl} target="_blank" rel="noopener"><Icon name="pin" size={16} />{SITE.addressFull}</a></li>
-      <li class="hide-md"><a href={`mailto:${SITE.email}`}><Icon name="mail" size={16} />{SITE.email}</a></li>
+      <li><a href={SITE.mapsUrl} target="_blank" rel="noopener"><Icon name="pin" size={16} />A. Varas 989, {SITE.city}</a></li>
       <li>
         <Icon name="phone" size={16} />
         <a href={SITE.phones[0].href}>{SITE.phones[0].label}</a>

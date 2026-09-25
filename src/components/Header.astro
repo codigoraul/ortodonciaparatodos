@@ -2,16 +2,21 @@
 import { Image } from 'astro:assets';
 import Icon from './Icon.astro';
 import logo from '../assets/img/logo-ortodoncia-para-todos.png';
+import milenium from '../assets/img/milenium-logo.png';
 import { NAV, SITE } from '../data/site';
 
 const path = Astro.url.pathname;
-const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href) || (href === '/educacion/' && path.startsWith('/videos')));
+const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href) || (href === '/nosotros/' && path.startsWith('/especialistas')) || (href === '/contacto/' && ['/educacion', '/videos', '/preguntas-frecuentes'].some((p) => path.startsWith(p))));
 ---
 <header class="site-header" data-header>
   <div class="container site-header__inner">
-    <a href="/" class="brand" aria-label={`${SITE.name} — Inicio`}>
-      <Image src={logo} alt={`${SITE.name} — ${SITE.slogan}`} width={420} densities={[1, 2]} loading="eager" fetchpriority="high" class="brand__logo" />
-    </a>
+    <div class="brand-group">
+      <a href="/" class="brand" aria-label={`${SITE.name} — Inicio`}>
+        <Image src={logo} alt={`${SITE.name} — ${SITE.slogan}`} width={420} densities={[1, 2]} loading="eager" fetchpriority="high" class="brand__logo" />
+      </a>
+      <span class="brand-group__sep" aria-hidden="true"></span>
+      <Image src={milenium} alt="Milenium Odontología Integral" width={180} densities={[1, 2]} loading="eager" class="brand__partner" />
+    </div>
 
     <nav class="nav" aria-label="Principal">
       <ul class="nav__list">
@@ -54,7 +59,11 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
   <div class="mobile" id="mobile-menu" data-mobile hidden>
   <div class="mobile__panel">
     <div class="mobile__head">
-      <Image src={logo} alt={SITE.name} width={180} class="mobile__logo" />
+      <div class="mobile__brands">
+        <a href="/" aria-label={`${SITE.name} — Inicio`}><Image src={logo} alt={SITE.name} width={180} class="mobile__logo" /></a>
+        <span class="brand-group__sep" aria-hidden="true"></span>
+        <Image src={milenium} alt="Milenium Odontología Integral" width={120} densities={[1, 2]} class="mobile__partner" />
+      </div>
       <button class="burger burger--close" aria-label="Cerrar menú" data-close><Icon name="close" size={26} /></button>
     </div>
     <ul class="mobile__list">
@@ -107,7 +116,11 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
   .site-header__inner { display: flex; align-items: center; gap: 28px; min-height: var(--header-h); transition: min-height 0.4s var(--ease); }
   .is-scrolled .site-header__inner { min-height: 78px; }
 
+  .brand-group { flex: none; display: flex; align-items: center; gap: 22px; }
   .brand { flex: none; display: block; }
+  .brand-group__sep { width: 1px; align-self: stretch; margin: 18px 0; background: linear-gradient(to bottom, transparent, rgb(113 123 132 / 0.3), transparent); }
+  .brand-group :global(.brand__partner) { height: 38px; width: auto; transition: height 0.4s var(--ease); }
+  .is-scrolled .brand-group :global(.brand__partner) { height: 30px; }
   .brand :global(.brand__logo) { height: 81px; width: auto; transition: height 0.4s var(--ease); }
   .is-scrolled .brand :global(.brand__logo) { height: 58px; }
 
@@ -119,7 +132,7 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
   .nav__link:hover { color: var(--blue); background: var(--ice-50); }
   .nav__link.is-active { color: var(--blue); }
   .nav__link.is-active::after { transform: scaleX(1); }
-  .nav__link :global(.nav__chev) { transition: transform 0.3s var(--ease); }
+  .nav__link :global(.nav__chev) { flex: none; transition: transform 0.3s var(--ease); }
   .has-sub:hover :global(.nav__chev), .has-sub:focus-within :global(.nav__chev) { transform: rotate(180deg); }
 
   .sub { position: absolute; top: calc(100% + 10px); left: 50%; translate: -50% 0; min-width: 280px; background: #fff; border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow-lg); padding: 10px; opacity: 0; visibility: hidden; transform: translateY(8px); transition: opacity 0.25s, transform 0.35s var(--ease), visibility 0.25s; }
@@ -141,7 +154,10 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
   .mobile__panel { position: absolute; inset: 0 0 0 auto; width: min(420px, 100%); background: #fff; padding: 18px 20px 28px; overflow-y: auto; transform: translateX(100%); transition: transform 0.4s var(--ease); display: flex; flex-direction: column; }
   .mobile.is-open .mobile__panel { transform: none; }
   .mobile__head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
-  .mobile__head :global(.mobile__logo) { height: 60px; width: auto; }
+  .mobile__brands { display: flex; align-items: center; gap: 12px; }
+  .mobile__brands .brand-group__sep { margin: 8px 0; }
+  .mobile__head :global(.mobile__logo) { height: 56px; width: auto; }
+  .mobile__head :global(.mobile__partner) { height: 26px; width: auto; }
   .burger--close { display: grid; }
   .mobile__list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
   .mobile__list > li { border-bottom: 1px solid var(--line); }
@@ -153,7 +169,8 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
   .mobile__cta { display: grid; gap: 10px; margin-top: auto; padding-top: 24px; }
   .mobile__phone { display: flex; justify-content: center; align-items: center; gap: 8px; font-weight: 700; padding: 8px; color: var(--navy); }
 
-  @media (max-width: 1240px) { .nav__link { padding: 10px 9px; font-size: 0.92rem; } .brand :global(.brand__logo) { height: 65px; } }
+  @media (max-width: 1360px) { .site-header__inner { gap: 20px; } .nav__link { padding: 10px 10px; } }
+  @media (max-width: 1240px) { .nav__link { padding: 10px 8px; font-size: 0.92rem; } .brand :global(.brand__logo) { height: 65px; } .brand-group { gap: 14px; } .brand-group :global(.brand__partner) { height: 30px; } .site-header__inner { gap: 16px; } }
   @media (max-width: 1100px) {
     .nav { display: none; }
     .burger { display: grid; }
@@ -164,6 +181,9 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
     .header-cta .btn { display: none; }
     .brand :global(.brand__logo) { height: 52px; }
     .is-scrolled .brand :global(.brand__logo) { height: 45px; }
+    .brand-group { gap: 10px; }
+    .brand-group__sep { margin: 10px 0; }
+    .brand-group :global(.brand__partner), .is-scrolled .brand-group :global(.brand__partner) { height: 24px; }
     .is-scrolled .site-header__inner { min-height: 66px; }
   }
 </style>

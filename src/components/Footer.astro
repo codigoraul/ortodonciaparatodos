@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import Icon from './Icon.astro';
 import logoWhite from '../assets/img/logo-blanco.png';
+import mileniumWhite from '../assets/img/milenium-logo-blanco.png';
 import { SITE } from '../data/site';
 import { TREATMENTS } from '../data/treatments';
 const year = new Date().getFullYear();
@@ -23,7 +24,11 @@ const year = new Date().getFullYear();
 
     <div class="footer__grid">
       <div class="footer__brand">
-        <Image src={logoWhite} alt={SITE.name} width={240} class="footer__logo" />
+        <div class="footer__logos">
+          <Image src={logoWhite} alt={SITE.name} width={240} class="footer__logo" />
+          <span class="footer__sep" aria-hidden="true"></span>
+          <Image src={mileniumWhite} alt="Milenium Odontología Integral" width={150} densities={[1, 2]} class="footer__partner" />
+        </div>
         <p>Clínica dental en el centro de Temuco especializada en ortodoncia para niños, adolescentes y adultos. {SITE.yearsExperience} años haciendo la ortodoncia accesible, con un arancel único para todos.</p>
         <div class="footer__social">
           <a href={SITE.social.instagram} target="_blank" rel="noopener" aria-label="Instagram"><Icon name="instagram" size={20} /></a>
@@ -81,7 +86,10 @@ const year = new Date().getFullYear();
   .footer__cta-btns { display: flex; gap: 12px; flex-wrap: wrap; position: relative; z-index: 1; }
 
   .footer__grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.3fr; gap: 40px; padding-bottom: 48px; position: relative; }
-  .footer__brand :global(.footer__logo) { width: 154px; height: auto; margin-bottom: 20px; }
+  .footer__logos { display: flex; align-items: center; gap: 18px; margin-bottom: 20px; }
+  .footer__brand :global(.footer__logo) { width: 154px; height: auto; }
+  .footer__sep { width: 1px; align-self: stretch; margin: 10px 0; background: rgb(255 255 255 / 0.18); }
+  .footer__brand :global(.footer__partner) { width: 132px; height: auto; opacity: 0.92; }
   .footer__brand p { max-width: 38ch; }
   .footer h3 { color: #fff; font-size: 1.02rem; margin-bottom: 18px; letter-spacing: 0; }
   .footer ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
