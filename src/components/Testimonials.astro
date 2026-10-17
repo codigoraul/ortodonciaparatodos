@@ -1,0 +1,138 @@
+---
+import Icon from './Icon.astro';
+import { SITE, TESTIMONIALS } from '../data/site';
+const items = TESTIMONIALS.slice(0, 7);
+
+const initials = (n: string) => n.split(' ').map((w) => w[0]).slice(0, 2).join('').toUpperCase();
+// Nombre + inicial del apellido: "Katherine R."
+const shortName = (n: string) => { const [a, b] = n.split(' '); return b ? `${a} ${b[0]}.` : a; };
+const G = '<svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.6 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2A11.9 11.9 0 0 1 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3a12 12 0 0 1-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>';
+---
+<section class="section testi" aria-labelledby="testi-title">
+  <div class="container">
+    <div class="testi__head" data-reveal>
+      <div class="heading">
+        <p class="eyebrow">Testimonios</p>
+        <h2 id="testi-title">Lo que dicen nuestros pacientes</h2>
+      </div>
+      <a href={SITE.google.reviewsUrl} target="_blank" rel="noopener" class="gbadge" aria-label={`${SITE.google.rating} de 5 estrellas, ${SITE.google.count} reseñas en Google. Ver en Google`}>
+        <span class="gbadge__g" set:html={G} />
+        <span class="gbadge__body">
+          <span class="gbadge__score"><strong>{SITE.google.rating}</strong><span class="stars" aria-hidden="true">{[0,1,2,3,4].map(() => <Icon name="star" size={16} />)}</span></span>
+          <small>{SITE.google.count} reseñas en Google</small>
+        </span>
+      </a>
+    </div>
+
+    <div class="testi__carousel" data-reveal data-carousel>
+      <div class="testi__track" data-track tabindex="0" aria-label="Reseñas de pacientes">
+      {items.map((t) => (
+        <figure class="tcard">
+          <div class="tcard__top">
+            <span class="stars" role="img" aria-label={`${t.stars} de 5 estrellas`}>
+              {[0,1,2,3,4].map((k) => <Icon name="star" size={17} class={k < t.stars ? 'on' : 'off'} />)}
+            </span>
+            <span class="tcard__g" set:html={G} />
+          </div>
+          <blockquote>“{t.text}”</blockquote>
+          <figcaption>
+            <span class="tcard__avatar" aria-hidden="true">{initials(t.name)}</span>
+            <span><strong>{shortName(t.name)}</strong><small>Reseña en Google</small></span>
+          </figcaption>
+        </figure>
+      ))}
+      </div>
+      <div class="testi__nav">
+        <button class="tnav" data-prev aria-label="Reseña anterior"><Icon name="arrow" size={20} /></button>
+        <div class="tdots" data-dots aria-hidden="true">{items.map(() => <span />)}</div>
+        <button class="tnav" data-next aria-label="Reseña siguiente"><Icon name="arrow" size={20} /></button>
+      </div>
+    </div>
+
+    <div class="testi__cta" data-reveal>
+      <a href={SITE.google.reviewsUrl} target="_blank" rel="noopener" class="btn btn--outline">Ver todas las reseñas en Google <Icon name="arrow" size={18} /></a>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-carousel]').forEach((root) => {
+    const track = root.querySelector<HTMLElement>('[data-track]')!;
+    const cards = [...track.children] as HTMLElement[];
+    const dots = [...root.querySelectorAll<HTMLElement>('[data-dots] span')];
+    const step = () => cards[0].offsetWidth + parseFloat(getComputedStyle(track).columnGap || '0');
+    const go = (dir: number) => {
+      const max = track.scrollWidth - track.clientWidth - 2;
+      if (dir > 0 && track.scrollLeft >= max) track.scrollTo({ left: 0, behavior: 'smooth' });
+      else if (dir < 0 && track.scrollLeft <= 2) track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' });
+      else track.scrollBy({ left: dir * step(), behavior: 'smooth' });
+    };
+    root.querySelector('[data-prev]')?.addEventListener('click', () => go(-1));
+    root.querySelector('[data-next]')?.addEventListener('click', () => go(1));
+    const sync = () => {
+      const visible = Math.max(1, Math.round(track.clientWidth / step()));
+      const pages = cards.length - visible + 1;
+      const i = Math.min(pages - 1, Math.round(track.scrollLeft / step()));
+      dots.forEach((d, k) => { d.hidden = k >= pages; d.classList.toggle('is-on', k === i); });
+    };
+    window.addEventListener('resize', sync, { passive: true });
+    track.addEventListener('scroll', () => requestAnimationFrame(sync), { passive: true });
+    sync();
+    // Avance automático suave; se pausa al interactuar
+    let timer = 0;
+    const play = () => { stop(); timer = window.setInterval(() => go(1), 6000); };
+    const stop = () => window.clearInterval(timer);
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      play();
+      ['pointerenter', 'focusin', 'touchstart'].forEach((e) => root.addEventListener(e, stop, { passive: true }));
+      root.addEventListener('pointerleave', play);
+    }
+  });
+</script>
+
+<style>
+  .testi { background: #fff; }
+  .testi__head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; margin-bottom: clamp(32px, 4vw, 48px); flex-wrap: wrap; }
+  .testi__head .heading { margin-bottom: 0; }
+  .gbadge { display: inline-flex; align-items: center; gap: 14px; padding: 12px 20px 12px 14px; border: 1px solid var(--line); border-radius: 18px; background: #fff; box-shadow: var(--shadow-sm); transition: box-shadow 0.3s, transform 0.3s var(--ease); }
+  .gbadge:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
+  .gbadge__g :global(svg), .tcard__g :global(svg) { display: block; width: 100%; height: 100%; }
+  .gbadge__g { width: 34px; height: 34px; flex: none; }
+  .gbadge__body { display: grid; gap: 2px; }
+  .gbadge__score { display: flex; align-items: center; gap: 8px; }
+  .gbadge__score strong { font-size: 1.5rem; color: var(--navy); line-height: 1; letter-spacing: -0.02em; }
+  .gbadge small { color: var(--text-soft); font-size: 0.82rem; font-weight: 600; }
+
+  .stars { display: inline-flex; gap: 2px; color: #f5b400; }
+  .stars :global(svg) { fill: currentColor; stroke: none; }
+  .stars :global(svg.off) { color: #d5dde6; }
+
+  .testi__track { display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 44px) / 3); column-gap: 22px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; padding: 6px 2px 14px; margin: -6px -2px 0; outline: none; }
+  .testi__track::-webkit-scrollbar { display: none; }
+  .testi__nav { display: flex; align-items: center; justify-content: center; gap: 18px; margin-top: 18px; }
+  .tnav { width: 46px; height: 46px; border-radius: 50%; border: 1.5px solid var(--line); background: #fff; color: var(--navy); display: grid; place-items: center; cursor: pointer; transition: background 0.2s, color 0.2s, border-color 0.2s; }
+  .tnav:hover { background: var(--blue); color: #fff; border-color: var(--blue); }
+  .tnav[data-prev] :global(svg) { transform: rotate(180deg); }
+  .tdots { display: flex; gap: 8px; }
+  .tdots span { width: 8px; height: 8px; border-radius: 8px; background: #c9d6e3; transition: width 0.3s var(--ease), background 0.3s; }
+  .tdots span.is-on { width: 24px; background: var(--blue); }
+  .tcard { scroll-snap-align: start; margin: 0; display: flex; flex-direction: column; gap: 18px; padding: 26px 26px 22px; background: var(--ice-50); border: 1px solid var(--line); border-radius: var(--radius); transition: transform 0.35s var(--ease), box-shadow 0.35s, background 0.3s; }
+  .tcard:hover { transform: translateY(-4px); box-shadow: var(--shadow); background: #fff; }
+  .tcard__top { display: flex; align-items: center; justify-content: space-between; }
+  .tcard__g { width: 20px; height: 20px; opacity: 0.9; }
+  .tcard blockquote { margin: 0; color: #2f4054; font-size: 1rem; line-height: 1.6; flex: 1; }
+  .tcard figcaption { display: flex; align-items: center; gap: 12px; padding-top: 16px; border-top: 1px solid var(--line); }
+  .tcard figcaption strong { display: block; color: var(--navy); font-size: 0.95rem; }
+  .tcard figcaption small { color: var(--text-soft); font-size: 0.8rem; }
+  .tcard__avatar { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; background: var(--blue); color: #fff; font-weight: 700; font-size: 0.9rem; flex: none; }
+  .tcard:nth-child(3n+2) .tcard__avatar { background: var(--navy); }
+  .tcard:nth-child(3n) .tcard__avatar { background: #3d8fd9; }
+
+  .testi__cta { display: flex; justify-content: center; margin-top: 28px; }
+
+  @media (max-width: 1024px) { .testi__track { grid-auto-columns: calc((100% - 22px) / 2); } }
+  @media (max-width: 640px) {
+    .testi__track { grid-auto-columns: 86%; column-gap: 14px; }
+    .gbadge { width: 100%; }
+  }
+</style>

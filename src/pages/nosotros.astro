@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
+import recepcion from '../assets/img/clinica-recepcion-temuco.jpg';
 import Icon from '../components/Icon.astro';
 import TeamGrid from '../components/TeamGrid.astro';
 import { SITE } from '../data/site';
@@ -21,7 +22,7 @@ const values = [
   description="Clínica dental en el Edificio Capital de Temuco con 18 años de experiencia. Nuestra misión: ortodoncia accesible para todos, sin comprometer la calidad."
   breadcrumbs={crumbs}
 >
-  <PageHero eyebrow="Sobre nosotros" title="Ortodoncia accesible para todos, sin comprometer la calidad" lead="Somos una clínica dental ubicada en el corazón de Temuco, dedicada a proporcionar tratamientos de ortodoncia de alta calidad a precios accesibles." crumbs={crumbs} />
+  <PageHero image={recepcion} imagePosition="center 55%" eyebrow="Sobre nosotros" title="Ortodoncia accesible para todos, sin comprometer la calidad" lead="Somos una clínica dental ubicada en el corazón de Temuco, dedicada a proporcionar tratamientos de ortodoncia de alta calidad a precios accesibles." crumbs={crumbs} />
 
   <section class="section" style="padding-top:56px">
     <div class="container story">
@@ -70,7 +71,7 @@ const values = [
 
 <style>
   .story { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: clamp(40px, 6vw, 88px); align-items: center; }
-  .story__copy > p { color: var(--text-soft); font-size: 1.06rem; }
+  .story__copy > p:not(.eyebrow) { color: var(--text-soft); font-size: 1.06rem; }
   .mission { margin: 28px 0 0; padding: 28px 30px; border-radius: 24px; background: linear-gradient(135deg, var(--navy), var(--navy-800)); color: #fff; position: relative; }
   .mission :global(svg) { color: #5ea4ec; margin-bottom: 8px; }
   .mission p { margin: 0; font-size: 1.22rem; font-weight: 700; line-height: 1.45; letter-spacing: -0.01em; }

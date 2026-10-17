@@ -10,10 +10,16 @@ export const SITE = {
   address: 'A. Varas 989, piso 20, Edificio Capital',
   addressFull: 'A. Varas 989, piso 20, Edificio Capital, Temuco',
   postalCode: '4780000',
-  geo: { lat: -38.7392, lng: -72.5963 },
-  mapsUrl: 'https://maps.app.goo.gl/qRhLm2oXssdMhXHz8',
-  mapsEmbed:
-    'https://maps.google.com/maps?q=Antonio%20Varas%20989%2C%20Temuco%2C%20Chile&t=&z=17&ie=UTF8&iwloc=&output=embed',
+  geo: { lat: -38.7405025, lng: -72.5885428 },
+  mapsUrl: 'https://maps.app.goo.gl/aX3sjqJMViGFSTuN6',
+  // Ficha de Google Business (Milenium Odontología Integral)
+  mapsEmbed: 'https://maps.google.com/maps?q=Milenium%20Odontologia%20Integral%2C%20Temuco&ll=-38.7405025,-72.5885428&t=&z=17&ie=UTF8&iwloc=&output=embed',
+  google: {
+    // Actualizar cuando cambie la ficha de Google
+    rating: '5,0',
+    count: 21,
+    reviewsUrl: 'https://maps.app.goo.gl/aX3sjqJMViGFSTuN6',
+  },
   email: 'contacto@ortodonciaparatodos.cl',
   phones: [
     { label: '+56 45 275 6565', href: 'tel:+56452756565' },
@@ -41,14 +47,7 @@ export const SITE = {
 export type NavItem = { label: string; href: string; children?: { label: string; href: string; desc?: string }[] };
 
 export const NAV: NavItem[] = [
-  {
-    label: 'Nosotros',
-    href: '/nosotros/',
-    children: [
-      { label: 'Nuestra clínica', href: '/nosotros/', desc: 'Quiénes somos y cómo trabajamos' },
-      { label: 'Especialistas', href: '/especialistas/', desc: 'Conoce a nuestro equipo clínico' },
-    ],
-  },
+  { label: 'Nosotros', href: '/nosotros/' },
   {
     label: 'Tratamientos',
     href: '/tratamientos/',
@@ -64,6 +63,7 @@ export const NAV: NavItem[] = [
     ],
   },
   { label: 'Aranceles', href: '/aranceles/' },
+  { label: 'Especialistas', href: '/especialistas/' },
   {
     label: 'Contacto',
     href: '/contacto/',
@@ -108,6 +108,19 @@ export const STAFF = [
   { name: 'Gabriela Velásquez', role: 'Asistente dental', photo: gabrielaV },
   { name: 'Gabriela Ruiz', role: 'Secretaria', photo: gabriela },
   { name: 'Andrea Barría', role: 'Secretaria', photo: andrea },
+];
+
+/* ---------------- Testimonios: reseñas reales de Google (máx. 7 en el carrusel; el resto, en el link) ---------------- */
+export type Testimonial = { name: string; stars: number; text: string };
+
+export const TESTIMONIALS: Testimonial[] = [
+  { name: 'Natacha', stars: 5, text: 'Desde el momento que uno llega se nota lo cálido y humano que es todo el personal desde que entras hasta cuando sales. El Dr. Pedro Saavedra, excelente profesional, muy preocupado, empático, un trabajo muy bien ejecutado… en ningún momento sentí dolor o alguna molestia.' },
+  { name: 'Katherine Riffo', stars: 5, text: 'Agradezco y destaco la excelente atención de Pedro Saavedra y su equipo, son muy profesionales, tienen un trato muy amable y cercanos con todos los pacientes.' },
+  { name: 'Carla Illesca', stars: 5, text: 'Excelente atención. Llevo años tratándome en la Clínica Milenium. El Dr. Sanza ha sido un seco en el tratamiento dental de mi hija, tiene paciencia y suavidad para tratar a sus pacientes.' },
+  { name: 'Lyli Riffo', stars: 5, text: 'Excelentes profesionales, empáticos, instalaciones de muy buena calidad y toda la variedad de servicios dentales en un piso. Y lo mejor, precios accesibles, definitivamente recomendable.' },
+  { name: 'Tamara Cortés', stars: 5, text: 'Doctores y técnicos con excelente trato, alta tecnología, cariñosos.' },
+  { name: 'Lukas Opazo', stars: 5, text: 'Excelente servicio, muy simpáticos todos, volvería una y mil veces.' },
+  { name: 'Fernanda Pinilla', stars: 4, text: 'Buena experiencia, los doctores súper amables y buenos especialistas.' },
 ];
 
 /* ---------------- Aranceles ---------------- */

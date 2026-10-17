@@ -8,6 +8,7 @@ import TreatmentCard from '../components/TreatmentCard.astro';
 import TeamGrid from '../components/TeamGrid.astro';
 import VideoCard from '../components/VideoCard.astro';
 import FAQ from '../components/FAQ.astro';
+import Testimonials from '../components/Testimonials.astro';
 import { SITE, PRICE_PLANS, VIDEOS, FAQS_GENERAL, clp } from '../data/site';
 import { TREATMENTS, getTreatment } from '../data/treatments';
 import clinica from '../assets/img/clinica-home.webp';
@@ -191,6 +192,9 @@ const pageSchema = [
       <TeamGrid showStaff={false} />
     </div>
   </section>
+
+  <!-- Testimonios (reseñas reales de Google) -->
+  <Testimonials />
 
   <!-- Videos -->
   <section class="section">

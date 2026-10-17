@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
+import recepcion from '../assets/img/clinica-recepcion-temuco.jpg';
 import ContactBlock from '../components/ContactBlock.astro';
 import Icon from '../components/Icon.astro';
 import { SITE } from '../data/site';
@@ -19,7 +20,7 @@ const schema = [{ '@context': 'https://schema.org', '@type': 'ContactPage', name
   breadcrumbs={crumbs}
   schema={schema}
 >
-  <PageHero eyebrow="Contacto" title="Hablemos de tu sonrisa" lead="Estamos en A. Varas 989, piso 20, Edificio Capital, en el centro de Temuco. Elige el canal que más te acomode." crumbs={crumbs} />
+  <PageHero image={recepcion} imagePosition="center 55%" eyebrow="Contacto" title="Hablemos de tu sonrisa" lead="Estamos en A. Varas 989, piso 20, Edificio Capital, en el centro de Temuco. Elige el canal que más te acomode." crumbs={crumbs} />
 
   <section class="section section--ice" style="padding-top:56px">
     <div class="container">
