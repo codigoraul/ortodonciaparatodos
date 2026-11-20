@@ -31,6 +31,7 @@ export const SITE = {
     href: 'https://api.whatsapp.com/send?phone=56998447356&text=Hola,%20vi%20su%20contacto%20desde%20ortodonciaparatodos.cl%20y%20necesito%20agendar%20una%20evaluaci%C3%B3n',
   },
   agendaUrl: 'https://6741b06af294b3ee72021da7f5d254f29122a29f.agenda.softwaredentalink.com/agenda',
+  academiaUrl: 'https://academiadental.cl/',
   social: {
     instagram: 'https://www.instagram.com/clinica_milenium/',
     facebook: 'https://web.facebook.com/profile.php?id=100063637998188',
