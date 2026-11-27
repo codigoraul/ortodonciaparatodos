@@ -1,0 +1,77 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import VideoCard from '../components/VideoCard.astro';
+import Icon from '../components/Icon.astro';
+import { CASOS, SITE, isoDuration } from '../data/site';
+import bgHero from '../assets/img/hero-ortodoncia-temuco.jpg';
+
+const crumbs = [{ name: 'Casos clínicos', url: '/casos-clinicos/' }];
+const schema = [{
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Casos clínicos de ortodoncia en Temuco',
+  itemListElement: CASOS.map((v, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    item: {
+      '@type': 'VideoObject',
+      name: v.title,
+      description: v.desc,
+      thumbnailUrl: `${SITE.url}/videos/posters/${v.file}.jpg`,
+      contentUrl: `${SITE.url}/videos/${v.file}.mp4`,
+      uploadDate: v.date,
+      duration: isoDuration(v.secs),
+      inLanguage: 'es-CL',
+      publisher: { '@id': `${SITE.url}/#clinica` },
+    },
+  })),
+}];
+---
+<BaseLayout
+  title="Casos clínicos de ortodoncia | Ortodoncia Para Todos - Temuco"
+  description="Mira casos reales de pacientes tratados con ortodoncia en Temuco: el antes, la evolución y el resultado final con brackets en Ortodoncia Para Todos."
+  breadcrumbs={crumbs}
+  schema={schema}
+>
+  <PageHero image={bgHero} imagePosition="center 35%" eyebrow="Resultados reales" title="Casos clínicos" crumbs={crumbs} />
+
+  <section class="section" style="padding-top:56px">
+    <div class="container">
+      <div class="intro" data-reveal>
+        <p class="eyebrow">Antes y después</p>
+        <h2>Resultados reales de nuestros pacientes</h2>
+        <p>Cada caso muestra el punto de partida, la evolución del tratamiento y la sonrisa final. Son pacientes atendidos en nuestra clínica en Temuco.</p>
+      </div>
+      <div class="cgrid">
+        {CASOS.map((v, i) => <div><VideoCard video={v} delay={i * 0.05} /></div>)}
+      </div>
+      <p class="note">Los resultados dependen del diagnóstico y de cada paciente. En la evaluación tu especialista te explicará qué puedes esperar en tu caso.</p>
+    </div>
+  </section>
+
+  <section class="section section--ice">
+    <div class="container cta" data-reveal>
+      <h2>¿Quieres ser nuestro próximo caso de éxito?</h2>
+      <p>Agenda tu evaluación y conoce el tratamiento indicado para tu sonrisa.</p>
+      <div class="cta__btns">
+        <a href={SITE.agendaUrl} target="_blank" rel="noopener" class="btn"><Icon name="calendar" />Agendar evaluación</a>
+        <a href={SITE.whatsapp.href} target="_blank" rel="noopener" class="btn btn--wa"><Icon name="whatsapp" />WhatsApp</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .intro { max-width: 680px; margin-bottom: 36px; }
+  .intro p:not(.eyebrow) { color: var(--text-soft); font-size: 1.08rem; margin: 0; }
+  .cgrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; max-width: 1080px; }
+  .cgrid > div { display: flex; }
+  .cgrid > div > :global(*) { width: 100%; }
+  .note { margin: 28px 0 0; font-size: 0.88rem; color: var(--text-soft); max-width: 680px; }
+  .cta { text-align: center; max-width: 720px; }
+  .cta p { color: var(--text-soft); font-size: 1.08rem; }
+  .cta__btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 24px; }
+  @media (max-width: 860px) { .cgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; } }
+  @media (max-width: 520px) { .cgrid { grid-template-columns: 1fr; max-width: 380px; margin-inline: auto; } }
+</style>

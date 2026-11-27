@@ -61,6 +61,7 @@ export const NAV: NavItem[] = [
       { label: 'Endodoncia', href: '/tratamientos/endodoncia/', desc: 'Salva tu diente' },
       { label: 'Rehabilitación oral', href: '/tratamientos/rehabilitacion-oral/', desc: 'Carillas y coronas' },
       { label: 'Odontología general', href: '/tratamientos/odontologia-general/', desc: 'Prevención y control' },
+      { label: 'Casos clínicos', href: '/casos-clinicos/', desc: 'Antes y después de nuestros pacientes' },
     ],
   },
   { label: 'Aranceles', href: '/aranceles/' },
@@ -215,6 +216,15 @@ export const VIDEOS: Video[] = [
   { file: 'retenedores-hasta-cuando-ocupar', secs: 90, title: 'Los retenedores, ¿hasta cuándo usarlos?', desc: 'Por cuánto tiempo debes usar tus retenedores después de la ortodoncia.', topic: 'Ortodoncia', related: ['brackets-metalicos', 'brackets-esteticos', 'alineadores-transparentes'] },
   { file: 'la-osteointegracion', secs: 55, title: 'La osteointegración', desc: 'Cómo el implante dental se une al hueso para lograr un resultado firme y duradero.', topic: 'Implantes', related: ['implantes-dentales'] },
   { file: 'la-periimplantitis', secs: 78, title: 'La periimplantitis', desc: 'Conoce esta enfermedad que afecta a los implantes dentales y cómo prevenirla.', topic: 'Implantes', related: ['implantes-dentales'] },
+];
+
+/* ---------------- Casos clínicos (videos antes / después) ----------------
+   Para agregar un caso: subir el .mp4 a public/videos/ y su póster .jpg a public/videos/posters/
+   con el mismo nombre, y añadir una línea aquí. */
+export const CASOS: (Video & { date: string })[] = [
+  { file: 'casos-clinicos-1', secs: 20, date: '2026-11-26', title: 'Caso clínico 1: ortodoncia con brackets', desc: 'Evolución del tratamiento desde el diagnóstico hasta la sonrisa final.', topic: 'Brackets', related: ['brackets-metalicos'] },
+  { file: 'casos-clinicos-2', secs: 20, date: '2026-11-26', title: 'Caso clínico 2: corrección de apiñamiento', desc: 'Dientes apiñados alineados con brackets: antes, durante y resultado.', topic: 'Brackets', related: ['brackets-metalicos'] },
+  { file: 'casos-clinicos-3', secs: 15, date: '2026-11-26', title: 'Caso clínico 3: alineación dental', desc: 'Del apiñamiento inicial a una sonrisa alineada y armónica.', topic: 'Brackets', related: ['brackets-metalicos'] },
 ];
 
 /* ---------------- FAQ generales ---------------- */
